@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import { useIsAuthenticated } from "@azure/msal-react";
 import { SignInButton } from "./SignInButton";
+import { SignOutButton } from "./SignOutButton";
 import styled from 'styled-components'
 import { NavLink } from "react-router-dom";
 
@@ -18,7 +19,7 @@ export const PageLayout = (props) => {
                 </NavContainer>
 
                 <a className="navbar-brand" href="/">página login</a>
-                { isAuthenticated ? <span>Signed In</span> : <SignInButton /> }
+                { isAuthenticated ? <SignOutButton /> : <SignInButton /> }
                 
             
             <br />

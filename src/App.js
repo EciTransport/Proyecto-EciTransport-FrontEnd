@@ -12,6 +12,8 @@ import {
 
 import { routes } from './components/Utils/routes';
 import { User } from "./components/Generals/Home/styles";
+import { PageLayout } from "./components/PageLayout";
+import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 
 function App() {
 
@@ -20,7 +22,9 @@ function App() {
   }
 
   return (
-    <Router>
+    <PageLayout>
+            <AuthenticatedTemplate>
+            <Router>
     
     <Routes>
 
@@ -37,6 +41,13 @@ function App() {
     </Routes>
     
   </Router>
+            </AuthenticatedTemplate>
+            <UnauthenticatedTemplate>
+              <p>You are not signed in! Please sign in.</p>
+          </UnauthenticatedTemplate>
+        </PageLayout>
+    
+    
   );
 }
 
