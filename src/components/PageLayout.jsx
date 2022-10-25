@@ -1,8 +1,8 @@
 import React from "react";
 import Navbar from "react-bootstrap/Navbar";
+import login from '../styles/Loginstyle';
 import { useIsAuthenticated } from "@azure/msal-react";
 import { SignInButton } from "./SignInButton";
-import styled from 'styled-components'
 import { NavLink } from "react-router-dom";
 
 /**
@@ -28,16 +28,3 @@ export const PageLayout = (props) => {
     );
 };
 
-const NavContainer = styled.nav`
-    h2{
-        font-weight: 400;
-        span{
-            font-weight: bold;
-        }
-    }
-    padding: .4rem;
-    background-color: #FF0000;
-    display:flex;
-    align-items:center;
-    justify-content: space-between;
-`;
