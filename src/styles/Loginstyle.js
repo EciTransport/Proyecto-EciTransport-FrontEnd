@@ -1,5 +1,8 @@
 import styled from 'styled-components'
-const NavContainer = styled.nav`
+
+
+
+export const NavContainer = styled.nav`
     h2{
         font-weight: 400;
         span{
@@ -7,8 +10,15 @@ const NavContainer = styled.nav`
         }
     }
     padding: .4rem;
-    background-color: #FF0000;
+    background-color: #990000;
     display:flex;
     align-items:center;
     justify-content: space-between;
+`;
+
+export const divLogin = styled.div`
+width: 80%;
+position: relative;
+margin: auto;
+
 `;

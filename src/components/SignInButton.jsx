@@ -8,7 +8,9 @@ import Button from "react-bootstrap/Button";
  * Renders a button which, when selected, will open a popup for login
  */
 export const SignInButton = () => {
+    
     const { instance } = useMsal();
+     
 
     const handleLogin = (loginType) => {
         if (loginType === "popup") {
@@ -18,6 +20,6 @@ export const SignInButton = () => {
         }
     }
     return (
-        <Button variant="secondary" className="ml-auto" onClick={() => handleLogin("popup")}>Sign In</Button>
+        <Button variant="outline-dark" className="ml-auto" onClick={() => handleLogin("popup")}>Ingresar</Button>
     );
 }
