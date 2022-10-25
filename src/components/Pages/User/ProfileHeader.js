@@ -3,6 +3,12 @@ import { Report } from '../../Generals/Home/Report';
 import './profile.css'
 import {Header, Container, ContainerReport} from './styles';
 import {useState, useEffect} from 'react';
+import { callMsGraph } from "../../../graph";
+import { PageLayout } from "../../../components/PageLayout";
+import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from "@azure/msal-react";
+import { loginRequest } from "../../../authConfig";
+import Button from "react-bootstrap/Button";
+
 
 const HeaderProfile = () => {
 
@@ -36,9 +42,7 @@ const HeaderProfile = () => {
                     />
                     </div>
                     <div className="profileInfo">
-                        <h4 className="profileInfoName">Yesid Mora</h4>
-                        <span className="profileInfoDesc">100044778</span>
-                        <span className="profileInfoDesc">yesid.mora@mail.escuelaing.edu.co</span>
+                        <ProfileContent />
                     </div>
                     <ContainerReport>
                         <h2 className="report">Report History</h2>
@@ -55,3 +59,50 @@ const HeaderProfile = () => {
 }
 
 export {HeaderProfile}
+
+const ProfileData = (props) => {
+    return (
+        <div className="profileInfo">
+            <h4 className='profileInfoName'>First Name:  {props.graphData.givenName}
+            {props.graphData.surname}
+            </h4>
+            <span className="profileInfoDesc">Email:{props.graphData.userPrincipalName}</span>
+        </div>
+    );
+};
+
+
+
+function ProfileContent() {
+    const { instance, accounts } = useMsal();
+    const [graphData, setGraphData] = useState(null);
+
+    const name = accounts[0] && accounts[0].name;
+
+    function RequestProfileData() {
+        const request = {
+            ...loginRequest,
+            account: accounts[0]
+        };
+
+        // Silently acquires an access token which is then attached to a request for Microsoft Graph data
+        instance.acquireTokenSilent(request).then((response) => {
+            callMsGraph(response.accessToken).then(response => setGraphData(response));
+        }).catch((e) => {
+            instance.acquireTokenPopup(request).then((response) => {
+                callMsGraph(response.accessToken).then(response => setGraphData(response));
+            });
+        });
+    }
+
+    return (
+        <>
+            <h5 className="card-title">Welcome {name}</h5>
+            {graphData ? 
+                <ProfileData graphData={graphData} />
+                :
+                <Button variant="secondary" onClick={RequestProfileData}>Request Profile Information</Button>
+            }
+        </>
+    );
+};
