@@ -1,11 +1,8 @@
 import React from 'react'
 import {Container, Header, User} from './styles';
 import {ReportBox} from './ReportBox';
-
 import {useState, useEffect} from 'react';
-import axios from 'axios';
 import { LoadPosts } from './LoadPosts';
-
 const Home = () => {
 
   //Cargar Reportes

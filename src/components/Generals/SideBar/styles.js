@@ -39,6 +39,13 @@ min-width: 255px;
     border-radius: 9999px !important;
     margin-top: 10px;
 }
+>.modal{
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+    width: 500;
+}
 `
 
 export const SideBarIcon = styled.div`

@@ -1,16 +1,24 @@
 import React from 'react'
 import { Report } from '../../Generals/Home/Report';
 import './profile.css'
-import {Header, Container, ContainerReport} from './styles';
+import {Container, ContainerReport} from './styles';
 import {useState, useEffect} from 'react';
+import { usuario } from '../../Utils/user'
 
 const HeaderProfile = () => {
 
   //Cargar Reportes Usuario
   const [reportsUser, setReports] = useState([]);
 
+  const [user, setUser] = useState([]);
+
   useEffect( () => {
-    fetch('http://localhost:8080/v1/reports/')
+    fetch('http://localhost:8080/v1/user/id/' + usuario)
+    .then(response => response.json())
+    .then((data) => setUser(data.value)) } , [] );
+
+  useEffect( () => {
+    fetch('http://localhost:8080/v1/reports/reportsUser/' + usuario)
     .then(response => response.json())
     .then(data => setReports(data))} , [] );
 
@@ -31,19 +39,19 @@ const HeaderProfile = () => {
                     />
                     <img
                         className="profileUserImg"
-                        src="https://i0.wp.com/codigoespagueti.com/wp-content/uploads/2022/07/toyotaro-dragon-ball-super-ilustracion.jpg?fit=1280%2C720&quality=80&ssl=1"
+                        src={user.imageProfile}
                         alt=""
                     />
                     </div>
                     <div className="profileInfo">
-                        <h4 className="profileInfoName">Yesid Mora</h4>
-                        <span className="profileInfoDesc">100044778</span>
-                        <span className="profileInfoDesc">yesid.mora@mail.escuelaing.edu.co</span>
+                        <h4 className="profileInfoName">{user.nombre}</h4>
+                        <span className="profileInfoDesc">{user.id}</span>
+                        <span className="profileInfoDesc">{user.email}</span>
                     </div>
                     <ContainerReport>
                         <h2 className="report">Report History</h2>
                         {
-                            reportsUser.map(data => <Report key={data.id} data={data} />) 
+                            reportsUser.map(data => <Report key={data.id} data={data} options={true}/>) 
                         }
                     </ContainerReport>
                 </div>

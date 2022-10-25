@@ -1,12 +1,12 @@
 const routes = {
     login: {
         id: 0,
-        path: '/login',
+        path: '/',
         name: 'login'
     },
     home: {
         id: 2,
-        path: '/',
+        path: '/home',
         name: 'home'
     },
     map: {

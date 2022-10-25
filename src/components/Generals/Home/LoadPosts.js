@@ -6,11 +6,10 @@ const LoadPosts = ({reports}) => {
   return (
     <Container>
        {
-        reports.map(data => <Report key={data.id} data={data} />) 
+        reports.map(data => <Report key={data.id} data={data} options={false} />) 
        }
     </Container>
   )
 }
-
 export {LoadPosts}
 

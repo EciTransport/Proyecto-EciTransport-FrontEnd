@@ -2,15 +2,11 @@ import React from 'react'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {Posts, User, PostBody, PostDescription, Images, PostFooter} from './styles';
-import MenuIcon from '@mui/icons-material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import './stylemenu.css';
-import MenuList from '@mui/material/MenuList';
-import Button from '@mui/material/Button';
 import { LongMenu } from './MenuOptions';
-const Report = ({data}) => {
+
+const Report = ({data, options}) => {
 
   return (
     <Posts>
@@ -29,7 +25,7 @@ const Report = ({data}) => {
                                 {data.author.email}
                             </span>  
                         </h3>
-                        <LongMenu id={data.id} />
+                        { options && <LongMenu id={data.id} />}
                     </div>
                     <span>{data.hourReport}</span>
                     <PostDescription>

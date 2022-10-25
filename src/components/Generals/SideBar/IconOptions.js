@@ -12,9 +12,11 @@ import { useNavigate } from "react-router-dom";
 const IconOptions = ({Text, Icon, Active, path}) => {
 
   const navigate = useNavigate();
+
   function redirect(path) {
     navigate(path)
   }
+  
   return (
     <SideBarIcon onClick={() => redirect(path)} className="test" Active={Active}>
       <Icon />

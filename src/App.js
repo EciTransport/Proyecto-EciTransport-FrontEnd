@@ -12,6 +12,7 @@ import {
 
 import { routes } from './components/Utils/routes';
 import { User } from "./components/Generals/Home/styles";
+import { Login } from "./components/Generals/Login";
 
 function App() {
 
@@ -24,6 +25,8 @@ function App() {
     
     <Routes>
 
+      <Route exact path='/home' element={<HomePage/>} />
+
       <Route exact path='/map' element={<MapPage/>} />
 
       <Route exact path='/notification' element={<NotificationPage/>} />
@@ -32,7 +35,7 @@ function App() {
 
       <Route exact path='/profile' element={<UserPage/>} />
 
-      <Route exact path='/' element={<HomePage/>} />
+      <Route exact path='/' element={<Login/>} />
 
     </Routes>
     

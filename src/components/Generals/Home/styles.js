@@ -1,5 +1,5 @@
 import { style } from '@mui/system'
-import styled from 'styled-components'
+import styled, {css} from 'styled-components'
 
 export const Container = styled.div`
 flex: 0.5;
@@ -39,19 +39,44 @@ width: 100%;
 >.columns{
     display:flex;
     flex-direction: column;
+    margin-left: 60px;
+    margin-top: -10px;
     width: 100%;
     padding-right: 16px;
     >input{
         margin-left: 10px;
-        margin-top: 10px;
+        margin-top: 9px;
         width: 100%;
         border: none;
         outline 0;
-        font-size: 19px;
+        font-size: 18px;
         line-height: 25px;
         color: #0f1419;
     }
 }
+>div span {
+    font-weight: 600;
+    font-size: 15px;
+    color: #5b7083;
+}
+.post_icon{
+    font-size: 14px !important;
+    color: var(--Icon-App-Color) !important;
+}
+h3 {
+    padding: 0;
+    margin-left: 15px;
+}
+.header{
+    display:flex;
+    align-items: center;
+}
+`
+
+export const DivFooter = styled.div`
+display: flex;
+width: 100%;
+justify-content: space-between;
 >Button {
     background-color: var(--Icon-App-Color) !important;
     border: none !important;
@@ -68,6 +93,7 @@ width: 100%;
 
 export const DivBox = styled.div`
 display: flex;
+margin-left: 60px;
 justify-content: space-around;
 align-items: center;
 >.MuiSvgIcon-root {
@@ -78,9 +104,21 @@ align-items: center;
     height: 20px;
     border-radius: 5px;
     cursor: pointer;
-    &:nth-child(3) {
-        border: 1px solid red;
-    }
+}
+}
+`
+export const DivImages = styled.div`
+display: flex;
+width: 100%; 
+align-items: center;
+overflow: auto;
+margin-top: 5px;
+.image {
+    display: flex;
+    justify-content: center;
+}
+.botondelete {
+    color: var(--Icon-App-Color) !important;
 }
 `
 
@@ -94,6 +132,18 @@ border-radius: 50px;
 width: 50px;
 height: 50px;
 object-fit: fill;
+margin-top: 5px;
+`
+
+export const File = styled.input`
+max-width: 20px;
+max-height: 20px;
+z-index: 10;
+opacity: 0;
+${props => props.primary && css`
+margin-left: -23px;`}
+${props => props.secundary && css`
+margin-left: -23px;`}
 `
 
 /* POST */
