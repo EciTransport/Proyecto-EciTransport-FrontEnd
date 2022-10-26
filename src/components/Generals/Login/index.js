@@ -3,26 +3,36 @@ import { useState } from 'react';
 import { routes } from '../../Utils/routes';
 import { usuario, setUsuarios } from '../../Utils/user';
 import { useNavigate } from "react-router-dom";
+//Azure
+import { PageLayout } from '../../PageLayout';
+import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
+import './style.css'
+import { Button } from 'react-bootstrap';
 
 const Login = () => {
-
-  const [title, setTitle] = useState('')
 
   const navigate = useNavigate();
 
   function redirect() {
-    setUsuarios(title)
     navigate(routes.home.path)
   }
 
   return (
-    <div>
-      <label>Digite el codigo de Usuario: </label>
+    <div className="login">
+      <PageLayout >
+          <AuthenticatedTemplate>
+            <div className="data">
+              <h1 className="texto">Bienvenido a EciTransport</h1>
+              <Button className="boton" onClick={redirect}>Siguiente</Button>
+            </div>
+          </AuthenticatedTemplate>
 
-      <input onChange={event => setTitle(event.target.value)} />
-
-      <button onClick={() => redirect()}>Entra</button>
-
+          <UnauthenticatedTemplate>
+          <div className="data" >
+              <h1 className="texto" >Inicia Sesion</h1>
+          </div> 
+          </UnauthenticatedTemplate>
+      </PageLayout>
     </div>
   )
 }

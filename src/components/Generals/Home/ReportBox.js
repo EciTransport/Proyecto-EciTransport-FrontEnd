@@ -22,6 +22,8 @@ export function ReportBox() {
   const [sentido, setSentido] = useState('');
   const [reports, setReports] = useState([]);
 
+  
+
   useEffect( () => {
     fetch('http://localhost:8080/v1/user/id/' + usuario)
     .then(response => response.json())

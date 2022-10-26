@@ -15,6 +15,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { ReportBox } from '../Home/ReportBox';
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: 'absolute',
@@ -36,6 +37,11 @@ const SideBar = ({pathRoute}) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const navigate = useNavigate();
+  function redirect() {
+    navigate(routes.login.path);
+  }
+
   return (
     <Contenedor>
       {/* Icono Plataforma */}
@@ -51,12 +57,15 @@ const SideBar = ({pathRoute}) => {
       <IconOptions Text="Contacts" Icon={ContactsIcon} path={routes.contacts.path}/>
       <IconOptions Text="User" Icon={AccountCircleIcon} path={routes.profile.path}/>
       <Button onClick={handleOpen} variant="outlined" fullWidth>Report</Button>
+      
 
       <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box sx={style}>
             <ReportBox />
         </Box>
       </Modal>
+
+      <Button className="close" onClick={() => redirect()} fullWidth >Close</Button>
     </Contenedor>
   )
 }

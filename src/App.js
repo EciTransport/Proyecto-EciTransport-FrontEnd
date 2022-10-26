@@ -9,7 +9,6 @@ import {
   BrowserRouter as Router,
   Routes, Route, Link
 } from "react-router-dom";
-
 import { routes } from './components/Utils/routes';
 import { User } from "./components/Generals/Home/styles";
 import { Login } from "./components/Generals/Login";
@@ -23,23 +22,24 @@ function App() {
   return (
     <Router>
     
-    <Routes>
+      <Routes>
 
-      <Route exact path='/home' element={<HomePage/>} />
+        <Route exact path='/home' element={<HomePage/>} />
 
-      <Route exact path='/map' element={<MapPage/>} />
+        <Route exact path='/map' element={<MapPage/>} />
 
-      <Route exact path='/notification' element={<NotificationPage/>} />
+        <Route exact path='/notification' element={<NotificationPage/>} />
 
-      <Route exact path='/contacts' element={<ContactPage/>} />
+        <Route exact path='/contacts' element={<ContactPage/>} />
 
-      <Route exact path='/profile' element={<UserPage/>} />
+        <Route exact path='/profile' element={<UserPage/>} />
 
-      <Route exact path='/' element={<Login/>} />
+        <Route exact path='/' element={<Login/>} />
 
-    </Routes>
+      </Routes>
     
   </Router>
+
   );
 }
 
