@@ -8,37 +8,26 @@ import { callMsGraph } from "../../../graph";
 import { loginRequest } from "../../../authConfig";
 import { useMsal } from "@azure/msal-react";
 
-var userId = '';
-
-const ProfileData = (props) => {
-    userId = props.graphData.userPrincipalName;
-    return (
-        <div className="profileInfo">
-            <h4 className='profileInfoName'>{props.graphData.givenName}
-            {props.graphData.surname}
-            </h4>
-            <span id="userId" className="profileInfoDesc">{props.graphData.userPrincipalName}</span>
-        </div>
-    );
-};
-
 
 const HeaderProfile = () => {
+    const { accounts } = useMsal();
 
+    const name = accounts[0] && accounts[0].name;
+
+    
   //Cargar Reportes Usuario
   const [reportsUser, setReports] = useState([]);
 
   const [user, setUser] = useState([]);
-
-  ProfileContent();
+console.log(name);
 
   useEffect( () => {
-    fetch('http://localhost:8080/v1/user/email/' + userId)
+    fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
     .then(response => response.json())
     .then((data) => setUser(data.value)) } , [] );
 
   useEffect( () => {
-    fetch('http://localhost:8080/v1/reports/reportsUserEmail/' + userId)
+    fetch('http://localhost:8080/v1/reports/reportsUserEmail/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
     .then(response => response.json())
     .then(data => setReports(data))} , [] );
 
@@ -89,7 +78,16 @@ export {HeaderProfile}
 
 
 
-
+const ProfileData = (props) => {
+    return (
+        <div className="profileInfo">
+            <h4 className='profileInfoName'>{props.graphData.givenName}
+            {props.graphData.surname}
+            </h4>
+            <span id="userId" className="profileInfoDesc">{props.graphData.userPrincipalName}</span>
+        </div>
+    );
+};
 
 function ProfileContent() {
     const { instance, accounts } = useMsal();
