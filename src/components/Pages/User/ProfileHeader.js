@@ -30,13 +30,15 @@ const HeaderProfile = () => {
 
   const [user, setUser] = useState([]);
 
+  ProfileContent();
+
   useEffect( () => {
     fetch('http://localhost:8080/v1/user/email/' + userId)
     .then(response => response.json())
     .then((data) => setUser(data.value)) } , [] );
 
   useEffect( () => {
-    fetch('http://localhost:8080/v1/reports/reportsUser/' + user.id)
+    fetch('http://localhost:8080/v1/reports/reportsUserEmail/' + userId)
     .then(response => response.json())
     .then(data => setReports(data))} , [] );
 
