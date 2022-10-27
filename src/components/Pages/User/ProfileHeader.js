@@ -4,8 +4,8 @@ import './profile.css'
 import {Container, ContainerReport} from './styles';
 import {useState, useEffect} from 'react';
 import { usuario } from '../../Utils/user'
-import { callMsGraph } from "../../../loginAzure/graph";
-import { loginRequest } from "../../../loginAzure/authConfig";
+import { callMsGraph } from "../../../azure/graph";
+import { loginRequest } from "../../../azure/authConfig";
 import { useMsal } from "@azure/msal-react";
 
 

@@ -10,8 +10,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {uploadFile} from '../../../firebase/config';
 import {v4} from 'uuid';
 
-import { callMsGraph } from "../../../loginAzure/graph";
-import { loginRequest } from "../../../loginAzure/authConfig";
+import { callMsGraph } from "../../../azure/graph";
+import { loginRequest } from "../../../azure/authConfig";
 import { useMsal } from "@azure/msal-react";
 
 
