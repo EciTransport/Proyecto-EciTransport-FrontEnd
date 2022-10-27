@@ -4,8 +4,8 @@ import './profile.css'
 import {Container, ContainerReport} from './styles';
 import {useState, useEffect} from 'react';
 import { usuario } from '../../Utils/user'
-import { callMsGraph } from "../../../graph";
-import { loginRequest } from "../../../authConfig";
+import { callMsGraph } from "../../../loginAzure/graph";
+import { loginRequest } from "../../../loginAzure/authConfig";
 import { useMsal } from "@azure/msal-react";
 
 
@@ -19,7 +19,6 @@ const HeaderProfile = () => {
   const [reportsUser, setReports] = useState([]);
 
   const [user, setUser] = useState([]);
-console.log(name);
 
   useEffect( () => {
     fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
@@ -81,9 +80,9 @@ export {HeaderProfile}
 const ProfileData = (props) => {
     return (
         <div className="profileInfo">
-            <h4 className='profileInfoName'>{props.graphData.givenName}
-            {props.graphData.surname}
+            <h4 className='profileInfoName'>{props.graphData.givenName} {props.graphData.surname}
             </h4>
+            
             <span id="userId" className="profileInfoDesc">{props.graphData.userPrincipalName}</span>
         </div>
     );
@@ -113,7 +112,7 @@ function ProfileContent() {
 
     return (
         <>
-            <h5 className="card-title">Welcome {name}</h5>
+            <h5 className="card-title">Welcome</h5>
             {graphData ? 
                 <ProfileData graphData={graphData} />
                 :

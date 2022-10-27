@@ -1,10 +1,10 @@
 import React, {useState} from "react";
 import { useMsal } from "@azure/msal-react";
-import { loginRequest } from "../authConfig";
-import Button from "react-bootstrap/Button";
+import { loginRequest } from "../../azure/authConfig";
 import { useNavigate } from "react-router-dom";
-import { routes } from "./Utils/routes";
-import { callMsGraph } from "../graph";
+import { routes } from "../Utils/routes";
+import { callMsGraph } from "../../azure/graph";
+import { Button } from "@mui/material";
 /**
  * Renders a button which, when selected, will open a popup for login
  */
@@ -18,8 +18,6 @@ export const SignInButton = () => {
 
     //Azure
     const { instance } = useMsal();
-    
-  
     
     const handleLogin = (loginType) => {
         if (loginType === "popup") {

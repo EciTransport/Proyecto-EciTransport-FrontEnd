@@ -1,6 +1,6 @@
 import React from "react";
 import { useMsal } from "@azure/msal-react";
-import Button from "react-bootstrap/Button";
+import { Button } from "@mui/material";
 
 /**
  * Renders a button which, when selected, will open a popup for logout

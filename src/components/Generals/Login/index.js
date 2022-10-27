@@ -4,7 +4,7 @@ import { routes } from '../../Utils/routes';
 import { usuario, setUsuarios } from '../../Utils/user';
 import { useNavigate } from "react-router-dom";
 //Azure
-import { PageLayout } from '../../PageLayout';
+import { PageLayout } from '../../loginAzure/PageLayout';
 import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 import './style.css'
 import { Button } from 'react-bootstrap';
