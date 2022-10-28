@@ -5,6 +5,7 @@ import { SignOutButton } from "./SignOutButton";
 import styled from 'styled-components'
 import { NavLink } from "react-router-dom";
 import './loginstyle.css'
+import Navbar from 'react-bootstrap/Navbar';
 /**
  * Renders the navbar component with a sign-in button if a user is not authenticated
  */

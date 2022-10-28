@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import { useMsal } from "@azure/msal-react";
-import { loginRequest } from "../../azure/authConfig";
+import { loginRequest } from "../../loginAzure/authConfig";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../Utils/routes";
-import { callMsGraph } from "../../azure/graph";
+import { callMsGraph } from "../../loginAzure/graph";
 import { Button } from "@mui/material";
 /**
  * Renders a button which, when selected, will open a popup for login
