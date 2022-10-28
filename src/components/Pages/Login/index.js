@@ -1,9 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import { routes } from '../../Utils/routes';
-import { usuario, setUsuarios } from '../../Utils/user';
 import { useNavigate } from "react-router-dom";
-//Azure
 import { PageLayout } from '../../azure/PageLayout';
 import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 import './style.css'

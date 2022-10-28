@@ -5,18 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../Utils/routes";
 import { callMsGraph } from "../../loginAzure/graph";
 import { Button } from "@mui/material";
-/**
- * Renders a button which, when selected, will open a popup for login
- */
+import './style.css';
 export const SignInButton = () => {
     
     const navigate = useNavigate();
 
     function redirect() {
-      navigate(routes.login.path);
+      navigate(routes.home.path);
     }
 
-    //Azure
     const { instance } = useMsal();
     
     const handleLogin = (loginType) => {
@@ -28,6 +25,6 @@ export const SignInButton = () => {
         }
     }
     return (
-        <Button variant="outline-dark" className="ml-auto" onClick={() => handleLogin("popup")}>Ingresar</Button>
+        <Button className="botonSigIn" variant="outline-dark" onClick={() => handleLogin("popup")}>Ingresar</Button>
     );
 }

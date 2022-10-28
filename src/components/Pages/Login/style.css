@@ -1,26 +1,27 @@
 .login {
     display: block;
-    width: 100%;
-    min-height: 100%;
-    justify-content: center;
     align-items: center;
-    background-color: #990000 !important;
-    position: relative;
+    justify-content: center;
+}
+
+body{
+    margin: 0;
+    background-image: url('https://proaarquitectura.co/wp-content/uploads/2021/04/02_ECIL-Fachada-Norte-br.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: black;
 }
 
 .data {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin-top: 200px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.texto {
-    margin-bottom: 20px;
-}
-
-.boton {
-    background-color: #990000 !important;
+    display: block;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    color: white;
+    margin: auto;
+    width: 50%;
+    height: 100px;
+    opacity: 0.6;
 }
