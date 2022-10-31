@@ -12,15 +12,17 @@ const Login = () => {
   const navigate = useNavigate();
 
   function redirect() {
-    navigate(routes.home.path)
+    navigate(routes.home.path);
   }
 
   return (
     <div className="login">
       <PageLayout >
+        
           <AuthenticatedTemplate>
             <div className="data">
-              <h1 className="texto">Bienvenido a EciTransport</h1>
+              <h1 className="texto titleData">Bienvenido a EciTransport</h1>
+              <h4 className="texto">La Red Social de los Accidentes</h4>
               <Button className="boton" onClick={redirect}>Siguiente</Button>
             </div>
           </AuthenticatedTemplate>
@@ -28,9 +30,12 @@ const Login = () => {
           <UnauthenticatedTemplate>
           <div className="data" >
               <h1 className="texto" >Inicia Sesion</h1>
+              <h4 className="texto" >Podras Reportar un accidente y conocer toda la situacion de movilidad</h4>
+              <h4 className="texto" >Puedes encontrar el código fuente aquí: <a href='https://github.com/EciTransport'>Ver</a></h4>
           </div> 
           </UnauthenticatedTemplate>
       </PageLayout>
+    
     </div>
   )
 }

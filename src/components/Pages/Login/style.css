@@ -15,13 +15,39 @@ body{
 
 .data {
     display: block;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
-    align-items: center;
-    justify-content: center;
+    font-family: "Roboto","Helvetica","Arial",sans-serife;
     background-color: black;
     color: white;
-    margin: auto;
+    margin-left: 50%;
+    margin-top: 100px;
+    transform: translateX(-50%);
     width: 50%;
-    height: 100px;
-    opacity: 0.6;
+    height: 150px;
+    opacity: 0.75;
+}
+
+.texto {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.titleData {
+    margin-top: 100px !important;
+}
+
+.boton {
+    background-color: #990000 !important;
+    color: white !important;
+    border-radius: 8px !important;
+    width: 100px !important;
+    margin-left: 50% !important;
+    transform: translateX(-50%) !important;
+}
+.boton:hover {
+    width: 110px !important;
+}
+
+a {
+    color: #990000;
 }

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import {Contenedor, Titulo} from './styles'
+import {Contenedor, Titulo, FOOTER} from './styles'
 //Icons
 import CarCrashIcon from '@mui/icons-material/CarCrash';
 import HomeIcon from '@mui/icons-material/Home';
@@ -16,6 +16,10 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { ReportBox } from '../Home/ReportBox';
 import { useNavigate } from "react-router-dom";
+import LogoutIcon from '@mui/icons-material/Logout';
+//Azure
+import { useMsal } from "@azure/msal-react";
+
 
 const style = {
   position: 'absolute',
@@ -31,15 +35,27 @@ const style = {
   p: 4,
 };
 
-const SideBar = ({pathRoute}) => {
+const SideBar = ({pathRoute, dataUser}) => {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const navigate = useNavigate();
+
   function redirect() {
     navigate(routes.login.path);
+  }
+
+  const { instance } = useMsal();
+
+  const handleLogout = (logoutType) => {
+      if (logoutType === "popup") {
+          instance.logoutPopup({
+              postLogoutRedirectUri: "/",
+              mainWindowRedirectUri: "/"
+          });
+      }
   }
 
   return (
@@ -57,7 +73,6 @@ const SideBar = ({pathRoute}) => {
       <IconOptions Text="Contacts" Icon={ContactsIcon} path={routes.contacts.path}/>
       <IconOptions Text="User" Icon={AccountCircleIcon} path={routes.profile.path}/>
       <Button onClick={handleOpen} variant="outlined" fullWidth>Report</Button>
-      
 
       <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box sx={style}>
@@ -65,7 +80,18 @@ const SideBar = ({pathRoute}) => {
         </Box>
       </Modal>
 
-      <Button className="close" onClick={() => redirect()} fullWidth >Close</Button>
+      <FOOTER>
+          <Button className="account"  variant="outline-dark" onClick={() => handleLogout("popup")}>
+            <div className="photo">
+              <img src={dataUser.imageProfile}/>
+            </div>
+            <div>
+              <div className="name">{dataUser.nombre}</div>
+            </div>
+            <LogoutIcon/>
+          </Button>
+      </FOOTER>
+        
     </Contenedor>
   )
 }

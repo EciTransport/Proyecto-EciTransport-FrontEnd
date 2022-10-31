@@ -4,7 +4,6 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import GifBoxIcon from '@mui/icons-material/GifBox';
 import { Button } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import {usuario} from '../../Utils/user'
 import {useState, useEffect} from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {uploadFile} from '../../../firebase/config';
@@ -83,7 +82,7 @@ export function ReportBox() {
           "imageProfile": user.imageProfile
       },
       "description":description,
-      "hourReport":"2011-10-02",
+      "hourReport":new Date(),
       "sentido":sentido,
       "ubicacion": ubicacion,
       "numberlikes":2,
