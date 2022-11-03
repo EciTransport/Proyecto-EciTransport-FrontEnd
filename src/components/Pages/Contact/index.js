@@ -24,7 +24,7 @@ const ContactPage = () => {
         <SideBar pathRoute={routes.contacts.path} dataUser={user} />
 
         {/* Home */}
-        <LoadContacts title="Contacts"/>
+        <LoadContacts title="Contacts" />
 
         {/* Global Styles */}
         <GlobalStyle />

@@ -32,18 +32,13 @@ const ProfileScreen = ({dataUser}) => {
                         <img
                             className="profileCoverImg"
                             src="http://landing.escuelaing.edu.co/wp-content/uploads/2017/04/maestrias_v2.jpg"
-                            alt=""
                         />
                         <img
                             className="profileUserImg"
                             src={dataUser.imageProfile}
-                            alt=""
                         />
                     </div>
                     <div className="profileInfo">
-                        {/* <h4 className="profileInfoName">{user.nombre}</h4>
-                        <span className="profileInfoDesc">{user.id}</span>
-                        <span className="profileInfoDesc">{user.email}</span> */}
                         <h5 className="card-title">Welcome</h5>
                         <div className="profileInfo">
                             <h4 className='profileInfoName'>{dataUser.nombre}</h4>

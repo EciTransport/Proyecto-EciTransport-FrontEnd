@@ -23,6 +23,7 @@ const LongMenu = ({id}) => {
   const deleteElement = (event) => {
     fetch('http://localhost:8080/v1/reports/delete/' + id, {method: 'DELETE'});
     handleClose(event);
+    
     window.location.reload();
   }
 
