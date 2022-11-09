@@ -1,12 +1,17 @@
 import React from 'react'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {Posts, User, PostBody, PostDescription, Images, PostFooter} from './styles';
 import './stylemenu.css';
 import { LongMenu } from './MenuOptions';
+import { useState } from 'react';
 
 const Report = ({data, options}) => {
+
+
+    const [like, setLike] = useState(false);
 
   return (
     <Posts>
@@ -41,7 +46,7 @@ const Report = ({data, options}) => {
                 }
                 <PostFooter>
                     <div className="reactions">
-                        <FavoriteBorderIcon fontSize="small" className="iconReaction"/>
+                        {like?<FavoriteIcon onClick={()=>setLike(false)} fontSize="small" className="iconReaction"/>:<FavoriteBorderIcon onClick={()=>setLike(true)} fontSize="small" className="iconReaction"/>}
                         <h5> {data.numberlikes} Likes</h5>
                     </div>
                     <div className="reactions">

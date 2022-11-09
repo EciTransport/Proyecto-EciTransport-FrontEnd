@@ -5,6 +5,7 @@ import {SideBar} from '../../Generals/SideBar';
 import { routes } from '../../Utils/routes';
 import { useMsal } from "@azure/msal-react";
 import { useState, useEffect } from 'react';
+import { LoadNotification } from './LoadNotification';
 
 const NotificationPage = () => {
 
@@ -23,8 +24,8 @@ const NotificationPage = () => {
         {/* SideBar */}
         <SideBar pathRoute={routes.notification.path} dataUser={user}/>
 
-        {/* Home */}
-        <FuncionalityInConstruction title="Notifications"/>
+        {/* Notifications */}
+        <LoadNotification />
 
         {/* Global Styles */}
         <GlobalStyle />
