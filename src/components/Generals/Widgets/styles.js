@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 
-
 export const Widget = styled.div`
 flex: 0.3;
 overflow-y: scroll;

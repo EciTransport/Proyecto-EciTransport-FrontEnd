@@ -8,8 +8,7 @@ const Home = () => {
   //Cargar Reportes
   const [reports, setReports] = useState([]);
 
-  useEffect(
-  () => {
+  useEffect(() => {
     fetch('http://localhost:8080/v1/reports/')
     .then(response => response.json())
     .then(data => setReports(data)) } , [] );
