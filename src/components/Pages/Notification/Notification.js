@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-const Notification = () => {
+const Notification = ({data}) => {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -19,21 +19,21 @@ const Notification = () => {
   };
 
   const deleteElement = (event) => {
-    //fetch('http://localhost:8080/v1/reports/delete/11', {method: 'DELETE'});
+    fetch('http://localhost:8080/v1/notification/delete/' + data.id, {method: 'DELETE'});
     handleClose(event);
-    //window.location.reload();
+    window.location.reload();
   }
 
   return (
     <div className="notification">
       <div className="dataNotification">
-            <img className="imageNotification" src="https://elcomercio.pe/resizer/pfVziOV4X8Vu9nwknDc-oNItlB8=/1200x900/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/6Y2EDIISGFGVFANEVDCR5LCG34.jpg"/>
-            <h1 className="user" >Yesid Mora</h1>
-            <span className="spam"> 12:30 pm</span>
+            <img className="imageNotification" src={data.userCreator.imageProfile}/>
+            <h1 className="user" >{data.userCreator.nombre}</h1>
+            <span className="spam">{data.hour}</span>
       </div>
 
       <div className="description">
-          <h2>Laura Comento tu estado.</h2>
+          <h2>{data.description}</h2>
       </div>
 
       <div className="iconMore">
