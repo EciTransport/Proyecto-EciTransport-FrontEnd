@@ -5,7 +5,6 @@ import { routes } from '../../Utils/routes';
 import { useMsal } from "@azure/msal-react";
 import { useState, useEffect } from 'react';
 import { MapScreen } from './MapScreen';
-
 const MapPage = () => {
 
   const { accounts } = useMsal();
