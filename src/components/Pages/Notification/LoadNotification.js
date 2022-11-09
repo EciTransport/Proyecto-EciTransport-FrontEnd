@@ -12,8 +12,7 @@ const LoadNotification = () => {
         <br></br>
         <Notifications>
             <Notification />
-            <Notification />
-            <Notification />
+            <br></br>
         </Notifications>
     </Container>
   )
