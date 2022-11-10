@@ -64,12 +64,25 @@ width: 100%;
     color: var(--Icon-App-Color) !important;
 }
 h3 {
+    display:grid;
     padding: 0;
     margin-left: 15px;
 }
 .header{
     display:flex;
     align-items: center;
+}
+`
+
+export const PostDescriptionComment = styled.div`
+margin-left: 82px;
+>p{
+    margin: 0;
+    padding: 0;
+    color: #0f1419;
+    font-size: 16px;
+    line-height: 16.6975px;
+    margin-bottom: 5px;
 }
 `
 
@@ -125,6 +138,7 @@ margin-top: 5px;
 export const Form = styled.form`
 display: flex;
 flex-direction: column;
+border-bottom: 1px solid #ddd;
 `
 
 export const User = styled.img`
@@ -194,7 +208,6 @@ overflow: hidden;
 `
 
 export const PostDescription = styled.div`
-margin-botton: 10px;
 >p{
     margin: 0;
     padding: 0;
@@ -209,25 +222,37 @@ border-radius: 20px;
 min-width: 100%;
 width: 100px;
 min-height: 300px;
+max-height: 600px;
 `
 
 export const PostFooter = styled.div`
 display: flex;
 justify-content: space-around;
 margin-top: 10px;
-color: #5b7083;
-transition: all 100ms ease-in;
->.MuiSvgIcon-root:hover:nth-child(1){
-    fill: #e02456;
-    cursor: pointer;
-}
->.MuiSvgIcon-root:hover:nth-child(3){
-    fill: #1da1f2;
-    cursor: pointer;
-}
+
 .reactions {
     display:flex;
     align-items: center;
+    color: #5b7083;
+    text-transform: capitalize;
+    font-size: 15px;
+}
+
+.reactionscomment:hover {
+    background: white;
+    cursor: pointer;
+    color:  #e02456;
+    .iconReaction{
+        fill: #e02456;
+    }
+}
+.reactionslike:hover {
+    cursor: pointer;
+    background: white;
+    color: #1da1f2;
+    .iconReaction{
+        fill: #1da1f2;
+    }
 }
 .iconReaction{
     padding-right: 20px;

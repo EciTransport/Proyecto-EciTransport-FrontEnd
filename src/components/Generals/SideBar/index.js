@@ -20,7 +20,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 //Azure
 import { useMsal } from "@azure/msal-react";
 
-
 const style = {
   position: 'absolute',
   top: '50%',
@@ -40,13 +39,6 @@ const SideBar = ({pathRoute, dataUser}) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const navigate = useNavigate();
-
-  function redirect() {
-    navigate(routes.login.path);
-  }
-
   const { instance } = useMsal();
 
   const handleLogout = (logoutType) => {
