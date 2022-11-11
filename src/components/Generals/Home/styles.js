@@ -31,6 +31,86 @@ h2 {
 export const ReportsBox = styled.div`
 border-bottom: 1px solid #ddd;
 padding: 5px 15px;
+
+.sectionComment {
+    margin-top:5px;
+
+    .createComment {
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        >.columns{
+            display:flex;
+            flex-direction: column;
+            margin-left: 60px;
+            margin-top: -10px;
+            width: 100%;
+            padding-right: 16px;
+            >input{
+                margin-left: 20px;
+                margin-top: 9px;
+                width: 90%;
+                border: none;
+                outline 0;
+                font-size: 18px;
+                line-height: 25px;
+                color: #0f1419;
+            }
+        }
+        >Button {
+            background-color: var(--Icon-App-Color) !important;
+            border: none !important;
+            color: white !important;
+            font-weight: 900 !important;
+            width: 100px !important;
+            height: 40px !important;
+            border-radius: 30px !important;
+            text-transform: inherit !important;
+        }
+    }
+}
+`
+
+export const ReportsBoxComment = styled.div`
+padding: 1px 15px;
+margin-left: 30px;
+`
+
+export const CommentReport = styled.div`
+display: flex;
+width: 100%;
+>div span {
+    font-weight: 600;
+    font-size: 15px;
+    color: #5b7083;
+}
+.post_icon{
+    font-size: 14px !important;
+    color: var(--Icon-App-Color) !important;
+}
+h3 {
+    display:grid;
+    padding: 0;
+    margin-left: 15px;
+}
+.header{
+    display:flex;
+    align-items: center;
+}
+`
+
+export const LoadComment = styled.div`
+width: 100%;
+max-height: 200px;
+border-bottom: 1px solid #ddd;
+overflow-y: scroll;
+box-sizing: border-box;
+padding: 0 30px 10px 20px;
+&::-webkit-scrollbar{
+    display:none;
+}
+-ms-overflow-style: none;
+scrollbar-width: none;
 `
 
 export const Div = styled.div`
@@ -54,6 +134,30 @@ width: 100%;
         color: #0f1419;
     }
 }
+>div span {
+    font-weight: 600;
+    font-size: 15px;
+    color: #5b7083;
+}
+.post_icon{
+    font-size: 14px !important;
+    color: var(--Icon-App-Color) !important;
+}
+h3 {
+    display:grid;
+    padding: 0;
+    margin-left: 15px;
+}
+.header{
+    display:flex;
+    align-items: center;
+}
+`
+
+export const DivComment = styled.div`
+display: flex;
+width: 100%;
+font-size: 12px;
 >div span {
     font-weight: 600;
     font-size: 15px;
@@ -145,6 +249,14 @@ export const User = styled.img`
 border-radius: 50px;
 width: 50px;
 height: 50px;
+object-fit: fill;
+margin-top: 5px;
+`
+
+export const UserComment = styled.img`
+border-radius: 50px;
+width: 40px;
+height: 40px;
 object-fit: fill;
 margin-top: 5px;
 `

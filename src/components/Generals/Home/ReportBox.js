@@ -7,10 +7,6 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {useState, useEffect} from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {uploadFile} from '../../../firebase/config';
-import {v4} from 'uuid';
-
-import { callMsGraph } from "../../../loginAzure/graph";
-import { loginRequest } from "../../../loginAzure/authConfig";
 import { useMsal } from "@azure/msal-react";
 
 
@@ -77,7 +73,6 @@ export function ReportBox() {
           "id":user.id,
           "nombre": user.nombre,
           "email": user.email,
-          "password": user.password,
           "imageProfile": user.imageProfile
       },
       "description":description,
@@ -141,7 +136,7 @@ export function ReportBox() {
                     <GifBoxIcon />
                     <File type="file" onChange={onSelectFile} multiple secundary/>
                 </DivBox>
-                <Button onClick={() => buttonReport()} >Reporta</Button>
+                <Button onClick={() => buttonReport()} >Report</Button>
             </DivFooter>
             <DivImages className="images">
               {selectedImages &&
@@ -159,48 +154,3 @@ export function ReportBox() {
   )
 }
 
-
-const ProfileData = (props) => {
-  return (
-      <div className="profileInfo">
-          <h4 className='profileInfoName'>{props.graphData.givenName}
-          {props.graphData.surname}
-          </h4>
-          <span id="userId" className="profileInfoDesc">{props.graphData.userPrincipalName}</span>
-      </div>
-  );
-};
-
-function ProfileContent() {
-  const { instance, accounts } = useMsal();
-  const [graphData, setGraphData] = useState(null);
-
-  const name = accounts[0] && accounts[0].name;
-
-  function RequestProfileData() {
-      const request = {
-          ...loginRequest,
-          account: accounts[0]
-      };
-
-      // Silently acquires an access token which is then attached to a request for Microsoft Graph data
-      instance.acquireTokenSilent(request).then((response) => {
-          callMsGraph(response.accessToken).then(response => setGraphData(response));
-      }).catch((e) => {
-          instance.acquireTokenPopup(request).then((response) => {
-              callMsGraph(response.accessToken).then(response => setGraphData(response));
-          });
-      });
-  }
-
-  return (
-      <>
-          <h5 className="card-title">Welcome {name}</h5>
-          {graphData ? 
-              <ProfileData graphData={graphData} />
-              :
-              RequestProfileData()
-          }
-      </>
-  );
-};

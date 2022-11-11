@@ -31,7 +31,6 @@ const Report = ({data, options}) => {
     const [like, setLike] = useState(false);
     //Coment
     const [open, setOpen] = React.useState(false);
-
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -67,6 +66,8 @@ const Report = ({data, options}) => {
                     )
                 }
                 <PostFooter>
+                    
+
                     <Button className="reactions reactionslike">
                         {like?<FavoriteIcon onClick={()=>setLike(false)} fontSize="small" className="iconReaction"/>:<FavoriteBorderIcon onClick={()=>setLike(true)} fontSize="small" className="iconReaction"/>}
                         <h5> {data.numberlikes} Likes</h5>
@@ -79,9 +80,10 @@ const Report = ({data, options}) => {
 
                     <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                         <Box sx={styleNew}>
-                            <CommentBox data={data}/>
+                            <CommentBox key={data.id} data={data}/>
                         </Box>
                     </Modal>
+
                 </PostFooter>
             </div>
         </PostBody> 

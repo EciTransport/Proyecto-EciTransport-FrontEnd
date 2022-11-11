@@ -1,6 +1,6 @@
 import { Container } from '@mui/material';
 import React from 'react'
-import {Report} from './Report';
+import {Report} from '../Report';
 
 const LoadPosts = ({reports}) => {
   return (

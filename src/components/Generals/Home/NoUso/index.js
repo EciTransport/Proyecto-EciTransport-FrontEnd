@@ -1,6 +1,6 @@
 import React from 'react'
-import {Container, Header, User} from './styles';
-import {ReportBox} from './ReportBox';
+import {Container, Header, User} from '../styles';
+import {ReportBox} from '../ReportBox';
 import {useState, useEffect} from 'react';
 import { LoadPosts } from './LoadPosts';
 const Home = () => {
