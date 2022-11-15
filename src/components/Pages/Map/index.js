@@ -3,6 +3,7 @@ import GlobalStyle from '../../../styles/GlobalStyle';
 import {FuncionalityInConstruction} from '../../Generals/FuncionalityInConstruction';
 import {SideBar} from '../../Generals/SideBar';
 import { routes } from '../../Utils/routes';
+import {MapViews} from '../../Generals/Map/MapView'
 
 const MapPage = () => {
   return (
@@ -12,7 +13,7 @@ const MapPage = () => {
         <SideBar pathRoute={routes.map.path}/>
 
         {/* Home */}
-        <FuncionalityInConstruction title="Map"/>
+        <MapViews/>
 
         {/* Global Styles */}
         <GlobalStyle />

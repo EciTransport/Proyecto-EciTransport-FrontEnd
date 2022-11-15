@@ -5,10 +5,23 @@ import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import { routes } from "./Utils/routes";
 import { callMsGraph } from "../graph";
+import { useMapEvents, Marker,Popup} from 'react-leaflet'
 /**
  * Renders a button which, when selected, will open a popup for login
  */
+
+
 export const SignInButton = () => {
+    const [position, setPosition] = useState(null)
+    const map = useMapEvents({
+      click() {
+        map.locate()
+      },
+      locationfound(e) {
+        setPosition(e.latlng)
+        map.flyTo(e.latlng, map.getZoom())
+      },
+    })
     
     const navigate = useNavigate();
 
