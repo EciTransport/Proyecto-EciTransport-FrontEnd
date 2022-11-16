@@ -14,27 +14,29 @@ const HomePage = () => {
   const [user, setUser] = useState([]);
   const [reports, setReports] = useState([]);
 
-  useEffect( () => {
-    fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
-    .then(response => response.json())
-    .then((data) => setUser(data.value)) } , [] );
-
   useEffect(() => {
     fetch('http://localhost:8080/v1/reports/')
     .then(response => response.json())
     .then(data => setReports(data)) } , [] );
-  
+    
+  useEffect( () => {
+    fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
+    .then(response => response.json())
+    .then((data) => setUser(data.value)) } 
+    , [] );
+
+
   return (
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute={routes.home.path} dataUser={user} />
+        <SideBar pathRoute="Home" dataUser={user} />
 
         {/* Home */}
-        <HomeScreen reports={reports} />
+        <HomeScreen reports={reports} dataUser={user}/>
 
         {/* Widget */}
-        <Widget reports={reports}/>
+        <Widget reports={reports} user={user}/>
 
         {/* Global Styles */}
         <GlobalStyle />

@@ -32,7 +32,7 @@ export function ReportBox() {
     .then((data) => setUser(data.value)) } , [] );
 
   useEffect( () => {
-    fetch('http://localhost:8080/v1/reports/reportsUserEmail/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
+    fetch('http://localhost:8080/v1/reports/')
     .then(response => response.json())
     .then(data => setReports(data))} , [] );
   
@@ -65,8 +65,6 @@ export function ReportBox() {
   }
 
   function createReport(images) {
-    console.log("lenght");
-    console.log(reports.length);
     const data = {
       "id": reports.length + 1,
       "author": {
@@ -82,7 +80,9 @@ export function ReportBox() {
       "numberlikes":2,
       "imagesReport": images.map(url => {
         return {"urlImage": url}
-      })
+      }),
+      "comments": [],
+      "idUserLikes": []
     };
     fetch('http://localhost:8080/v1/reports/', {
       method: 'POST',
@@ -105,7 +105,6 @@ export function ReportBox() {
   function buttonReport() {
     const allPromises = subirImagenes();
     Promise.all(allPromises).then(values => createReport(values));
-    //window.location.reload();
   }
 
   return (

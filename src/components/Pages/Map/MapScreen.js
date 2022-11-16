@@ -6,6 +6,7 @@ const MapScreen = () => {
         <Header>
             <h2>Map</h2>
         </Header>
+
         <Map>
             <img className="imageMap" src="https://wallpaperaccess.com/full/7130210.jpg"/>
         </Map>

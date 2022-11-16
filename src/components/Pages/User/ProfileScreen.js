@@ -5,7 +5,7 @@ import {Container, ContainerReport} from './styles';
 import {useState, useEffect} from 'react';
 import { useMsal } from "@azure/msal-react";
 
-const ProfileScreen = ({dataUser}) => {
+const ProfileScreen = ({dataUser, user}) => {
 
   //Cargar Reportes Usuario
   const [reportsUser, setReports] = useState([]);
@@ -49,7 +49,10 @@ const ProfileScreen = ({dataUser}) => {
                     <ContainerReport>
                         <h2 className="report">Report History</h2>
                         {
-                            reportsUser.map(data => <Report key={data.id} data={data} options={true}/>) 
+                            reportsUser.map(data => {
+                                data.hourReport = new Date(data.hourReport).toLocaleString('en-us');
+                                return <Report key={data.id} data={data} options={true} user={dataUser}/>
+                                }) 
                         }
                     </ContainerReport>
                 </div>

@@ -1,5 +1,4 @@
-import React from "react";
-import GlobalStyle from './styles/GlobalStyle';
+import {React, useEffect, useState} from "react";
 import {ContactPage} from './components/Pages/Contact';
 import {HomePage} from './components/Pages/Home';
 import {MapPage} from './components/Pages/Map';
@@ -15,7 +14,7 @@ function App() {
     
       <Routes>
 
-        <Route exact path='/home' element={<HomePage/>} />
+        <Route exact path='/home' element={<HomePage/> } />
 
         <Route exact path='/map' element={<MapPage/>} />
 

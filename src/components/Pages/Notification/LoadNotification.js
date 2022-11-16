@@ -23,7 +23,10 @@ const LoadNotification = () => {
         <br></br>
         <Notifications>
           {
-            notifications.map(data => <Notification key={data.id} data={data}/>) 
+            notifications.map(data => {
+              data.hour = new Date(data.hour).toLocaleString('en-us');
+              return <Notification key={data.id} data={data}/>
+              }) 
           }
           <br></br>
         </Notifications>

@@ -97,7 +97,6 @@ font-family: "Roboto","Helvetica","Arial",sans-serif !important;
     transform: color 100ms ease-out !important;
 }
 
-
 .photo {
     border-radius: 100%;
     height: 2.5em;
@@ -112,7 +111,6 @@ img {
     border-radius: 100%;
     background: black;
 }
-
 .name {
     font-weight: 700;
 }

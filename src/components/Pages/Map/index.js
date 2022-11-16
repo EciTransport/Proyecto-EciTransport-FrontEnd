@@ -20,7 +20,7 @@ const MapPage = () => {
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute={routes.map.path} dataUser={user} />
+        <SideBar pathRoute="Map" dataUser={user} />
 
         {/* Map */}
         <MapScreen />

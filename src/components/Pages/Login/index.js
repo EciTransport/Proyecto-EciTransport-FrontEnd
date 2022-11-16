@@ -1,14 +1,16 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { routes } from '../../Utils/routes';
 import { useNavigate } from "react-router-dom";
 import { PageLayout } from '../../azure/PageLayout';
 import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 import './style.css'
 import { Button } from "@mui/material";
+import { useMsal } from "@azure/msal-react";
 
 const Login = () => {
-
+  const { accounts } = useMsal();
+  const name = accounts[0] && accounts[0].name;
   const navigate = useNavigate();
 
   function redirect() {

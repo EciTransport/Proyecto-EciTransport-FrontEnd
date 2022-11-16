@@ -22,7 +22,7 @@ const NotificationPage = () => {
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute={routes.notification.path} dataUser={user}/>
+        <SideBar pathRoute="Notifications" dataUser={user}/>
 
         {/* Notifications */}
         <LoadNotification />

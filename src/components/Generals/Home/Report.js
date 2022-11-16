@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -6,7 +6,6 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {Posts, User, PostBody, PostDescription, Images, PostFooter} from './styles';
 import './stylemenu.css';
 import { LongMenu } from './MenuOptions';
-import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Button } from '@mui/material';
@@ -26,13 +25,33 @@ const styleNew = {
     p: 4,
 };
 
-const Report = ({data, options}) => {
+const Report = ({data, options, user}) => {
     //Like
     const [like, setLike] = useState(false);
+    const [numLikes, setNumLikes] = useState(0);
     //Coment
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    useEffect(() => {
+        data.idUserLikes.map(value => {if(value == user.id) setLike(true)});
+        setNumLikes(data.idUserLikes.length);
+    }, []);
+
+    function delLike() {
+        setLike(false);
+        fetch('http://localhost:8080/v1/reports/likeDel/' + data.id + '/' + user.id, {method: 'PUT'})
+        .then(response => response.json())
+        .then(value => setNumLikes(value.length));
+    }
+
+    function addLike() {
+        setLike(true);
+        fetch('http://localhost:8080/v1/reports/likeAdd/' + data.id + '/' + user.id, {method: 'PUT'})
+        .then(response => response.json())
+        .then(value => setNumLikes(value.length));
+    }
 
   return (
     <Posts>
@@ -69,8 +88,8 @@ const Report = ({data, options}) => {
                     
 
                     <Button className="reactions reactionslike">
-                        {like?<FavoriteIcon onClick={()=>setLike(false)} fontSize="small" className="iconReaction"/>:<FavoriteBorderIcon onClick={()=>setLike(true)} fontSize="small" className="iconReaction"/>}
-                        <h5> {data.numberlikes} Likes</h5>
+                        {like?<FavoriteIcon onClick={()=> delLike()} fontSize="small" className="iconReaction"/>:<FavoriteBorderIcon onClick={()=>addLike()} fontSize="small" className="iconReaction"/>}
+                        <h5> {numLikes} Likes</h5>
                     </Button>
 
                     <Button className="reactions reactionscomment" onClick={handleOpen}>

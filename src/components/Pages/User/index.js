@@ -1,8 +1,6 @@
 import React from 'react'
 import GlobalStyle from '../../../styles/GlobalStyle';
-import {FuncionalityInConstruction} from '../../Generals/FuncionalityInConstruction';
 import {SideBar} from '../../Generals/SideBar';
-import {Widgets} from '../../Generals//Widgets';
 import { ProfileScreen } from './ProfileScreen';
 import { routes } from '../../Utils/routes';
 import { useMsal } from "@azure/msal-react";
@@ -23,9 +21,9 @@ const UserPage = () => {
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute={routes.profile.path} dataUser={user}/>
+        <SideBar pathRoute="User" dataUser={user}/>
 
-        <ProfileScreen dataUser={user}/>
+        <ProfileScreen dataUser={user} user={user}/>
         
         {/* Global Styles */}
         <GlobalStyle />

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { useEffect } from 'react'
 import {Contenedor, Titulo, FOOTER} from './styles'
 //Icons
 import CarCrashIcon from '@mui/icons-material/CarCrash';
@@ -15,7 +15,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { ReportBox } from '../Home/ReportBox';
-import { useNavigate } from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
 //Azure
 import { useMsal } from "@azure/msal-react";
@@ -49,7 +48,7 @@ const SideBar = ({pathRoute, dataUser}) => {
           });
       }
   }
-
+  
   return (
     <Contenedor>
       {/* Icono Plataforma */}
@@ -59,11 +58,13 @@ const SideBar = ({pathRoute, dataUser}) => {
       </Titulo>
 
       {/* Iconos Menu de Opciones */}
-      <IconOptions Active Text="Home" Icon={HomeIcon} path={routes.home.path}/>
-      <IconOptions Text="Map" Icon={AddLocationIcon} path={routes.map.path} />
-      <IconOptions Text="Notifications" Icon={CircleNotificationsIcon} path={routes.notification.path}/>
-      <IconOptions Text="Contacts" Icon={ContactsIcon} path={routes.contacts.path}/>
-      <IconOptions Text="User" Icon={AccountCircleIcon} path={routes.profile.path}/>
+      <IconOptions pathRoute={pathRoute} Text="Home" Icon={HomeIcon} path={routes.home.path}/>
+      <IconOptions pathRoute={pathRoute} Text="Map" Icon={AddLocationIcon} path={routes.map.path} />
+      <IconOptions pathRoute={pathRoute} Text="Notifications" Icon={CircleNotificationsIcon} path={routes.notification.path}/>
+      <IconOptions pathRoute={pathRoute} Text="Contacts" Icon={ContactsIcon} path={routes.contacts.path}/>
+      <IconOptions pathRoute={pathRoute} Text="User" Icon={AccountCircleIcon} path={routes.profile.path}/>
+
+
       <Button onClick={handleOpen} variant="outlined" fullWidth>Report</Button>
 
       <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">

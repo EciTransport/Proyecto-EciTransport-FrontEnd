@@ -108,7 +108,10 @@ const CommentBox = ({data}) => {
 
         <LoadComment>
             {
-                data.comments.map(comment => <CommentCard key={comment.user} data={comment}/>) 
+                data.comments.map(comment => {
+                comment.hour = new Date(comment.hour).toLocaleString('en-us');
+                return <CommentCard key={comment.user} data={comment}/>
+                }) 
             }
         </LoadComment>
 

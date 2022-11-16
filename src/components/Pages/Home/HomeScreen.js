@@ -3,7 +3,8 @@ import {ContainerHome, HeaderHome} from './styles';
 import { ReportBox } from '../../Generals/Home/ReportBox';
 import { Report } from '../../Generals/Home/Report';
 import { Container } from '@mui/material';
-const HomeScreen = ({reports}) => {
+
+const HomeScreen = ({reports, dataUser}) => {
 
   return (
     <ContainerHome>
@@ -19,7 +20,10 @@ const HomeScreen = ({reports}) => {
       {/* Posts */}
       <Container>
         {
-            reports.map(data => <Report key={data.id} data={data} options={false} />) 
+            reports.map(data => {
+            data.hourReport = new Date(data.hourReport).toLocaleString('en-us');
+            return <Report key={data.id} data={data} options={false} user={dataUser}/>
+            }) 
         }
       </Container>
 

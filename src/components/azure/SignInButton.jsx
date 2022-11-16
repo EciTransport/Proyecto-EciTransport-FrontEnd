@@ -2,18 +2,10 @@ import React, {useState} from "react";
 import { useMsal } from "@azure/msal-react";
 import { loginRequest } from "../../loginAzure/authConfig";
 import { useNavigate } from "react-router-dom";
-import { routes } from "../Utils/routes";
-import { callMsGraph } from "../../loginAzure/graph";
 import { Button } from "@mui/material";
 import './style.css';
 export const SignInButton = () => {
-    
     const navigate = useNavigate();
-
-    function redirect() {
-      navigate(routes.home.path);
-    }
-
     const { instance } = useMsal();
     
     const handleLogin = (loginType) => {

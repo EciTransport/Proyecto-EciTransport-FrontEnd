@@ -21,7 +21,7 @@ const ContactPage = () => {
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute={routes.contacts.path} dataUser={user} />
+        <SideBar pathRoute="Contacts" dataUser={user} />
 
         {/* Home */}
         <LoadContacts title="Contacts" />
