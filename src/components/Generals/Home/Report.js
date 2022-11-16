@@ -25,7 +25,7 @@ const styleNew = {
     p: 4,
 };
 
-const Report = ({data, options, user}) => {
+const Report = ({data, user}) => {
     //Like
     const [like, setLike] = useState(false);
     const [numLikes, setNumLikes] = useState(0);
@@ -34,10 +34,10 @@ const Report = ({data, options, user}) => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    useEffect(() => {
-        data.idUserLikes.map(value => {if(value == user.id) setLike(true)});
-        setNumLikes(data.idUserLikes.length);
-    }, []);
+    //useEffect(() => {
+    //    data.idUserLikes.map(value => {if(value == user.id) setLike(true)});
+    //    setNumLikes(data.idUserLikes.length);
+    //}, []);
 
     function delLike() {
         setLike(false);
@@ -70,7 +70,6 @@ const Report = ({data, options, user}) => {
                                 {data.author.email}
                             </span>  
                         </h3>
-                        { options && <LongMenu id={data.id} />}
                     </div>
                     <span>{data.hourReport}</span>
                     <PostDescription>

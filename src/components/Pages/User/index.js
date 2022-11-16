@@ -11,9 +11,10 @@ const UserPage = () => {
   const { accounts } = useMsal();
   const name = accounts[0] && accounts[0].name;
   const [user, setUser] = useState([]);
+  const emailUser = name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com';
 
   useEffect( () => {
-    fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
+    fetch('http://localhost:8080/v1/user/email/' + emailUser)
     .then(response => response.json())
     .then((data) => setUser(data.value)) } , [] );
   
@@ -23,7 +24,7 @@ const UserPage = () => {
         {/* SideBar */}
         <SideBar pathRoute="User" dataUser={user}/>
 
-        <ProfileScreen dataUser={user} user={user}/>
+        <ProfileScreen dataUser={user} emailUser={emailUser}/>
         
         {/* Global Styles */}
         <GlobalStyle />

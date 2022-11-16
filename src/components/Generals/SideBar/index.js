@@ -52,6 +52,7 @@ const SideBar = ({pathRoute, dataUser}) => {
   return (
     <Contenedor>
       {/* Icono Plataforma */}
+      
       <Titulo>
           <CarCrashIcon className="Icon-App"/>
           <h2 className="Text-App">EciTransport</h2>

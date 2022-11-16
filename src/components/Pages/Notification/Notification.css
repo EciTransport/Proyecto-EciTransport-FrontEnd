@@ -27,6 +27,7 @@
     font-size: 15px;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
 .dataNotification {
     display: flex;
     align-items: center;
@@ -34,11 +35,10 @@
     font-size: 11px;
 }
 
-.iconMore {
+.iconMoreN {
     margin-right: 3%;
 } 
 
-
-.moreIcon {
-    color: black !important;
+.moreIconN {
+    color: var(--Icon-App-Color) !important;
 }

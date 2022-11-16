@@ -73,3 +73,13 @@
     font-size: 20px;
     color: var(--Icon-App-Color);
 }
+
+.returnReport {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.moreIcon {
+    color: var(--Icon-App-Color) !important;
+}
