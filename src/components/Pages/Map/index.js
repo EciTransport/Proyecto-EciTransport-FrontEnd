@@ -15,6 +15,15 @@ const MapPage = () => {
     fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
     .then(response => response.json())
     .then((data) => setUser(data.value)) } , [] );
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+    });
+  }, [])
+
+  
   
   return (
     <div className="App">
