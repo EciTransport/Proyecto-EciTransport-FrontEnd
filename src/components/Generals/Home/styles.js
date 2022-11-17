@@ -233,6 +233,7 @@ margin-top: 5px;
 .image {
     display: flex;
     justify-content: center;
+    padding-bottom: 15px;
 }
 .botondelete {
     color: var(--Icon-App-Color) !important;

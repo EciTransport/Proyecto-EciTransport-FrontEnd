@@ -24,7 +24,6 @@ const MapPage = () => {
   }, [])
 
   
-  
   return (
     <div className="App">
       

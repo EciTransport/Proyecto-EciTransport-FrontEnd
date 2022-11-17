@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import {Contenedor, Titulo, FOOTER} from './styles'
+import {Contenedor, Titulo, FOOTER, DivModal} from './styles'
 //Icons
 import CarCrashIcon from '@mui/icons-material/CarCrash';
 import HomeIcon from '@mui/icons-material/Home';
@@ -18,7 +18,8 @@ import { ReportBox } from '../Home/ReportBox';
 import LogoutIcon from '@mui/icons-material/Logout';
 //Azure
 import { useMsal } from "@azure/msal-react";
-
+//Close
+import CloseIcon from '@mui/icons-material/Close';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -70,7 +71,10 @@ const SideBar = ({pathRoute, dataUser}) => {
 
       <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box sx={style}>
-            <ReportBox />
+            <DivModal>
+              <ReportBox/>
+              <CloseIcon className="icon_close" onClick={handleClose}/>
+            </DivModal> 
         </Box>
       </Modal>
 

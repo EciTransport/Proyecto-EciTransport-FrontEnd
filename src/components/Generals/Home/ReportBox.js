@@ -111,11 +111,10 @@ export function ReportBox() {
     <ReportsBox>
         <Form>
            <Div>
+              <User src={user.imageProfile} alt="" className="user"/>
               <div className="header">
-                <User src={user.imageProfile} alt="" className="user"/>
-                <h3>{user.nombre}
+                <h3> <div>{user.nombre} <CheckCircleIcon className="post_icon"/></div>
                   <span >
-                      <CheckCircleIcon className="post_icon"/> 
                       {user.email}
                   </span>  
                 </h3>
@@ -137,6 +136,7 @@ export function ReportBox() {
                 </DivBox>
                 <Button onClick={() => buttonReport()} >Report</Button>
             </DivFooter>
+
             <DivImages className="images">
               {selectedImages &&
                 selectedImages.map((image) => {
@@ -148,6 +148,7 @@ export function ReportBox() {
                   );
                 })}
             </DivImages>
+            
         </Form>
     </ReportsBox>
   )

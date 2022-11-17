@@ -44,7 +44,19 @@ min-width: 255px;
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%);
-    width: 500;
+    width: 500px;
+}
+
+`
+
+export const DivModal = styled.div`
+display: flex;
+flex-direction: column;
+flex-wrap: nowrap;
+.icon_close {
+    margin-left: 80%;
+    position: absolute;
+    color: var(--Icon-App-Color) !important;
 }
 `
 
