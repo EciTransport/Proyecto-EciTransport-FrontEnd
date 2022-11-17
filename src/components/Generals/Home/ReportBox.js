@@ -8,8 +8,7 @@ import {useState, useEffect} from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {uploadFile} from '../../../firebase/config';
 import { useMsal } from "@azure/msal-react";
-
-
+import Carousel from 'better-react-carousel';
 export function ReportBox() {
 
   const { accounts } = useMsal();
@@ -136,20 +135,30 @@ export function ReportBox() {
                 </DivBox>
                 <Button onClick={() => buttonReport()} >Report</Button>
             </DivFooter>
-
-            <DivImages className="images">
-              {selectedImages &&
-                selectedImages.map((image) => {
-                  return (
-                    <div key={image} className="image">
-                      <img src={image} height="150" alt="upload" />
-                      <DeleteIcon className="botondelete" onClick={() => deleteHandler(image)}/>
-                    </div>
-                  );
-                })}
-            </DivImages>
-            
         </Form>
+
+        <Carousel cols={2} rows={1} gap={10} loop>
+          <Carousel.Item>
+            <img width="100%" src="https://img.freepik.com/foto-gratis/paisaje-niebla-matutina-montanas-globos-aerostaticos-al-amanecer_335224-794.jpg?w=2000" />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img width="100%" src="https://img.freepik.com/foto-gratis/paisaje-niebla-matutina-montanas-globos-aerostaticos-al-amanecer_335224-794.jpg?w=2000" />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img width="100%" src="https://img.freepik.com/foto-gratis/paisaje-niebla-matutina-montanas-globos-aerostaticos-al-amanecer_335224-794.jpg?w=2000" />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img width="100%" src="https://img.freepik.com/foto-gratis/paisaje-niebla-matutina-montanas-globos-aerostaticos-al-amanecer_335224-794.jpg?w=2000" />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img width="100%" src="https://img.freepik.com/foto-gratis/paisaje-niebla-matutina-montanas-globos-aerostaticos-al-amanecer_335224-794.jpg?w=2000" />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img width="100%" src="https://img.freepik.com/foto-gratis/paisaje-niebla-matutina-montanas-globos-aerostaticos-al-amanecer_335224-794.jpg?w=2000" />
+          </Carousel.Item>
+          
+        </Carousel>
+
     </ReportsBox>
   )
 }

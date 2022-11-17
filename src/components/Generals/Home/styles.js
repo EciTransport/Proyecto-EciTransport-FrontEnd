@@ -224,7 +224,35 @@ align-items: center;
 }
 }
 `
-export const DivImages = styled.div`
+export const DivImagesOri = styled.div`
+width: 90%;
+max-height: 105px;
+overflow-y: scroll;
+box-size: border-box;
+&::-webkit-scrollbar{
+    display:none;
+}
+-ms-overflow-style: none;
+scrollbar-width: none;
+scroll-behavior: smooth;
+.images {
+    display: grid;
+    margin-top: 5px;
+    grid-template-columns: 150px 150px 150px;
+    gap: 5px;
+}
+.componenteImage {
+    display: flex;
+    .botondelete {
+        color: var(--Icon-App-Color) !important;
+    }
+}
+.image {
+    max-width: 200px;
+    max-height: 100px;
+}
+`
+export const DivImages= styled.div`
 display: flex;
 width: 100%; 
 align-items: center;
