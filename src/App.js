@@ -6,6 +6,7 @@ import {NotificationPage} from './components/Pages/Notification';
 import {UserPage} from './components/Pages/User';
 import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Login } from "./components/Pages/Login";
+import GlobalStyle from "./styles/GlobalStyle";
 
 function App() {
 
@@ -27,7 +28,7 @@ function App() {
         <Route exact path='/' element={<Login/>} />
 
       </Routes>
-    
+
   </Router>
 
   );

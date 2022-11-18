@@ -252,25 +252,28 @@ scroll-behavior: smooth;
     max-height: 100px;
 }
 `
-export const DivImages= styled.div`
-display: flex;
-width: 100%; 
-align-items: center;
-overflow: auto;
-margin-top: 5px;
-.image {
+
+export const DivCarrusel = styled.div`
+.fPimMH {
+    margin-top: 2px;
+} 
+.jjfwLM {
     display: flex;
-    justify-content: center;
-    padding-bottom: 15px;
-}
-.botondelete {
-    color: var(--Icon-App-Color) !important;
+    max-width: 120px;
+    max-height: 120px;
+    min-height: 120px;
+    min-width: 120px;
+    padding-top: 4px;
+    padding-bottom: 2px;
+    .MuiSvgIcon-root {
+        color: var(--Icon-App-Color) !important;
+    }
 }
 `
-
 export const Form = styled.form`
 display: flex;
 flex-direction: column;
+padding-bottom: 2px;
 border-bottom: 1px solid #ddd;
 `
 
@@ -312,6 +315,16 @@ align-items: flex-start;
     margin-top: 5px;
 }
 `
+export const DivModal = styled.div`
+display: flex;
+flex-direction: column;
+flex-wrap: nowrap;
+.icon_close {
+    margin-left: 80%;
+    position: absolute;
+    color: var(--Icon-App-Color) !important;
+}
+`
 
 export const PostBody = styled.div`
 padding-left: 10px;
@@ -333,6 +346,9 @@ h3 {
 .header{
     display:flex;
     align-items: center;
+}
+.imagenes {
+    margin-top: 2px;
 }
 `
 
@@ -363,7 +379,7 @@ border-radius: 20px;
 min-width: 100%;
 width: 100px;
 min-height: 300px;
-max-height: 600px;
+max-height: 300px;
 `
 
 export const PostFooter = styled.div`

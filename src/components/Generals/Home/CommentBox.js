@@ -5,18 +5,14 @@ import { useMsal } from "@azure/msal-react";
 import { CommentCard } from './CommentCard';
 import { Button } from '@mui/material';
 
-const CommentBox = ({data}) => {
+const CommentBox = ({data, user}) => {
 
-  const { accounts } = useMsal();
-  const name = accounts[0] && accounts[0].name;
-  const [user, setUser] = useState([]);
   const [description, setDescription] = useState('');
   const [notifications, setNofitications] = useState([]);
+  const [comments, setComments] = useState([]);
 
-  useEffect( () => {
-    fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
-    .then(response => response.json())
-    .then((data) => setUser(data.value)) } , [] );
+  useEffect(() => {
+    setComments(data.comments) }, [])
 
   useEffect( () => {
     fetch('http://localhost:8080/v1/notification/All')
@@ -47,7 +43,8 @@ const CommentBox = ({data}) => {
       if (data.author.id != user.id) {
         createNotification();
       }
-      window.location.reload();
+      setComments((previusComments) => previusComments.concat(dataComment));
+      setDescription(null);
   }
 
   function createNotification() {
@@ -108,7 +105,7 @@ const CommentBox = ({data}) => {
 
         <LoadComment>
             {
-                data.comments.map(comment => {
+                comments.map(comment => {
                 comment.hour = new Date(comment.hour).toLocaleString('en-us');
                 return <CommentCard key={comment.user} data={comment}/>
                 }) 
@@ -130,12 +127,14 @@ const CommentBox = ({data}) => {
                   </h3>
                 </div>
           </CommentReport>
+
           <div className='createComment'>
               <div className="columns">
                     <input onChange={event => setDescription(event.target.value)} required text="text" placeholder="Comenta este Reporte"/>
               </div>
               <Button onClick={() => createComment()} >Comment</Button>
           </div>
+
         </div>
     </ReportsBox>
   )

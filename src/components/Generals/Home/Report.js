@@ -3,13 +3,13 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import {Posts, User, PostBody, PostDescription, Images, PostFooter} from './styles';
+import {Posts, User, PostBody, PostDescription, Images, PostFooter, DivModal} from './styles';
 import './stylemenu.css';
-import { LongMenu } from './MenuOptions';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Button } from '@mui/material';
 import {CommentBox} from './CommentBox';
+import CloseIcon from '@mui/icons-material/Close';
 
 const styleNew = {
     position: 'absolute',
@@ -78,14 +78,16 @@ const Report = ({data, user}) => {
                         <p>{data.sentido}</p>
                     </PostDescription>
                 </div>
-                {
-                    data.imagesReport.map(image =>
-                        <Images key={image.urlImage} src={image.urlImage} />
-                    )
-                }
-                <PostFooter>
-                    
+                <div className="imagenes">
+                    {
+                        data.imagesReport.map(image =>
+                            <Images key={image.urlImage} src={image.urlImage} />
+                        )
+                    }
+                </div>
 
+                <PostFooter>
+                
                     <Button className="reactions reactionslike">
                         {like?<FavoriteIcon onClick={()=> delLike()} fontSize="small" className="iconReaction"/>:<FavoriteBorderIcon onClick={()=>addLike()} fontSize="small" className="iconReaction"/>}
                         <h5> {numLikes} Likes</h5>
@@ -98,7 +100,10 @@ const Report = ({data, user}) => {
 
                     <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                         <Box sx={styleNew}>
-                            <CommentBox key={data.id} data={data}/>
+                            <DivModal>
+                                <CommentBox key={data.id} data={data} user={user}/>
+                                <CloseIcon className="icon_close" onClick={handleClose}/>
+                            </DivModal> 
                         </Box>
                     </Modal>
 
