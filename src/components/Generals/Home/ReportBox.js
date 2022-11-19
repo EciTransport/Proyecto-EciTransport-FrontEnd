@@ -9,6 +9,7 @@ import {useState, useEffect} from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {uploadFile} from '../../../firebase/config';
 import {v4} from 'uuid';
+import * as L from "leaflet";
 
 export function ReportBox() {
 
@@ -22,7 +23,11 @@ export function ReportBox() {
   const [sentido, setSentido] = useState('');
   const [reports, setReports] = useState([]);
 
-  
+  //Location
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
+  const [status, setStatus] = useState(null);
+
 
   useEffect( () => {
     fetch('http://localhost:8080/v1/user/id/' + usuario)
@@ -33,6 +38,22 @@ export function ReportBox() {
     fetch('http://localhost:8080/v1/reports/reportsUser/' + usuario)
     .then(response => response.json())
     .then(data => setReports(data))} , [] );
+  useEffect(() => {
+    if(!navigator.geolocation){
+      setStatus('Geolocation is not supported by your browser');
+    }else{
+      setStatus('Locating...');
+      navigator.geolocation.getCurrentPosition((position) => {
+        setStatus(null);
+        setLat(position.coords.latitude);
+        setLng(position.coords.longitude);
+        //window.location.reload();
+        
+      }, ()=>{
+        setStatus('Unable toretrieve your location');
+      });
+    }
+  },[]);
   
   const onSelectFile = (event) => {
     const selectedFiles = event.target.files;
@@ -63,6 +84,9 @@ export function ReportBox() {
   }
 
   function createReport(images) {
+    var latlngg = new L.latLng(lat,lng);
+    var res = JSON.stringify(latlngg);
+    alert(res);
     const data = {
       "id": reports.length + 1,
       "author": {
@@ -72,6 +96,7 @@ export function ReportBox() {
           "password": user.password,
           "imageProfile": user.imageProfile
       },
+      "latlng":res,
       "description":description,
       "hourReport":"2011-10-02",
       "sentido":sentido,
@@ -102,7 +127,7 @@ export function ReportBox() {
   function buttonReport() {
     const allPromises = subirImagenes();
     Promise.all(allPromises).then(values => createReport(values));
-    //window.location.reload();
+    
   }
 
   return (
