@@ -1,9 +1,9 @@
 import React from 'react'
+import {Map} from '../../Generals/Map';
 import GlobalStyle from '../../../styles/GlobalStyle';
-import {FuncionalityInConstruction} from '../../Generals/FuncionalityInConstruction';
 import {SideBar} from '../../Generals/SideBar';
 import { routes } from '../../Utils/routes';
-import {MapViews} from '../../Generals/Map/MapView'
+
 
 const MapPage = () => {
   return (
@@ -13,7 +13,7 @@ const MapPage = () => {
         <SideBar pathRoute={routes.map.path}/>
 
         {/* Home */}
-        <MapViews/>
+        <Map/>
 
         {/* Global Styles */}
         <GlobalStyle />
