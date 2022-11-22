@@ -1,23 +1,19 @@
 import {React, useState, useEffect} from 'react';
 import {ReportsBox, Div, Form, User, PostDescriptionComment, LoadComment, CommentReport} from './styles';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { useMsal } from "@azure/msal-react";
 import { CommentCard } from './CommentCard';
 import { Button } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const CommentBox = ({data, user}) => {
 
   const [description, setDescription] = useState('');
-  const [notifications, setNofitications] = useState([]);
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    setComments(data.comments) }, [])
-
-  useEffect( () => {
-    fetch('http://localhost:8080/v1/notification/All')
+    fetch('http://localhost:8080/v1/reports/comments/id/' + data.id)
     .then(response => response.json())
-    .then((data) => setNofitications(data)) } , [] );
+    .then((data) => setComments(data)) } , [] );
 
   function createComment() {
     const dataComment = 
@@ -40,18 +36,25 @@ const CommentBox = ({data, user}) => {
         }
       })
       .catch(error => console.error('Error:', error));
-      if (data.author.id != user.id) {
-        createNotification();
-      }
+      //if (data.author.id != user.id) {
+      //  createNotification();
+      //}
+      createNotification();
       setComments((previusComments) => previusComments.concat(dataComment));
       setDescription(null);
+  }
+
+  function deleteElement(id) {
+    console.log("Id : "+ id);
+    //fetch('http://localhost:8080/v1/reports/delete/' + id, {method: 'DELETE'});
+    //const newListComments = comments.filter(r => r.id != id);
+    //setComments(newListComments);
   }
 
   function createNotification() {
     
     const dataNotification =
       {
-        "id": notifications.length + 1,
         "userReceiver": {
             "id": data.author.id,
             "nombre": data.author.nombre,
@@ -107,7 +110,10 @@ const CommentBox = ({data, user}) => {
             {
                 comments.map(comment => {
                 comment.hour = new Date(comment.hour).toLocaleString('en-us');
-                return <CommentCard key={comment.user} data={comment}/>
+                return <div className="returnComment" key={data.id}>
+                  <CommentCard key={comment.hour} data={comment}/>
+                  <DeleteIcon className="moreIconComment" onClick={() => deleteElement(comment.id)}/>
+                </div>
                 }) 
             }
         </LoadComment>

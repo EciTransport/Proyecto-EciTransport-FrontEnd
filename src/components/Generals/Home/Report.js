@@ -81,7 +81,7 @@ const Report = ({data, user}) => {
                 <div className="imagenes">
                     {
                         data.imagesReport.map(image =>
-                            <Images key={image.urlImage} src={image.urlImage} />
+                            <Images key={data.id} src={image} />
                         )
                     }
                 </div>

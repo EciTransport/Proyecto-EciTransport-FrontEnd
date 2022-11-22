@@ -26,11 +26,12 @@ const ProfileScreen = ({dataUser, emailUser}) => {
     setAnchorEl(null);
   };
 
-  function deleteElement(id) {
-    fetch('http://localhost:8080/v1/reports/delete/' + id, {method: 'DELETE'});
+  function deleteElement(data) {
+    alert(data);
+    //fetch('http://localhost:8080/v1/reports/delete/' + id, {method: 'DELETE'});
     handleClose();
-    const newListReports = reportsUser.filter(r => r.id != id);
-    setReports(newListReports);
+    //const newListReports = reportsUser.filter(r => r.id != id);
+    //setReports(newListReports);
   }
 
   return (
@@ -65,7 +66,8 @@ const ProfileScreen = ({dataUser, emailUser}) => {
                         {
                             reportsUser.map(data => {
                                 data.hourReport = new Date(data.hourReport).toLocaleString('en-us');
-                                return <div className="returnReport">
+                                const dataId = data.id;
+                                return <div className="returnReport" key={data.id}>
                                         <Report key={data.id} data={data} options={false} user={dataUser}/>
                                         <div className="iconMore">
                                             <IconButton aria-label="more" id="long-button" 
@@ -80,7 +82,7 @@ const ProfileScreen = ({dataUser, emailUser}) => {
                                                 open={open}
                                                 onClose={handleClose}
                                                 >
-                                                <MenuItem onClick={() => deleteElement(data.id)} className="menuItem">Delete</MenuItem>
+                                                <MenuItem onClick={() => deleteElement(dataId)} className="menuItem">Delete</MenuItem>
                                             </Menu>
                                         </div>
                                        </div>

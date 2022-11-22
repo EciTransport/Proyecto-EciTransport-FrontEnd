@@ -5,6 +5,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import './Notification.css';
+import { Button } from '@mui/material';
 const LoadNotification = ({emailUser}) => {
 
   const [notifications, setNofitications] = useState([]);
@@ -25,10 +26,15 @@ const LoadNotification = ({emailUser}) => {
   };
 
   function deleteElement(id) {
-    fetch('http://localhost:8080/v1/notification/delete/' + id, {method: 'DELETE'});
+    console.log("Delete " + id);
+    //fetch('http://localhost:8080/v1/notification/delete/' + id, {method: 'DELETE'});
     handleClose();
-    const newListNotifications = notifications.filter(n => n.id != id);
-    setNofitications(newListNotifications);
+    //const newListNotifications = notifications.filter(n => n.idString != id);
+    //setNofitications(newListNotifications);
+  }
+
+  function imprimir(id) {
+    console.log("Es su ID " + id);
   }
 
   return (
@@ -42,8 +48,7 @@ const LoadNotification = ({emailUser}) => {
           {
             notifications.map(data => {
               data.hour = new Date(data.hour).toLocaleString('en-us');
-              return <div className="notification">
-
+              return <div className="notification" key={data.idString}>
                         <div className="dataNotification">
                           <img className="imageNotification" src={data.userCreator.imageProfile}/>
                           <h1 className="user" >{data.userCreator.nombre}</h1>
@@ -53,7 +58,7 @@ const LoadNotification = ({emailUser}) => {
                         <div className="description">
                             <h2>{data.description}</h2>
                         </div>
-
+                        
                         <div className="iconMoreN">
                             <IconButton aria-label="more" id="long-button" 
                                 aria-controls={open ? 'long-menu' : undefined} 
@@ -61,16 +66,16 @@ const LoadNotification = ({emailUser}) => {
                                 aria-haspopup="true" onClick={handleClick} >
                                 <MoreVertIcon className="moreIconN"/>
                             </IconButton>
-
                             <Menu id="long-menu" MenuListProps={{ 'aria-labelledby': 'long-button', }}
                                 anchorEl={anchorEl}
                                 open={open}
                                 onClose={handleClose}
                                 >
-                                <MenuItem onClick={() => deleteElement(data.id)} className="menuItem">Delete</MenuItem>
+                                <Button onClick={() => imprimir(data.idString)} >ID</Button>
+                                <MenuItem onClick={() => deleteElement(data.idString)} className="menuItem">Delete</MenuItem>
                             </Menu>
+                            
                         </div>
-
                      </div>
               }) 
           }

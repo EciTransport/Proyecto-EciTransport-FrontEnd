@@ -111,6 +111,16 @@ padding: 0 30px 10px 20px;
 }
 -ms-overflow-style: none;
 scrollbar-width: none;
+
+.moreIconComment {
+    color: var(--Icon-App-Color) !important;
+    font-size: 1.2rem ;
+}
+.returnComment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 `
 
 export const Div = styled.div`
