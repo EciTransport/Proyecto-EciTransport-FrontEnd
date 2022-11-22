@@ -15,7 +15,7 @@ import {Report} from './Report';
     console.log(reports);
     return (
         <MapContainer
-            center={{ lat: 51.505, lng: -0.09 }}
+            center={{ lat: 4.570868, lng: -74.297333 }}
             zoom={13}
             scrollWheelZoom={false}>
             <TileLayer
