@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {uploadFile} from '../../../firebase/config';
 import { useMsal } from "@azure/msal-react";
 import Carousel from 'better-react-carousel';
+import { Error } from './Error';
 
 export function ReportBox() {
 
@@ -16,22 +17,17 @@ export function ReportBox() {
   const name = accounts[0] && accounts[0].name;
   const [user, setUser] = useState([]);
   const [selectedFilesArray, setSelectedFilesArray] = useState([]);
+  const [error, setError] = useState(false);
 
   //Create Report
   const [description, setDescription] = useState('');
   const [ubicacion, setUbicacion] = useState('');
   const [sentido, setSentido] = useState('');
-  const [reports, setReports] = useState([]);
 
   useEffect( () => {
     fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
     .then(response => response.json())
     .then((data) => setUser(data.value)) } , [] );
-
-  useEffect( () => {
-    fetch('http://localhost:8080/v1/reports/')
-    .then(response => response.json())
-    .then(data => setReports(data))} , [] );
   
   const onSelectFile = (event) => {
     const selectedFiles = event.target.files;
@@ -46,7 +42,6 @@ export function ReportBox() {
 
   function createReport(images) {
     const data = {
-      "id": reports.length + 1,
       "author": {
           "id":user.id,
           "nombre": user.nombre,
@@ -57,7 +52,7 @@ export function ReportBox() {
       "hourReport":new Date(),
       "sentido":sentido,
       "ubicacion": ubicacion,
-      "numberlikes":2,
+      "latlng": "",
       "imagesReport": images,
       "comments": [],
       "idUserLikes": []
@@ -72,6 +67,7 @@ export function ReportBox() {
     })
     .catch(error => console.error('Error:', error))
     .then(response => console.log('Success:', response));
+    
     window.location.reload();
   }
 
@@ -82,8 +78,21 @@ export function ReportBox() {
   }
 
   function buttonReport() {
+    if (description == "" || description == null) {
+      setError(true);
+      return;
+    }
+    setError(false);
     const allPromises = subirImagenes();
     Promise.all(allPromises).then(values => createReport(values));
+  }
+
+  let componentError;
+  if (error) {
+    componentError = <Error message="Obligatory field"/>
+  }
+  else {
+    componentError = null;
   }
 
   return (
@@ -130,6 +139,11 @@ export function ReportBox() {
           </Carousel>
           :null}
         </DivCarrusel>
+
+        <div className="error">
+            {componentError}
+        </div>
+
     </ReportsBox>
   )
 }

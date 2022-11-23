@@ -8,7 +8,7 @@ import './stylemenu.css';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Button } from '@mui/material';
-import {CommentBox} from './CommentBox';
+import {CommentBox} from './Comment';
 import CloseIcon from '@mui/icons-material/Close';
 
 const styleNew = {
@@ -28,30 +28,68 @@ const styleNew = {
 const Report = ({data, user}) => {
     //Like
     const [like, setLike] = useState(false);
-    const [numLikes, setNumLikes] = useState(0);
+    const [arrayLikes, setArrayLikes] = useState([]);    
+
     //Coment
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    //useEffect(() => {
-    //    data.idUserLikes.map(value => {if(value == user.id) setLike(true)});
-    //    setNumLikes(data.idUserLikes.length);
-    //}, []);
-
+    useEffect(() => {
+        fetch('http://localhost:8080/v1/reports/listLike/' + data.idString)
+        .then(response => response.json())
+        .then(data => {setArrayLikes(data); console.log("Data " + data + " User " + user.id); if (data.indexOf(user.id) == 0) setLike(true);  })  }, [])
+        
     function delLike() {
         setLike(false);
-        fetch('http://localhost:8080/v1/reports/likeDel/' + data.id + '/' + user.id, {method: 'PUT'})
-        .then(response => response.json())
-        .then(value => setNumLikes(value.length));
+        if (arrayLikes.indexOf(user.id) == 0) {
+            fetch('http://localhost:8080/v1/reports/likeDel/' + data.idString + '/' + user.id, {method: 'PUT'})
+            .then(response => response.json())
+            .then(value => setArrayLikes(value));
+        }
     }
 
     function addLike() {
         setLike(true);
-        fetch('http://localhost:8080/v1/reports/likeAdd/' + data.id + '/' + user.id, {method: 'PUT'})
-        .then(response => response.json())
-        .then(value => setNumLikes(value.length));
+        if (arrayLikes.indexOf(user.id) == -1) {
+            if (data.idUserLikes.indexOf(user.id))
+            fetch('http://localhost:8080/v1/reports/likeAdd/' + data.idString + '/' + user.id, {method: 'PUT'})
+            .then(response => response.json())
+            .then(value => setArrayLikes(value));
+            if (data.author.id != user.id) {
+                createNotification();
+            }
+        }
     }
+
+    function createNotification() {
+        const dataNotification =
+        {
+        "userReceiver": {
+            "id": data.author.id,
+            "nombre": data.author.nombre,
+            "email": data.author.email,
+            "imageProfile": data.author.imageProfile
+        },
+        "userCreator": {
+            "id": user.id,
+            "nombre": user.nombre,
+            "email": user.email,
+            "imageProfile": user.imageProfile
+        },
+        "hour": new Date(),
+        "description": user.nombre + ' Reacciono a tu Reporte.'
+        }
+    
+        fetch('http://localhost:8080/v1/notification', {
+          method: 'POST',
+          body: JSON.stringify(dataNotification),
+          headers:{
+            'Content-Type': 'application/json'
+          }
+        })
+        .catch(error => console.error('Error:', error));
+      }
 
   return (
     <Posts>
@@ -80,8 +118,8 @@ const Report = ({data, user}) => {
                 </div>
                 <div className="imagenes">
                     {
-                        data.imagesReport.map(image =>
-                            <Images key={data.id} src={image} />
+                        data.imagesReport.map((image, index) =>
+                            <Images key={index} src={image} />
                         )
                     }
                 </div>
@@ -90,7 +128,7 @@ const Report = ({data, user}) => {
                 
                     <Button className="reactions reactionslike">
                         {like?<FavoriteIcon onClick={()=> delLike()} fontSize="small" className="iconReaction"/>:<FavoriteBorderIcon onClick={()=>addLike()} fontSize="small" className="iconReaction"/>}
-                        <h5> {numLikes} Likes</h5>
+                        <h5> {arrayLikes.length} Likes</h5>
                     </Button>
 
                     <Button className="reactions reactionscomment" onClick={handleOpen}>
@@ -101,7 +139,7 @@ const Report = ({data, user}) => {
                     <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                         <Box sx={styleNew}>
                             <DivModal>
-                                <CommentBox key={data.id} data={data} user={user}/>
+                                <CommentBox key={data.idString} data={data} user={user}/>
                                 <CloseIcon className="icon_close" onClick={handleClose}/>
                             </DivModal> 
                         </Box>

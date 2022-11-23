@@ -35,6 +35,10 @@ padding: 5px 15px;
 .sectionComment {
     margin-top:5px;
 
+    .error {
+        margin-top: 5px;
+    }
+
     .createComment {
         display:flex;
         justify-content: center;

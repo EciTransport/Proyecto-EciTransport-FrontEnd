@@ -28,9 +28,7 @@ scrollbar-width: none;
     margin-top: 2px;
     color: #888;
 }
-
 `
-
 
 export const Notifications = styled.div`
 display: grid;

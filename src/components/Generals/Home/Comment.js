@@ -4,55 +4,67 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { CommentCard } from './CommentCard';
 import { Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Error } from './Error';
 
 const CommentBox = ({data, user}) => {
 
   const [description, setDescription] = useState('');
   const [comments, setComments] = useState([]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:8080/v1/reports/comments/id/' + data.id)
+    fetch('http://localhost:8080/v1/comments/idReport/' + data.idString)
     .then(response => response.json())
     .then((data) => setComments(data)) } , [] );
 
   function createComment() {
+    if (description == "" || description == null) {
+      setError(true);
+      return;
+    }
+    setError(false);
     const dataComment = 
-      { 
-        "user": {
-          "id": user.id, 
-          "nombre": user.nombre,
-          "email": user.email,
-          "imageProfile": user.imageProfile
-        },
-        "hour": new Date(),
-        "comment": description
-      };
+    { 
+      "idReport": data.idString,
+      "user": {
+        "id": user.id, 
+        "nombre": user.nombre,
+        "email": user.email,
+        "imageProfile": user.imageProfile
+      },
+      "hour": new Date(),
+      "comment": description
+    };
 
-      fetch('http://localhost:8080/v1/reports/comment/' + data.id, {
-        method: 'PUT',
-        body: JSON.stringify(dataComment),
-        headers:{
-          'Content-Type': 'application/json'
-        }
-      })
-      .catch(error => console.error('Error:', error));
-      //if (data.author.id != user.id) {
-      //  createNotification();
-      //}
+    fetch('http://localhost:8080/v1/comments/' , {
+      method: 'POST',
+      body: JSON.stringify(dataComment),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(value => setComments((previusComments) => previusComments.concat(value)))
+    .catch(error => console.error('Error:', error));
+    if (data.author.id != user.id) {
       createNotification();
-      setComments((previusComments) => previusComments.concat(dataComment));
-      setDescription(null);
+    }
+    cleanInput();
   }
 
+  function cleanInput() {
+    setDescription(null);
+    const input = document.getElementById("commentar");
+    input.value = "";
+  }
+ 
   function deleteElement(id) {
-    console.log("Id : "+ id);
-    //fetch('http://localhost:8080/v1/reports/delete/' + id, {method: 'DELETE'});
-    //const newListComments = comments.filter(r => r.id != id);
-    //setComments(newListComments);
+    fetch('http://localhost:8080/v1/comments/delete/' + id, {method: 'DELETE'});
+    const newListComments = comments.filter(c => c.idString != id);
+    setComments(newListComments);
   }
 
   function createNotification() {
-    
     const dataNotification =
       {
         "userReceiver": {
@@ -70,6 +82,7 @@ const CommentBox = ({data, user}) => {
         "hour": new Date(),
         "description": user.nombre + ' Comento tu reporte.'
       }
+
     fetch('http://localhost:8080/v1/notification', {
       method: 'POST',
       body: JSON.stringify(dataNotification),
@@ -78,6 +91,14 @@ const CommentBox = ({data, user}) => {
       }
     })
     .catch(error => console.error('Error:', error));
+  }
+
+  let componentError;
+  if (error) {
+    componentError = <Error message="Obligatory field"/>
+  }
+  else {
+    componentError = null;
   }
 
   return (
@@ -108,11 +129,11 @@ const CommentBox = ({data, user}) => {
 
         <LoadComment>
             {
-                comments.map(comment => {
+                comments.map((comment, index) => {
                 comment.hour = new Date(comment.hour).toLocaleString('en-us');
-                return <div className="returnComment" key={data.id}>
+                return <div className="returnComment" key={index}>
                   <CommentCard key={comment.hour} data={comment}/>
-                  <DeleteIcon className="moreIconComment" onClick={() => deleteElement(comment.id)}/>
+                  <DeleteIcon className="moreIconComment" onClick={() => deleteElement(comment.idString)}/>
                 </div>
                 }) 
             }
@@ -136,9 +157,13 @@ const CommentBox = ({data, user}) => {
 
           <div className='createComment'>
               <div className="columns">
-                    <input onChange={event => setDescription(event.target.value)} required text="text" placeholder="Comenta este Reporte"/>
+                    <input id="commentar" required onChange={event => setDescription(event.target.value)} text="text" placeholder="Comenta este Reporte"/>
               </div>
               <Button onClick={() => createComment()} >Comment</Button>
+          </div>
+
+          <div className="error">
+            {componentError}
           </div>
 
         </div>
