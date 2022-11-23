@@ -4,34 +4,33 @@ import {SideBar} from '../../Generals/SideBar';
 import { routes } from '../../Utils/routes';
 import { useMsal } from "@azure/msal-react";
 import { useState, useEffect } from 'react';
-import { MapScreen } from './MapScreen';
+import { MapView } from './MapView';
 const MapPage = () => {
 
   const { accounts } = useMsal();
   const name = accounts[0] && accounts[0].name;
   const [user, setUser] = useState([]);
+  const [reports, setReports] = useState([]);
 
   useEffect( () => {
     fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
     .then(response => response.json())
     .then((data) => setUser(data.value)) } , [] );
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
-    });
-  }, [])
-
+    
+  useEffect(
+    () => {
+      fetch('http://localhost:8080/v1/reports/')
+      .then(response => response.json())
+      .then(data => setReports(data)) } , [] );
   
   return (
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute="Map" dataUser={user} />
+        <SideBar pathRoute="Map" dataUser={user}/>
 
         {/* Map */}
-        <MapScreen />
+        <MapView reports={reports}/>
 
         {/* Global Styles */}
         <GlobalStyle />

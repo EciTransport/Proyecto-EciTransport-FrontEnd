@@ -10,6 +10,7 @@ import {uploadFile} from '../../../firebase/config';
 import { useMsal } from "@azure/msal-react";
 import Carousel from 'better-react-carousel';
 import { Error } from './Error';
+import * as L from 'leaflet';
 
 export function ReportBox() {
 
@@ -18,6 +19,8 @@ export function ReportBox() {
   const [user, setUser] = useState([]);
   const [selectedFilesArray, setSelectedFilesArray] = useState([]);
   const [error, setError] = useState(false);
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
 
   //Create Report
   const [description, setDescription] = useState('');
@@ -29,6 +32,11 @@ export function ReportBox() {
     .then(response => response.json())
     .then((data) => setUser(data.value)) } , [] );
   
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      setLat(position.coords.latitude);
+      setLng(position.coords.longitude); }); }, [])
+
   const onSelectFile = (event) => {
     const selectedFiles = event.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
@@ -41,6 +49,9 @@ export function ReportBox() {
   }
 
   function createReport(images) {
+    var latlng = new L.latLng(lat,lng);
+    var res = JSON.stringify(latlng);
+
     const data = {
       "author": {
           "id":user.id,
@@ -52,7 +63,7 @@ export function ReportBox() {
       "hourReport":new Date(),
       "sentido":sentido,
       "ubicacion": ubicacion,
-      "latlng": "",
+      "latlng": res,
       "imagesReport": images,
       "comments": [],
       "idUserLikes": []
