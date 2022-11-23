@@ -1,5 +1,5 @@
 import React from 'react'
-import {ReportsBox, Div, Form, User, DivBox, File, DivFooter, DivCarrusel} from './styles';
+import {ReportsBox, Div, Form, User, DivBox, File, DivFooter, DivCarrusel, DivModal} from './styles';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import GifBoxIcon from '@mui/icons-material/GifBox';
 import { Button } from '@mui/material';
@@ -11,6 +11,10 @@ import { useMsal } from "@azure/msal-react";
 import Carousel from 'better-react-carousel';
 import { Error } from './Error';
 import * as L from 'leaflet';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import CloseIcon from '@mui/icons-material/Close';
 
 export function ReportBox() {
 
@@ -21,6 +25,24 @@ export function ReportBox() {
   const [error, setError] = useState(false);
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 550,
+    bgcolor: 'background.paper',
+    border: '2px solid var(--Icon-App-Color)',
+    boxShadow: 24,
+    background: 'white',
+    'border-radius': '1.0em',
+    p: 4,
+  };
+  
 
   //Create Report
   const [description, setDescription] = useState('');
@@ -78,7 +100,6 @@ export function ReportBox() {
     })
     .catch(error => console.error('Error:', error))
     .then(response => console.log('Success:', response));
-    
     window.location.reload();
   }
 
@@ -121,17 +142,26 @@ export function ReportBox() {
             </Div>
             <Div>
               <div className="columns">
-                  <input onChange={event => setDescription(event.target.value)} required text="text" placeholder="¿Que Sucedio?"/>
-                  <input onChange={event => setUbicacion(event.target.value)} required text="text" placeholder="Ubicacion"/>
-                  <input onChange={event => setSentido(event.target.value)} required text="text" placeholder="Sentido"/>
+                  <input onChange={event => setDescription(event.target.value)} required text="text" placeholder="¿What happened?"/>
               </div>
             </Div>
             <DivFooter>
                <DivBox>
                     <AddPhotoAlternateIcon/>
-                    <File type="file" onChange={onSelectFile} accept=".jpg, .jpeg, .png" primary/>
+                    <File type="file" onChange={onSelectFile} accept=".jpg, .jpeg, .png" primary multiple/>
                     <GifBoxIcon />
-                    <File type="file" onChange={onSelectFile} accept=".gif" secundary/>
+                    <File type="file" onChange={onSelectFile} accept=".gif" secundary multiple/>
+                    
+                    <LocationOnIcon onClick={handleOpen}/>
+                    <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+                      <Box sx={style}>
+                          <DivModal>
+                            
+                            <CloseIcon className="icon_close" onClick={handleClose}/>
+                          </DivModal> 
+                      </Box>
+                    </Modal>
+
                 </DivBox>
                 <Button onClick={() => buttonReport()} >Report</Button>
             </DivFooter>

@@ -10,18 +10,12 @@ const NotificationPage = () => {
   const { accounts } = useMsal();
   const name = accounts[0] && accounts[0].name;
   const emailUser = name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com';
-  const [user, setUser] = useState([]);
-
-  useEffect( () => {
-    fetch('http://localhost:8080/v1/user/email/' + emailUser)
-    .then(response => response.json())
-    .then((data) => setUser(data.value)) } , [] );
   
   return (
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute="Notifications" dataUser={user}/>
+        <SideBar pathRoute="Notifications" />
 
         {/* Notifications */}
         <LoadNotification emailUser={emailUser}/>

@@ -14,7 +14,7 @@ function LocationMarker({position,data}){
               <img className="imagen" src={data.author.imageProfile}/>
           </div>
           <h1 className="author">{data.author.nombre} </h1>
-          <h1 className="description">{data.description}</h1>
+          <h1 className="descriptionMap">{data.description}</h1>
         </div>
       </Popup>
     </Marker>

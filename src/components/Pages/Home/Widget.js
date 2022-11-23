@@ -3,7 +3,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import {ContainerWidget, Header, DivIcon, DivContent} from './styles';
 import { Report } from '../../Generals/Home/Report';
 
-const Widget = ({reports, user}) => {
+const Widget = ({reports, user, setReports}) => {
 
   const [message, setMessage] = useState(null);
 

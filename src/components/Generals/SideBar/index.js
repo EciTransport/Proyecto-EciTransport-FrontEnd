@@ -20,6 +20,10 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useMsal } from "@azure/msal-react";
 //Close
 import CloseIcon from '@mui/icons-material/Close';
+//Redux
+import { useSelector, useDispatch } from "react-redux";
+import { getData } from "../../../sessionUser";
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -34,12 +38,25 @@ const style = {
   p: 4,
 };
 
-const SideBar = ({pathRoute, dataUser}) => {
+const SideBar = ({pathRoute}) => {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const { instance } = useMsal();
+  const { accounts } = useMsal();
+  const name = accounts[0] && accounts[0].name;
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.theStore.value);
+
+  useEffect(() => {
+    if (!data) {
+      console.log("nullo");
+      fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
+      .then(response => response.json())
+      .then((data) => dispatch(getData(data.value)));
+    }
+  })
 
   const handleLogout = (logoutType) => {
       if (logoutType === "popup") {
@@ -81,10 +98,10 @@ const SideBar = ({pathRoute, dataUser}) => {
       <FOOTER>
           <Button className="account"  variant="outline-dark" onClick={() => handleLogout("popup")}>
             <div className="photo">
-              <img src={dataUser.imageProfile}/>
+              <img src={data.imageProfile}/>
             </div>
             <div>
-              <div className="name">{dataUser.nombre}</div>
+              <div className="name">{data.nombre}</div>
             </div>
             <LogoutIcon/>
           </Button>

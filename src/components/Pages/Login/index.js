@@ -7,14 +7,20 @@ import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-reac
 import './style.css'
 import { Button } from "@mui/material";
 import { useMsal } from "@azure/msal-react";
+import { useDispatch } from "react-redux";
+import { getData } from "../../../sessionUser";
 
 const Login = () => {
   const { accounts } = useMsal();
   const name = accounts[0] && accounts[0].name;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   function redirect() {
     navigate(routes.home.path);
+    fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
+    .then(response => response.json())
+    .then((data) => dispatch(getData(data.value)))
   }
 
   return (

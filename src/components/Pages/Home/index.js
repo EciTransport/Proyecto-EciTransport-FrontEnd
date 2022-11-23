@@ -2,41 +2,43 @@ import React from 'react'
 import GlobalStyle from '../../../styles/GlobalStyle';
 import {SideBar} from '../../Generals/SideBar';
 import { Widget } from './Widget';
-import { routes } from '../../Utils/routes';
 import { useMsal } from "@azure/msal-react";
 import { useState, useEffect } from 'react';
 import { HomeScreen } from './HomeScreen';
+import { useSelector, useDispatch } from "react-redux";
+import { getData } from "../../../sessionUser";
 
 const HomePage = () => {
 
   const { accounts } = useMsal();
   const name = accounts[0] && accounts[0].name;
-  const [user, setUser] = useState([]);
   const [reports, setReports] = useState([]);
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.theStore.value);
+  
+  useEffect(() => {
+    if (!data) {
+      fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
+      .then(response => response.json())
+      .then((data) => dispatch(getData(data.value)));
+    }  }, [])
 
   useEffect(() => {
     fetch('http://localhost:8080/v1/reports/')
     .then(response => response.json())
     .then(data => setReports(data)) } , [] );
-    
-  useEffect( () => {
-    fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
-    .then(response => response.json())
-    .then((data) => setUser(data.value)) } 
-    , [] );
-
 
   return (
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute="Home" dataUser={user} />
+        <SideBar pathRoute="Home" />
 
         {/* Home */}
-        <HomeScreen reports={reports} dataUser={user}/>
+        <HomeScreen reports={reports} dataUser={data}/>
 
         {/* Widget */}
-        <Widget reports={reports} user={user}/>
+        <Widget reports={reports} user={data} setReports={setReports}/>
 
         {/* Global Styles */}
         <GlobalStyle />
