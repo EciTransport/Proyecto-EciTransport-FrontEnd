@@ -237,7 +237,6 @@ align-items: center;
     border-radius: 5px;
     cursor: pointer;
 }
-}
 `
 export const DivImagesOri = styled.div`
 width: 90%;
@@ -430,3 +429,24 @@ margin-top: 10px;
     padding-right: 20px;
 }
 `
+
+//MAP
+export const ContainerMap = styled.div`
+display:flex;
+flex-direction: column;
+width: 100%;
+height: 100% !important;
+border: none;
+`
+
+export const HeaderMap = styled.header`
+h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--Icon-App-Color);
+    height: 40px;
+    padding: 0;
+}
+`
+

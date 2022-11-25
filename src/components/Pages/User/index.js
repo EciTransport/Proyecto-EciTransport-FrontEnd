@@ -5,7 +5,7 @@ import { ProfileScreen } from './ProfileScreen';
 import { useMsal } from "@azure/msal-react";
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { getData } from "../../../sessionUser";
+import { getData } from "../../redux/sessionUser";
 
 const UserPage = () => {
 

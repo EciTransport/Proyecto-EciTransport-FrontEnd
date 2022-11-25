@@ -22,7 +22,7 @@ import { useMsal } from "@azure/msal-react";
 import CloseIcon from '@mui/icons-material/Close';
 //Redux
 import { useSelector, useDispatch } from "react-redux";
-import { getData } from "../../../sessionUser";
+import { getData } from "../../redux/sessionUser";
 
 const style = {
   position: 'absolute',

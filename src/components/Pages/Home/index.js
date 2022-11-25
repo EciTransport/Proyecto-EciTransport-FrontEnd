@@ -6,7 +6,7 @@ import { useMsal } from "@azure/msal-react";
 import { useState, useEffect } from 'react';
 import { HomeScreen } from './HomeScreen';
 import { useSelector, useDispatch } from "react-redux";
-import { getData } from "../../../sessionUser";
+import { getData } from "../../redux/sessionUser";
 
 const HomePage = () => {
 

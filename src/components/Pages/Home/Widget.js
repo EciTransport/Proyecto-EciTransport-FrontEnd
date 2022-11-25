@@ -24,10 +24,10 @@ const Widget = ({reports, user, setReports}) => {
         <DivContent>
             {
                 reports?.filter(r => r.description.toLowerCase().includes(message) || r.author.nombre.toLowerCase().includes(message)
-                || r.hourReport.toLowerCase().includes(message) || r.sentido.toLowerCase().includes(message) || r.ubicacion.toLowerCase().includes(message))
-                ?.map(data => {
+                || r.hourReport.toLowerCase().includes(message))
+                ?.map((data, index) => {
                 data.hourReport = new Date(data.hourReport).toLocaleString('en-us');
-                return <Report key={data.id} data={data} options={false} user={user} />
+                return <Report key={index} data={data} user={user} footerReportOff={true}/>
                 }) 
             }
         </DivContent>

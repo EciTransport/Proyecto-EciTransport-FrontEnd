@@ -1,11 +1,12 @@
-import {React,useState,useEffect} from 'react'
-import {MapContainer, TileLayer, useMapEvents, Marker,Popup} from 'react-leaflet'
+import {React,useState,useEffect} from 'react';
+import {MapContainer, TileLayer, useMapEvents, Marker,Popup} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './map.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
 import 'leaflet-defaulticon-compatibility';
 
-function LocationMarker({position,data}){
+function LocationMarker({position,data,locationRepeat}){
+
   return position === null ? null : (
     <Marker position={position}>
       <Popup>
@@ -15,16 +16,23 @@ function LocationMarker({position,data}){
           </div>
           <h1 className="author">{data.author.nombre} </h1>
           <h1 className="descriptionMap">{data.description}</h1>
+          { (locationRepeat > 1)?<h1 className="descriptionMap">{locationRepeat} Reportes en esta Ubicacion</h1>:null}
         </div>
       </Popup>
     </Marker>
   )
 }
 
-const ReportMap = ({data}) => {
+const ReportMap = ({data, reports}) => {
   var value = JSON.parse(data.latlng);
+  const [LocationRepeat, setLocationRepeat] = useState(0);
+
+  useEffect(() => {
+      setLocationRepeat(reports.filter(r => r.latlng == data.latlng).length);
+  }, [])
+
   return (
-    <LocationMarker position={value} data={data} ></LocationMarker>
+    <LocationMarker position={value} data={data} locationRepeat={LocationRepeat}></LocationMarker>
   );
 }
 

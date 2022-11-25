@@ -15,18 +15,39 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import CloseIcon from '@mui/icons-material/Close';
+import { MapReport } from './MapReport';
+import { useSelector, useDispatch } from "react-redux";
+import { getData } from "../../redux/sessionUser";
 
 export function ReportBox() {
 
   const { accounts } = useMsal();
   const name = accounts[0] && accounts[0].name;
-  const [user, setUser] = useState([]);
+
   const [selectedFilesArray, setSelectedFilesArray] = useState([]);
   const [error, setError] = useState(false);
+  const [errorLocation, setErrorLocation] = useState(false);
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  //User
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.theStore.value);
+  //Create Report
+  const [description, setDescription] = useState('');
+  const [ubicacion, setUbicacion] = useState('');
+  const [sentido, setSentido] = useState('');
+  //Modal
+  const handleOpen = () => {
+    if (lat == null || lng == null) {
+      setErrorLocation(true);
+    }
+    else {
+      setErrorLocation(false);
+      setOpen(true);
+    }
+  }
+
   const handleClose = () => setOpen(false);
 
   const style = {
@@ -35,29 +56,27 @@ export function ReportBox() {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 550,
+    height: 550,
     bgcolor: 'background.paper',
     border: '2px solid var(--Icon-App-Color)',
     boxShadow: 24,
     background: 'white',
-    'border-radius': '1.0em',
-    p: 4,
+    'border-radius': '0',
+    p: 0,
   };
-  
 
-  //Create Report
-  const [description, setDescription] = useState('');
-  const [ubicacion, setUbicacion] = useState('');
-  const [sentido, setSentido] = useState('');
-
-  useEffect( () => {
-    fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
-    .then(response => response.json())
-    .then((data) => setUser(data.value)) } , [] );
+  useEffect(() => {
+    if (!user) {
+      fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
+      .then(response => response.json())
+      .then((data) => dispatch(getData(data.value)));
+    }  }, [])
   
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(function(position) {
       setLat(position.coords.latitude);
-      setLng(position.coords.longitude); }); }, [])
+      setLng(position.coords.longitude);
+     }); }, [])
 
   const onSelectFile = (event) => {
     const selectedFiles = event.target.files;
@@ -73,7 +92,7 @@ export function ReportBox() {
   function createReport(images) {
     var latlng = new L.latLng(lat,lng);
     var res = JSON.stringify(latlng);
-
+    if (res == '{}') res = null;
     const data = {
       "author": {
           "id":user.id,
@@ -126,6 +145,13 @@ export function ReportBox() {
   else {
     componentError = null;
   }
+  let componentErrorLocation;
+  if (errorLocation) {
+    componentErrorLocation = <Error message="Activate your location"/>
+  }
+  else {
+    componentErrorLocation = null;
+  }
 
   return (
     <ReportsBox>
@@ -153,11 +179,12 @@ export function ReportBox() {
                     <File type="file" onChange={onSelectFile} accept=".gif" secundary multiple/>
                     
                     <LocationOnIcon onClick={handleOpen}/>
-                    <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+
+                    <Modal className="modalReport" open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                       <Box sx={style}>
                           <DivModal>
-                            
-                            <CloseIcon className="icon_close" onClick={handleClose}/>
+                            <MapReport lat={lat} lng={lng}/>
+                            <CloseIcon className="icon_closeMap" onClick={handleClose}/>
                           </DivModal> 
                       </Box>
                     </Modal>
@@ -183,6 +210,10 @@ export function ReportBox() {
 
         <div className="error">
             {componentError}
+        </div>
+
+        <div className="error">
+            {componentErrorLocation}
         </div>
 
     </ReportsBox>

@@ -157,7 +157,7 @@ const CommentBox = ({data, user}) => {
 
           <div className='createComment'>
               <div className="columns">
-                    <input id="commentar" required onChange={event => setDescription(event.target.value)} text="text" placeholder="Comenta este Reporte"/>
+                    <input id="commentar" required onChange={event => setDescription(event.target.value)} text="text" placeholder="Comment the report"/>
               </div>
               <Button onClick={() => createComment()} >Comment</Button>
           </div>

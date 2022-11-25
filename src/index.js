@@ -8,7 +8,7 @@ import { msalConfig } from "./loginAzure/authConfig";
 //add the following to use Redux
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import dataReducer from "./sessionUser";
+import dataReducer from "./components/redux/sessionUser";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const msalInstance = new PublicClientApplication(msalConfig);

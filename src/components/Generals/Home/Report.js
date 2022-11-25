@@ -24,7 +24,7 @@ const styleNew = {
     p: 4,
 };
 
-const Report = ({data, user}) => {
+const Report = ({data, user, footerReportOff}) => {
     //Like
     const [like, setLike] = useState(false);
     const [arrayLikes, setArrayLikes] = useState([]);    
@@ -123,7 +123,7 @@ const Report = ({data, user}) => {
                     }
                 </div>
 
-                <PostFooter>
+                {footerReportOff?null:<PostFooter>
                 
                     <Button className="reactions reactionslike">
                         {like?<FavoriteIcon onClick={()=> delLike()} fontSize="small" className="iconReaction"/>:<FavoriteBorderIcon onClick={()=>addLike()} fontSize="small" className="iconReaction"/>}
@@ -132,7 +132,7 @@ const Report = ({data, user}) => {
 
                     <Button className="reactions reactionscomment" onClick={handleOpen}>
                         <ChatBubbleOutlineIcon fontSize="small" className="iconReaction" onClick={handleOpen} />
-                        <h5>Comentarios</h5>
+                        <h5>Comments</h5>
                     </Button>
 
                     <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
@@ -144,7 +144,7 @@ const Report = ({data, user}) => {
                         </Box>
                     </Modal>
 
-                </PostFooter>
+                </PostFooter>}
             </div>
         </PostBody> 
     </Posts>

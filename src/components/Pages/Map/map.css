@@ -1,6 +1,6 @@
-.leaflet-container {
-    width: 100vw;
-    height: 94.5vh;
+.mapa {
+    width: 100vw !important;
+    height: 94.5vh !important;
 }
 
 .viewLocation {

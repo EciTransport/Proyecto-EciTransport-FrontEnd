@@ -8,9 +8,9 @@ const ProfileScreen = ({dataUser, emailUser}) => {
   const [reportsUser, setReports] = useState([]);
 
   useEffect( () => {
-    fetch('http://localhost:8080/v1/reports/reportsUserEmail/' + emailUser)
+    fetch('http://localhost:8080/v1/reports/')
     .then(response => response.json())
-    .then(data => setReports(data))} , [] );
+    .then(data => setReports(data.filter(r => r.author.email == emailUser)))} , [] );
 
   return (
     <Container>

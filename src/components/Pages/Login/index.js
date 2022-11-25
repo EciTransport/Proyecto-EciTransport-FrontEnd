@@ -8,7 +8,7 @@ import './style.css'
 import { Button } from "@mui/material";
 import { useMsal } from "@azure/msal-react";
 import { useDispatch } from "react-redux";
-import { getData } from "../../../sessionUser";
+import { getData } from "../../redux/sessionUser";
 
 const Login = () => {
   const { accounts } = useMsal();

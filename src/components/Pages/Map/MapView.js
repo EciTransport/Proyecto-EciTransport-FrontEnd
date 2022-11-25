@@ -23,13 +23,14 @@ const MapView = ({reports}) => {
           <MapContainer
               center={{ lat: lat, lng: lng }}
               zoom={12}
-              scrollWheelZoom={true}>
+              scrollWheelZoom={true}
+              className="mapa">
               <TileLayer
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               {
-                reports.map((data, index) => <ReportMap key={index} data={data} />) 
+                reports.map((data, index) => <ReportMap key={index} data={data} reports={reports}/>) 
               }
           </MapContainer>
         </Map>
