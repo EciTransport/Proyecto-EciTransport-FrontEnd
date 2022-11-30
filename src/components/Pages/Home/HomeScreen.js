@@ -20,10 +20,9 @@ const HomeScreen = ({reports, dataUser}) => {
       {/* Posts */}
       <Container>
         {
-            reports.map((data, index) => {
-            data.hourReport = new Date(data.hourReport).toLocaleString('en-us');
+            (reports)?reports.map((data, index) => {
             return <Report key={index} data={data} user={dataUser} />
-            }) 
+            }):null
         }
       </Container>
 

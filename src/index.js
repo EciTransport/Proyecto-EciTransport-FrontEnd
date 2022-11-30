@@ -9,6 +9,7 @@ import { msalConfig } from "./loginAzure/authConfig";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import dataReducer from "./components/redux/sessionUser";
+import dataReports from "./components/redux/reports";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const msalInstance = new PublicClientApplication(msalConfig);
@@ -16,6 +17,7 @@ const msalInstance = new PublicClientApplication(msalConfig);
 const store = configureStore({
     reducer: {
       theStore: dataReducer,
+      reports: dataReports,
     },
   });
 
@@ -26,8 +28,7 @@ root.render(
                 <App />
             </Provider>
         </MsalProvider>
-    </React.StrictMode>
-
+  </React.StrictMode>
 );
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

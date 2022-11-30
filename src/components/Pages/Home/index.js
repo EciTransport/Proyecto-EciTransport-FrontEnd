@@ -7,15 +7,16 @@ import { useState, useEffect } from 'react';
 import { HomeScreen } from './HomeScreen';
 import { useSelector, useDispatch } from "react-redux";
 import { getData } from "../../redux/sessionUser";
+import { getDataReports } from "../../redux/reports";
 
 const HomePage = () => {
 
   const { accounts } = useMsal();
   const name = accounts[0] && accounts[0].name;
-  const [reports, setReports] = useState([]);
   const dispatch = useDispatch();
   const data = useSelector((state) => state.theStore.value);
-  
+  const dataReports = useSelector((state) => state.reports.value);
+
   useEffect(() => {
     if (!data) {
       fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
@@ -24,9 +25,12 @@ const HomePage = () => {
     }  }, [])
 
   useEffect(() => {
-    fetch('http://localhost:8080/v1/reports/')
-    .then(response => response.json())
-    .then(data => setReports(data)) } , [] );
+    console.log("Longitud " + dataReports.length + " " + dataReports)
+    if (!dataReports) {
+      fetch('http://localhost:8080/v1/reports/')
+      .then(response => response.json())
+      .then((dataReport) => dispatch(getDataReports(dataReport)))}
+    } , [])
 
   return (
     <div className="App">
@@ -35,10 +39,10 @@ const HomePage = () => {
         <SideBar pathRoute="Home" />
 
         {/* Home */}
-        <HomeScreen reports={reports} dataUser={data}/>
+        <HomeScreen reports={dataReports} dataUser={data}/>
 
         {/* Widget */}
-        <Widget reports={reports} user={data} setReports={setReports}/>
+        <Widget reports={dataReports} user={data} />
 
         {/* Global Styles */}
         <GlobalStyle />

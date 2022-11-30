@@ -108,7 +108,7 @@ const Report = ({data, user, footerReportOff}) => {
                             </span>  
                         </h3>
                     </div>
-                    <span>{data.hourReport}</span>
+                    <span>{new Date(data.hourReport).toLocaleString('en-us')}</span>
                     <PostDescription>
                         <p>{data.description}</p>
                         <p>{data.ubicacion}</p>

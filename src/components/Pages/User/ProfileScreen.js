@@ -1,17 +1,22 @@
 import {Container, ContainerReport} from './styles';
-import React, {useState, useEffect} from 'react';
+import React, { useEffect} from 'react';
 import './ProfileScreen.css';
 import { ReportUser } from './ReportUser';
+import { useSelector, useDispatch } from "react-redux";
+import { getDataReports } from "../../redux/reports";
 
 const ProfileScreen = ({dataUser, emailUser}) => {
 
-  const [reportsUser, setReports] = useState([]);
+  const dispatch = useDispatch();
+  const dataReports = useSelector((state) => state.reports.value);
 
-  useEffect( () => {
-    fetch('http://localhost:8080/v1/reports/')
-    .then(response => response.json())
-    .then(data => setReports(data.filter(r => r.author.email == emailUser)))} , [] );
-
+  useEffect(() => {
+    if (!dataReports) {
+      fetch('http://localhost:8080/v1/reports/')
+      .then(response => response.json())
+      .then((dataReport) => dispatch(getDataReports(dataReport)))}
+    } , [])
+    
   return (
     <Container>
         <div className="profile">
@@ -19,7 +24,7 @@ const ProfileScreen = ({dataUser, emailUser}) => {
                 <div className="profileRightTop">
                     <div className="info">
                         <h1>User Profile</h1>
-                        <span className="tweets-count" >{reportsUser.length} Reports</span>
+                        <span className="tweets-count" >{(dataReports)?dataReports.filter(r => r.author.email == emailUser).length:null} Reports</span>
                     </div>
                     <div className="profileCover">
                         <img
@@ -42,11 +47,9 @@ const ProfileScreen = ({dataUser, emailUser}) => {
                     <ContainerReport>
                         <h2 className="report">Report History</h2>
                         {
-                            reportsUser.map((data, index) => {
-                                data.hourReport = new Date(data.hourReport).toLocaleString('en-us');
-                                return <ReportUser key={index} data={data} dataUser={dataUser} reportsUser={reportsUser}
-                                setReports={setReports}/>
-                                }) 
+                            (dataReports)?dataReports.filter(r => r.author.email == emailUser).map((data, index) => {
+                                return <ReportUser key={index} data={data} dataUser={dataUser}/>
+                                }):null
                         }
                     </ContainerReport>
                 </div>

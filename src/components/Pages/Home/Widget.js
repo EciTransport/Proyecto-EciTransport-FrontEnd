@@ -3,7 +3,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import {ContainerWidget, Header, DivIcon, DivContent} from './styles';
 import { Report } from '../../Generals/Home/Report';
 
-const Widget = ({reports, user, setReports}) => {
+const Widget = ({reports, user}) => {
 
   const [message, setMessage] = useState(null);
 
@@ -22,14 +22,7 @@ const Widget = ({reports, user, setReports}) => {
         </Header>
 
         <DivContent>
-            {
-                reports?.filter(r => r.description.toLowerCase().includes(message) || r.author.nombre.toLowerCase().includes(message)
-                || r.hourReport.toLowerCase().includes(message))
-                ?.map((data, index) => {
-                data.hourReport = new Date(data.hourReport).toLocaleString('en-us');
-                return <Report key={index} data={data} user={user} footerReportOff={true}/>
-                }) 
-            }
+
         </DivContent>
     </ContainerWidget>
   )

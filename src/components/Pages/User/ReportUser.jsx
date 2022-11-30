@@ -5,8 +5,13 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {Report}  from '../../Generals/Home/Report';
-const ReportUser = ({data, dataUser, reportsUser, setReports}) => {
+import { useSelector, useDispatch } from "react-redux";
+import { getDataReports } from "../../redux/reports";
 
+const ReportUser = ({data, dataUser}) => {
+
+    const dispatch = useDispatch();
+    const dataReports = useSelector((state) => state.reports.value);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
   
@@ -20,8 +25,8 @@ const ReportUser = ({data, dataUser, reportsUser, setReports}) => {
   
     const deleteElement = (event) => {
       fetch('http://localhost:8080/v1/reports/delete/' + data.idString, {method: 'DELETE'});
-      const newListReports = reportsUser.filter(n => n.idString != data.idString);
-      setReports(newListReports);
+      const newListReports = dataReports.filter(n => n.idString != data.idString);
+      dispatch(getDataReports(newListReports));
       handleClose(event);
     }
 

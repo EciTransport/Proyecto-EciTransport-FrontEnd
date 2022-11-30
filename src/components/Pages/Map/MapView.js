@@ -30,7 +30,7 @@ const MapView = ({reports}) => {
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               {
-                reports.map((data, index) => <ReportMap key={index} data={data} reports={reports}/>) 
+                (reports)?reports.map((data, index) => <ReportMap key={index} data={data} reports={reports}/>):null
               }
           </MapContainer>
         </Map>

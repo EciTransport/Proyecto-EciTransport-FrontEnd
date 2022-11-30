@@ -18,12 +18,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import { MapReport } from './MapReport';
 import { useSelector, useDispatch } from "react-redux";
 import { getData } from "../../redux/sessionUser";
-
+import { getDataReports, setDataReports } from "../../redux/reports";
 export function ReportBox() {
 
   const { accounts } = useMsal();
   const name = accounts[0] && accounts[0].name;
-
   const [selectedFilesArray, setSelectedFilesArray] = useState([]);
   const [error, setError] = useState(false);
   const [errorLocation, setErrorLocation] = useState(false);
@@ -33,6 +32,8 @@ export function ReportBox() {
   //User
   const dispatch = useDispatch();
   const user = useSelector((state) => state.theStore.value);
+  //Reports
+  const dataReports = useSelector((state) => state.reports.value);
   //Create Report
   const [description, setDescription] = useState('');
   const [ubicacion, setUbicacion] = useState('');
@@ -71,6 +72,13 @@ export function ReportBox() {
       .then(response => response.json())
       .then((data) => dispatch(getData(data.value)));
     }  }, [])
+
+  useEffect(() => {
+    if (!dataReports) {
+      fetch('http://localhost:8080/v1/reports/')
+      .then(response => response.json())
+      .then((dataReport) => dispatch(getDataReports(dataReport)))}
+    } , [])
   
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -118,8 +126,8 @@ export function ReportBox() {
       }
     })
     .catch(error => console.error('Error:', error))
-    .then(response => console.log('Success:', response));
-    window.location.reload();
+    .then((dataReport) => dispatch(setDataReports(dataReport)));
+    //dispatch(setDataReports(data));
   }
 
   function subirImagenes() {

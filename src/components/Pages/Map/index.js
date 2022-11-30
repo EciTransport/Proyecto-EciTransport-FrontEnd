@@ -3,16 +3,21 @@ import GlobalStyle from '../../../styles/GlobalStyle';
 import {SideBar} from '../../Generals/SideBar';
 import { useState, useEffect } from 'react';
 import { MapView } from './MapView';
+import { useSelector, useDispatch } from "react-redux";
+import { getDataReports } from "../../redux/reports";
+
 const MapPage = () => {
 
-  const [reports, setReports] = useState([]);
+  const dispatch = useDispatch();
+  const dataReports = useSelector((state) => state.reports.value);
 
-  useEffect(
-    () => {
+  useEffect(() => {
+    if (!dataReports) {
       fetch('http://localhost:8080/v1/reports/')
       .then(response => response.json())
-      .then(data => setReports(data)) } , [] );
-  
+      .then((dataReport) => dispatch(getDataReports(dataReport)))}
+    } , [])
+
   return (
     <div className="App">
       
@@ -20,7 +25,7 @@ const MapPage = () => {
         <SideBar pathRoute="Map"/>
 
         {/* Map */}
-        <MapView reports={reports}/>
+        <MapView reports={dataReports}/>
 
         {/* Global Styles */}
         <GlobalStyle />

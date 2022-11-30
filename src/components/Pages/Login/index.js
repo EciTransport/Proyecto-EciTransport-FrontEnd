@@ -9,6 +9,7 @@ import { Button } from "@mui/material";
 import { useMsal } from "@azure/msal-react";
 import { useDispatch } from "react-redux";
 import { getData } from "../../redux/sessionUser";
+import { getDataReports } from "../../redux/reports";
 
 const Login = () => {
   const { accounts } = useMsal();
@@ -21,6 +22,10 @@ const Login = () => {
     fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
     .then(response => response.json())
     .then((data) => dispatch(getData(data.value)))
+
+    fetch('http://localhost:8080/v1/reports/')
+    .then(response => response.json())
+    .then((data) => dispatch(getDataReports(data)))
   }
 
   return (
