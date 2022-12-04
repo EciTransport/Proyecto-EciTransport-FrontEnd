@@ -16,7 +16,7 @@ const NotificationPage = ({stomp, setStomp}) => {
 
   useEffect(() => {
     if (!dataNotifications) {
-      fetch('http://localhost:8080/v1/notification/All')
+      fetch('https://demo-1670185917097.azurewebsites.net/v1/notification/All')
       .then(response => response.json())
       .then((notifications) => dispatch(getNotifications(notifications)));
     }  }, [])

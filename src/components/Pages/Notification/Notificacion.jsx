@@ -22,7 +22,7 @@ const Notificacion = ({data, notifications, stomp}) => {
   };
 
   const deleteElement = (event) => {
-    fetch('http://localhost:8080/v1/notification/delete/' + data.idString , {method: 'DELETE'});
+    fetch('https://demo-1670185917097.azurewebsites.net/v1/notification/delete/' + data.idString , {method: 'DELETE'});
     const newListNotifications = notifications.filter(n => n.idString != data.idString);
     stomp.send('/app/delNotification', {}, JSON.stringify(newListNotifications));
     handleClose(event);

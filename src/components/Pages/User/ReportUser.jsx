@@ -23,7 +23,7 @@ const ReportUser = ({data, dataUser, stomp}) => {
     };
 
     const deleteElement = (event) => {
-      fetch('http://localhost:8080/v1/reports/delete/' + data.idString, {method: 'DELETE'});
+      fetch('https://demo-1670185917097.azurewebsites.net/v1/reports/delete/' + data.idString, {method: 'DELETE'});
       const newListReports = dataReports.filter(n => n.idString != data.idString);
       stomp.send('/app/delReport', {}, JSON.stringify(newListReports));
       handleClose(event);
@@ -31,7 +31,7 @@ const ReportUser = ({data, dataUser, stomp}) => {
 
   return (
     <div className="returnReport">
-        <Report data={data} user={dataUser}/>
+        <Report data={data} user={dataUser} stomp={stomp}/>
         <div className="iconMoreN">
           <IconButton aria-label="more" id="long-button" 
           aria-controls={open ? 'long-menu' : undefined} 

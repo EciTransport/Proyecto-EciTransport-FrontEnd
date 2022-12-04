@@ -50,7 +50,7 @@ const CommentBox = ({data, user, stomp}) => {
 
   function doComment(data) {
     return new Promise((resolve, reject) => {
-      fetch('http://localhost:8080/v1/comments/' , {
+      fetch('https://demo-1670185917097.azurewebsites.net/v1/comments/' , {
         method: 'POST',
         body: JSON.stringify(data),
         headers:{
@@ -107,7 +107,7 @@ const CommentBox = ({data, user, stomp}) => {
 
   function doNotification(data) {
     return new Promise((resolve, reject) => {
-      fetch('http://localhost:8080/v1/notification', {
+      fetch('https://demo-1670185917097.azurewebsites.net/v1/notification', {
         method: 'POST',
         body: JSON.stringify(data),
         headers:{
@@ -128,7 +128,7 @@ const CommentBox = ({data, user, stomp}) => {
   }
 
   function deleteElement(id) {
-    fetch('http://localhost:8080/v1/comments/delete/' + id, {method: 'DELETE'});
+    fetch('https://demo-1670185917097.azurewebsites.net/v1/comments/delete/' + id, {method: 'DELETE'});
     const newList = dataComments.filter(c => c.idString != id);
     stomp.send('/app/delComment', {}, JSON.stringify(newList));
   }
@@ -173,7 +173,7 @@ const CommentBox = ({data, user, stomp}) => {
                 .map((comment, index) => {
                   return <div className="returnComment" key={index}>
                     <CommentCard key={comment.hour} data={comment}/>
-                    <DeleteIcon className="moreIconComment" onClick={() => deleteElement(comment.idString)}/>
+                    {(comment.user.id == user.id)?<DeleteIcon className="moreIconComment" onClick={() => deleteElement(comment.idString)}/>:null}
                   </div>
                 }):null
             }

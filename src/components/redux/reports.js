@@ -13,15 +13,6 @@ export const reports = createSlice({
     setDataReports: (state, action) => {
       state.value.push(action.payload);
     },
-    updateDataReports(state, action) {
-      const {idReport, newComment} = action.payload;
-      const report = state.find(report => report.idString == idReport);
-      if (report) {
-        report.comments.push(newComment);
-      }else {
-        console.log("No se encontro el Reporte");
-      }
-    }
   },
 });
 

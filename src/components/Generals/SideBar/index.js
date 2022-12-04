@@ -64,7 +64,7 @@ const SideBar = ({pathRoute, stomp, setStomp}) => {
   useEffect(() => {
     if (!data) {
       console.log("nullo");
-      fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
+      fetch('https://demo-1670185917097.azurewebsites.net/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
       .then(response => response.json())
       .then((data) => dispatch(getData(data.value)));
     }
@@ -72,7 +72,7 @@ const SideBar = ({pathRoute, stomp, setStomp}) => {
 
   useEffect(() => {
     if (!dataNotifications) {
-      fetch('http://localhost:8080/v1/notification/All')
+      fetch('https://demo-1670185917097.azurewebsites.net/v1/notification/All')
       .then(response => response.json())
       .then((notifications) => dispatch(getNotifications(notifications)));
     }  
@@ -80,7 +80,7 @@ const SideBar = ({pathRoute, stomp, setStomp}) => {
 
   useEffect(() => {
     if (!dataComments) {
-      fetch('http://localhost:8080/v1/comments/All')
+      fetch('https://demo-1670185917097.azurewebsites.net/v1/comments/All')
       .then(response => response.json())
       .then((comments) => dispatch(getCommens(comments)));
     }
@@ -88,7 +88,7 @@ const SideBar = ({pathRoute, stomp, setStomp}) => {
 
   useEffect(() => {
     if (!dataReports) {
-      fetch('http://localhost:8080/v1/reports/')
+      fetch('https://demo-1670185917097.azurewebsites.net/v1/reports/')
       .then(response => response.json())
       .then((dataReport) => dispatch(getDataReports(dataReport)))
     }
@@ -115,7 +115,7 @@ const SideBar = ({pathRoute, stomp, setStomp}) => {
   function stompStart() {
     var stompClient = null;
     console.info("Connecting to WS...");
-    var socket = new SockJS('http://localhost:8080/stompendpoint');
+    var socket = new SockJS('https://demo-1670185917097.azurewebsites.net/stompendpoint');
     stompClient = Stomp.over(socket);
 
     stompClient.connect({}, function (frame) {
@@ -169,6 +169,12 @@ const SideBar = ({pathRoute, stomp, setStomp}) => {
       stompClient.subscribe('/topic/delReport', (eventbody) => {
         let reports = JSON.parse(eventbody.body);
         console.log("New Array", reports)
+        dispatch(getDataReports(reports));
+      });
+
+      stompClient.subscribe('/topic/updateReport', (eventbody) => {
+        let reports = JSON.parse(eventbody.body);
+        console.log("Reports Actualizados", reports)
         dispatch(getDataReports(reports));
       });
 

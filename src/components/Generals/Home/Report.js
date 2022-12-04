@@ -27,7 +27,6 @@ const styleNew = {
 const Report = ({data, user, footerReportOff, stomp, setStomp}) => {
     //Like
     const [like, setLike] = useState(false);
-    const [arrayLikes, setArrayLikes] = useState([]);    
 
     //Coment
     const [open, setOpen] = useState(false);
@@ -35,60 +34,122 @@ const Report = ({data, user, footerReportOff, stomp, setStomp}) => {
     const handleClose = () => setOpen(false);
 
     useEffect(() => {
-        fetch('http://localhost:8080/v1/reports/listLike/' + data.idString)
-        .then(response => response.json())
-        .then(data => {setArrayLikes(data); console.log("Data " + data + " User " + user.id); if (data.indexOf(user.id) == 0) setLike(true);  })  }, [])
-        
-    function delLike() {
-        setLike(false);
-        if (arrayLikes.indexOf(user.id) == 0) {
-            fetch('http://localhost:8080/v1/reports/likeDel/' + data.idString + '/' + user.id, {method: 'PUT'})
-            .then(response => response.json())
-            .then(value => setArrayLikes(value));
+        if (data.idUserLikes.indexOf(user.id) == 0) {
+            setLike(true);
         }
+        console.log("Data " + data.idUserLikes + " User " + user.id)
+    }, [])
+
+    function delLike() {
+        setLike(false); 
+        doDelLike()
+        .then((report) => {
+            console.log("Reporte Actualizado", report);
+            stomp.send('/app/updateReport', {}); 
+        })
+        .catch((error) => {
+            console.log("Error encontrado:", error);
+        });
+    }
+
+    function doDelLike() {
+        return new Promise((resolve, reject) => {
+            fetch('https://demo-1670185917097.azurewebsites.net/v1/reports/likeDel/' + data.idString + '/' + user.id, {method: 'PUT'})
+            .then((response) => {
+              if (response.ok) {
+                return response.json();
+              }
+              reject(
+                "No hemos podido recuperar ese json. El código de respuesta del servidor es: " + response.status
+              );
+            })
+            .then((json) => resolve(json))
+            .catch((err) => reject(err));
+        });
     }
 
     function addLike() {
         setLike(true);
-        if (arrayLikes.indexOf(user.id) == -1) {
-            if (data.idUserLikes.indexOf(user.id))
-            fetch('http://localhost:8080/v1/reports/likeAdd/' + data.idString + '/' + user.id, {method: 'PUT'})
-            .then(response => response.json())
-            .then(value => setArrayLikes(value));
+        doAddLike()
+        .then((report) => {
+            console.log("Reporte Actualizado", report);
+            stomp.send('/app/updateReport', {});
             if (data.author.id != user.id) {
                 createNotification();
             }
-        }
+        })
+        .catch((error) => {
+            console.log("Error encontrado:", error);
+        });
+    }
+
+    function doAddLike() {
+        return new Promise((resolve, reject) => {
+        fetch('https://demo-1670185917097.azurewebsites.net/v1/reports/likeAdd/' + data.idString + '/' + user.id, {method: 'PUT'})
+            .then((response) => {
+              if (response.ok) {
+                return response.json();
+              }
+              reject(
+                "No hemos podido recuperar ese json. El código de respuesta del servidor es: " + response.status
+              );
+            })
+            .then((json) => resolve(json))
+            .catch((err) => reject(err));
+        });
     }
 
     function createNotification() {
         const dataNotification =
-        {
-        "userReceiver": {
-            "id": data.author.id,
-            "nombre": data.author.nombre,
-            "email": data.author.email,
-            "imageProfile": data.author.imageProfile
-        },
-        "userCreator": {
-            "id": user.id,
-            "nombre": user.nombre,
-            "email": user.email,
-            "imageProfile": user.imageProfile
-        },
-        "hour": new Date(),
-        "description": user.nombre + ' Reacciono a tu Reporte.'
-        }
-    
-        fetch('http://localhost:8080/v1/notification', {
-          method: 'POST',
-          body: JSON.stringify(dataNotification),
-          headers:{
-            'Content-Type': 'application/json'
+          {
+            "userReceiver": {
+                "id": data.author.id,
+                "nombre": data.author.nombre,
+                "email": data.author.email,
+                "imageProfile": data.author.imageProfile
+            },
+            "userCreator": {
+                "id": user.id,
+                "nombre": user.nombre,
+                "email": user.email,
+                "imageProfile": user.imageProfile
+            },
+            "hour": new Date(),
+            "description": user.nombre + ' Reacciono a tu Reporte.'
           }
+    
+        doNotification(dataNotification)
+        .then((notification) => {
+          console.log("La notificacion es:", notification);
+          stomp.send('/app/addNotification', {}, JSON.stringify(notification))
         })
-        .catch(error => console.error('Error:', error));
-      }
+        .catch((error) => {
+          console.log("Error encontrado:", error);
+        });
+    }
+
+
+    function doNotification(data) {
+        return new Promise((resolve, reject) => {
+          fetch('https://demo-1670185917097.azurewebsites.net/v1/notification', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers:{
+              'Content-Type': 'application/json'
+            }
+          })
+          .then((response) => {
+              if (response.ok) {
+                return response.json();
+              }
+              reject(
+                "No hemos podido recuperar ese json. El código de respuesta del servidor es: " + response.status
+              );
+            })
+          .then((json) => resolve(json))
+          .catch((err) => reject(err));
+        });
+    }
 
   return (
     <Posts>
@@ -127,7 +188,7 @@ const Report = ({data, user, footerReportOff, stomp, setStomp}) => {
                 
                     <Button className="reactions reactionslike">
                         {like?<FavoriteIcon onClick={()=> delLike()} fontSize="small" className="iconReaction"/>:<FavoriteBorderIcon onClick={()=>addLike()} fontSize="small" className="iconReaction"/>}
-                        <h5> {arrayLikes.length} Likes</h5>
+                        <h5> {data.idUserLikes.length} Likes</h5>
                     </Button>
 
                     <Button className="reactions reactionscomment" onClick={handleOpen}>

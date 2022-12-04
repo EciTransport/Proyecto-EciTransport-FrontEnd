@@ -119,7 +119,7 @@ export function ReportBox({modal, closeModal, stomp, setStomp}) {
 
   function doPost(data) {
     return new Promise((resolve, reject) => {
-      fetch('http://localhost:8080/v1/reports/', {
+      fetch('https://demo-1670185917097.azurewebsites.net/v1/reports/', {
       method: 'POST',
       body: JSON.stringify(data),
       headers:{
