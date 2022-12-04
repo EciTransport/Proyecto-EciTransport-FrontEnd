@@ -1,18 +1,34 @@
-import React from 'react'
+import {React, useEffect} from 'react'
 import GlobalStyle from '../../../styles/GlobalStyle';
-import {FuncionalityInConstruction} from '../../Generals/FuncionalityInConstruction';
 import {SideBar} from '../../Generals/SideBar';
-import { routes } from '../../Utils/routes';
+import { useMsal } from "@azure/msal-react";
+import { LoadNotification } from './LoadNotification';
+import { useSelector, useDispatch } from "react-redux";
+import { getNotifications } from "../../redux/notifications";
 
-const NotificationPage = () => {
+const NotificationPage = ({stomp, setStomp}) => {
+
+  const { accounts } = useMsal();
+  const name = accounts[0] && accounts[0].name;
+  const emailUser = name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com';
+  const dataNotifications = useSelector((state) => state.notifications.value);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!dataNotifications) {
+      fetch('https://demo-1670185917097.azurewebsites.net/v1/notification/All')
+      .then(response => response.json())
+      .then((notifications) => dispatch(getNotifications(notifications)));
+    }  }, [])
+  
   return (
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute={routes.notification.path}/>
+        <SideBar pathRoute="Notifications"  stomp={stomp} setStomp={setStomp}/>
 
-        {/* Home */}
-        <FuncionalityInConstruction title="Notifications"/>
+        {/* Notifications */}
+        <LoadNotification emailUser={emailUser} notifications={dataNotifications} stomp={stomp}/>
 
         {/* Global Styles */}
         <GlobalStyle />

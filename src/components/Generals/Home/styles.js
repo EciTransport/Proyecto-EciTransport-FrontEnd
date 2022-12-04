@@ -31,6 +31,100 @@ h2 {
 export const ReportsBox = styled.div`
 border-bottom: 1px solid #ddd;
 padding: 5px 15px;
+
+.sectionComment {
+    margin-top:5px;
+
+    .error {
+        margin-top: 5px;
+    }
+
+    .createComment {
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        >.columns{
+            display:flex;
+            flex-direction: column;
+            margin-left: 60px;
+            margin-top: -10px;
+            width: 100%;
+            padding-right: 16px;
+            >input{
+                margin-left: 20px;
+                margin-top: 9px;
+                width: 90%;
+                border: none;
+                outline 0;
+                font-size: 18px;
+                line-height: 25px;
+                color: #0f1419;
+            }
+        }
+        >Button {
+            background-color: var(--Icon-App-Color) !important;
+            border: none !important;
+            color: white !important;
+            font-weight: 900 !important;
+            width: 100px !important;
+            height: 40px !important;
+            border-radius: 30px !important;
+            text-transform: inherit !important;
+        }
+    }
+}
+`
+
+export const ReportsBoxComment = styled.div`
+padding: 1px 15px;
+margin-left: 30px;
+`
+
+export const CommentReport = styled.div`
+display: flex;
+width: 100%;
+>div span {
+    font-weight: 600;
+    font-size: 15px;
+    color: #5b7083;
+}
+.post_icon{
+    font-size: 14px !important;
+    color: var(--Icon-App-Color) !important;
+}
+h3 {
+    display:grid;
+    padding: 0;
+    margin-left: 15px;
+}
+.header{
+    display:flex;
+    align-items: center;
+}
+`
+
+export const LoadComment = styled.div`
+width: 100%;
+max-height: 200px;
+border-bottom: 1px solid #ddd;
+overflow-y: scroll;
+box-sizing: border-box;
+padding: 0 30px 10px 20px;
+&::-webkit-scrollbar{
+    display:none;
+}
+-ms-overflow-style: none;
+scrollbar-width: none;
+
+.moreIconComment {
+    color: var(--Icon-App-Color) !important;
+    font-size: 1.2rem ;
+}
+.returnComment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 `
 
 export const Div = styled.div`
@@ -64,12 +158,50 @@ width: 100%;
     color: var(--Icon-App-Color) !important;
 }
 h3 {
+    display:grid;
     padding: 0;
     margin-left: 15px;
 }
 .header{
     display:flex;
     align-items: center;
+}
+`
+
+
+export const DivComment = styled.div`
+display: flex;
+width: 100%;
+font-size: 12px;
+>div span {
+    font-weight: 600;
+    font-size: 15px;
+    color: #5b7083;
+}
+.post_icon{
+    font-size: 14px !important;
+    color: var(--Icon-App-Color) !important;
+}
+h3 {
+    display:grid;
+    padding: 0;
+    margin-left: 15px;
+}
+.header{
+    display:flex;
+    align-items: center;
+}
+`
+
+export const PostDescriptionComment = styled.div`
+margin-left: 82px;
+>p{
+    margin: 0;
+    padding: 0;
+    color: #0f1419;
+    font-size: 16px;
+    line-height: 16.6975px;
+    margin-bottom: 5px;
 }
 `
 
@@ -105,32 +237,72 @@ align-items: center;
     border-radius: 5px;
     cursor: pointer;
 }
-}
 `
-export const DivImages = styled.div`
-display: flex;
-width: 100%; 
-align-items: center;
-overflow: auto;
-margin-top: 5px;
-.image {
-    display: flex;
-    justify-content: center;
+export const DivImagesOri = styled.div`
+width: 90%;
+max-height: 105px;
+overflow-y: scroll;
+box-size: border-box;
+&::-webkit-scrollbar{
+    display:none;
 }
-.botondelete {
-    color: var(--Icon-App-Color) !important;
+-ms-overflow-style: none;
+scrollbar-width: none;
+scroll-behavior: smooth;
+.images {
+    display: grid;
+    margin-top: 5px;
+    grid-template-columns: 150px 150px 150px;
+    gap: 5px;
+}
+.componenteImage {
+    display: flex;
+    .botondelete {
+        color: var(--Icon-App-Color) !important;
+    }
+}
+.image {
+    max-width: 200px;
+    max-height: 100px;
 }
 `
 
+export const DivCarrusel = styled.div`
+.fPimMH {
+    margin-top: 2px;
+} 
+.jjfwLM {
+    display: flex;
+    max-width: 120px;
+    max-height: 120px;
+    min-height: 120px;
+    min-width: 120px;
+    padding-top: 4px;
+    padding-bottom: 2px;
+    .MuiSvgIcon-root {
+        color: var(--Icon-App-Color) !important;
+    }
+}
+`
 export const Form = styled.form`
 display: flex;
 flex-direction: column;
+padding-bottom: 2px;
+border-bottom: 1px solid #ddd;
 `
 
 export const User = styled.img`
 border-radius: 50px;
 width: 50px;
 height: 50px;
+object-fit: fill;
+margin-top: 5px;
+`
+
+export const UserComment = styled.img`
+border-radius: 50px;
+width: 40px;
+height: 40px;
 object-fit: fill;
 margin-top: 5px;
 `
@@ -157,6 +329,16 @@ align-items: flex-start;
     margin-top: 5px;
 }
 `
+export const DivModal = styled.div`
+display: flex;
+flex-direction: column;
+flex-wrap: nowrap;
+.icon_close {
+    margin-left: 80%;
+    position: absolute;
+    color: var(--Icon-App-Color) !important;
+}
+`
 
 export const PostBody = styled.div`
 padding-left: 10px;
@@ -179,6 +361,9 @@ h3 {
     display:flex;
     align-items: center;
 }
+.imagenes {
+    margin-top: 2px;
+}
 `
 
 export const menuList = styled.div`
@@ -194,7 +379,6 @@ overflow: hidden;
 `
 
 export const PostDescription = styled.div`
-margin-botton: 10px;
 >p{
     margin: 0;
     padding: 0;
@@ -209,27 +393,60 @@ border-radius: 20px;
 min-width: 100%;
 width: 100px;
 min-height: 300px;
+max-height: 300px;
 `
 
 export const PostFooter = styled.div`
 display: flex;
 justify-content: space-around;
 margin-top: 10px;
-color: #5b7083;
-transition: all 100ms ease-in;
->.MuiSvgIcon-root:hover:nth-child(1){
-    fill: #e02456;
-    cursor: pointer;
-}
->.MuiSvgIcon-root:hover:nth-child(3){
-    fill: #1da1f2;
-    cursor: pointer;
-}
+
 .reactions {
     display:flex;
     align-items: center;
+    color: #5b7083;
+    text-transform: capitalize;
+    font-size: 15px;
+}
+
+.reactionscomment:hover {
+    background: white;
+    cursor: pointer;
+    color:  #e02456;
+    .iconReaction{
+        fill: #e02456;
+    }
+}
+.reactionslike:hover {
+    cursor: pointer;
+    background: white;
+    color: #1da1f2;
+    .iconReaction{
+        fill: #1da1f2;
+    }
 }
 .iconReaction{
     padding-right: 20px;
 }
 `
+
+//MAP
+export const ContainerMap = styled.div`
+display:flex;
+flex-direction: column;
+width: 100%;
+height: 100% !important;
+border: none;
+`
+
+export const HeaderMap = styled.header`
+h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--Icon-App-Color);
+    height: 40px;
+    padding: 0;
+}
+`
+

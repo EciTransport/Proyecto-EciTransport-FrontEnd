@@ -1,18 +1,31 @@
 import React from 'react'
 import GlobalStyle from '../../../styles/GlobalStyle';
-import {FuncionalityInConstruction} from '../../Generals/FuncionalityInConstruction';
 import {SideBar} from '../../Generals/SideBar';
-import { routes } from '../../Utils/routes';
+import { useState, useEffect } from 'react';
+import { MapView } from './MapView';
+import { useSelector, useDispatch } from "react-redux";
+import { getDataReports } from "../../redux/reports";
 
-const MapPage = () => {
+const MapPage = ({stomp, setStomp}) => {
+
+  const dispatch = useDispatch();
+  const dataReports = useSelector((state) => state.reports.value);
+
+  useEffect(() => {
+    if (!dataReports) {
+      fetch('https://demo-1670185917097.azurewebsites.net/v1/reports/')
+      .then(response => response.json())
+      .then((dataReport) => dispatch(getDataReports(dataReport)))}
+    } , [])
+
   return (
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute={routes.map.path}/>
+        <SideBar pathRoute="Map" stomp={stomp} setStomp={setStomp} />
 
-        {/* Home */}
-        <FuncionalityInConstruction title="Map"/>
+        {/* Map */}
+        <MapView reports={dataReports}/>
 
         {/* Global Styles */}
         <GlobalStyle />

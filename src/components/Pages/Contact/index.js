@@ -1,18 +1,18 @@
 import React from 'react'
 import GlobalStyle from '../../../styles/GlobalStyle';
-import {FuncionalityInConstruction} from '../../Generals/FuncionalityInConstruction';
 import {SideBar} from '../../Generals/SideBar';
-import { routes } from '../../Utils/routes';
+import { LoadContacts } from './LoadContacts';
 
-const ContactPage = () => {
+const ContactPage = ({stomp, setStomp}) => {
+
   return (
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute={routes.contacts.path}/>
+        <SideBar pathRoute="Contacts" stomp={stomp} setStomp={setStomp}/>
 
         {/* Home */}
-        <FuncionalityInConstruction title="Contacts"/>
+        <LoadContacts title="Contacts" />
 
         {/* Global Styles */}
         <GlobalStyle />

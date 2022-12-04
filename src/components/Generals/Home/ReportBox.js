@@ -1,94 +1,141 @@
 import React from 'react'
-import {ReportsBox, Div, Form, User, DivBox, File, DivFooter, DivImages} from './styles';
+import {ReportsBox, Div, Form, User, DivBox, File, DivFooter, DivCarrusel, DivModal} from './styles';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import GifBoxIcon from '@mui/icons-material/GifBox';
 import { Button } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import {usuario} from '../../Utils/user'
 import {useState, useEffect} from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {uploadFile} from '../../../firebase/config';
-import {v4} from 'uuid';
+import { useMsal } from "@azure/msal-react";
+import Carousel from 'better-react-carousel';
+import { Error } from './Error';
+import * as L from 'leaflet';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import CloseIcon from '@mui/icons-material/Close';
+import { MapReport } from './MapReport';
+import { useSelector, useDispatch } from "react-redux";
+import { getData } from "../../redux/sessionUser";
+import { getDataReports, setDataReports } from "../../redux/reports";
+import SockJS from 'sockjs-client';
+import {Stomp} from "@stomp/stompjs";
 
-export function ReportBox() {
-
-  const [user, setUser] = useState([]);
-  const [selectedImages, setSelectedImages] = useState([]);
+export function ReportBox({modal, closeModal, stomp, setStomp}) {
+  const { accounts } = useMsal();
+  const name = accounts[0] && accounts[0].name;
   const [selectedFilesArray, setSelectedFilesArray] = useState([]);
-  const [selectedImagesDef, setSelectedImagesDef] = useState([]);
+  const [error, setError] = useState(false);
+  const [errorLocation, setErrorLocation] = useState(false);
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
+  const [open, setOpen] = React.useState(false);
+  //User
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.theStore.value);
+  //Reports
+  const dataReports = useSelector((state) => state.reports.value);
   //Create Report
   const [description, setDescription] = useState('');
   const [ubicacion, setUbicacion] = useState('');
   const [sentido, setSentido] = useState('');
-  const [reports, setReports] = useState([]);
-
-  useEffect( () => {
-    fetch('http://localhost:8080/v1/user/id/' + usuario)
-    .then(response => response.json())
-    .then((data) => setUser(data.value)) } , [] );
-
-  useEffect( () => {
-    fetch('http://localhost:8080/v1/reports/reportsUser/' + usuario)
-    .then(response => response.json())
-    .then(data => setReports(data))} , [] );
+  //Modal
+  const handleClose = () => setOpen(false);
+  const handleOpen = () => {
+    if (lat == null || lng == null) {
+      setErrorLocation(true);
+    }
+    else {
+      setErrorLocation(false);
+      setOpen(true);
+    }
+  }
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 550,
+    height: 550,
+    bgcolor: 'background.paper',
+    border: '2px solid var(--Icon-App-Color)',
+    boxShadow: 24,
+    background: 'white',
+    'border-radius': '0',
+    p: 0,
+  };
   
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      setLat(position.coords.latitude);
+      setLng(position.coords.longitude);
+     }); }, [])
+
   const onSelectFile = (event) => {
     const selectedFiles = event.target.files;
-
     const selectedFilesArray = Array.from(selectedFiles);
-
-    setSelectedFilesArray(selectedFilesArray);
-
-    const imagesArray = selectedFilesArray.map((file) => {
-      return URL.createObjectURL(file);
-    });
-
-    const imagesArray2 = selectedFilesArray.map((file) => {
-      return (file);
-    });
-
-    setSelectedImages((previousImages) => previousImages.concat(imagesArray));
-
-    setSelectedImagesDef((previousImages) => previousImages.concat(imagesArray2));
-
+    setSelectedFilesArray((previusFiles) => previusFiles.concat(selectedFilesArray));
     event.target.value = "";
   };
 
-  function deleteHandler(image) {
-    setSelectedImages(selectedImages.filter((e) => e !== image));
-    setSelectedImagesDef(selectedImagesDef.filter((e) => URL.createObjectURL(e) !== image));
-    URL.revokeObjectURL(image);
+  function deleteFile(file) {
+    setSelectedFilesArray(selectedFilesArray.filter((f) => f !== file));
   }
 
   function createReport(images) {
+    var latlng = new L.latLng(lat,lng);
+    var res = JSON.stringify(latlng);
+    if (res == '{}') res = null;
     const data = {
-      "id": reports.length + 1,
       "author": {
           "id":user.id,
           "nombre": user.nombre,
           "email": user.email,
-          "password": user.password,
           "imageProfile": user.imageProfile
       },
       "description":description,
-      "hourReport":"2011-10-02",
+      "hourReport":new Date(),
       "sentido":sentido,
       "ubicacion": ubicacion,
-      "numberlikes":2,
-      "imagesReport": images.map(url => {
-        return {"urlImage": url}
-      })
+      "latlng": res,
+      "imagesReport": images,
+      "comments": [],
+      "idUserLikes": []
     };
-    fetch('http://localhost:8080/v1/reports/', {
+
+    doPost(data)
+    .then((report) => {
+      console.log("El reporte es:", report);
+      const input = document.getElementById("descriptionReport");
+      input.value = "";
+      if (modal) closeModal();
+      stomp.send('/app/addReport', {}, JSON.stringify(report)); 
+    })
+    .catch((error) => {
+      console.log("Error encontrado:", error);
+    });
+  }
+
+  function doPost(data) {
+    return new Promise((resolve, reject) => {
+      fetch('https://demo-1670185917097.azurewebsites.net/v1/reports/', {
       method: 'POST',
       body: JSON.stringify(data),
       headers:{
         'Content-Type': 'application/json'
       }
-    })
-    .catch(error => console.error('Error:', error))
-    .then(response => console.log('Success:', response));
-    window.location.reload();
+      }).then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          reject(
+            "No hemos podido recuperar ese json. El código de respuesta del servidor es: " + response.status
+          );
+        })
+        .then((json) => resolve(json))
+        .catch((err) => reject(err));
+    });
   }
 
   function subirImagenes() {
@@ -98,20 +145,38 @@ export function ReportBox() {
   }
 
   function buttonReport() {
+    if (description == "" || description == null) {
+      setError(true);
+      return;
+    }
+    setError(false);
     const allPromises = subirImagenes();
     Promise.all(allPromises).then(values => createReport(values));
-    //window.location.reload();
+  }
+
+  let componentError;
+  if (error) {
+    componentError = <Error message="Obligatory field"/>
+  }
+  else {
+    componentError = null;
+  }
+  let componentErrorLocation;
+  if (errorLocation) {
+    componentErrorLocation = <Error message="Activate your location"/>
+  }
+  else {
+    componentErrorLocation = null;
   }
 
   return (
     <ReportsBox>
         <Form>
            <Div>
+              <User src={user.imageProfile} alt="" className="user"/>
               <div className="header">
-                <User src={user.imageProfile} alt="" className="user"/>
-                <h3>{user.nombre}
+                <h3> <div>{user.nombre} <CheckCircleIcon className="post_icon"/></div>
                   <span >
-                      <CheckCircleIcon className="post_icon"/> 
                       {user.email}
                   </span>  
                 </h3>
@@ -119,32 +184,56 @@ export function ReportBox() {
             </Div>
             <Div>
               <div className="columns">
-                  <input onChange={event => setDescription(event.target.value)} required text="text" placeholder="¿Que Sucedio?"/>
-                  <input onChange={event => setUbicacion(event.target.value)} required text="text" placeholder="Ubicacion"/>
-                  <input onChange={event => setSentido(event.target.value)} required text="text" placeholder="Sentido"/>
+                  <input id="descriptionReport" onChange={event => setDescription(event.target.value)} required text="text" placeholder="¿What happened?"/>
               </div>
             </Div>
             <DivFooter>
                <DivBox>
-                    <AddPhotoAlternateIcon type="file" onChange={onSelectFile} multiple/>
-                    <File type="file" onChange={onSelectFile} multiple primary/> 
+                    <AddPhotoAlternateIcon/>
+                    <File type="file" onChange={onSelectFile} accept=".jpg, .jpeg, .png" primary multiple/>
                     <GifBoxIcon />
-                    <File type="file" onChange={onSelectFile} multiple secundary/>
+                    <File type="file" onChange={onSelectFile} accept=".gif" secundary multiple/>
+                    
+                    <LocationOnIcon onClick={handleOpen}/>
+
+                    <Modal className="modalReport" open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+                      <Box sx={style}>
+                          <DivModal>
+                            <MapReport lat={lat} lng={lng}/>
+                            <CloseIcon className="icon_closeMap" onClick={handleClose}/>
+                          </DivModal> 
+                      </Box>
+                    </Modal>
+
                 </DivBox>
-                <Button onClick={() => buttonReport()} >Reporta</Button>
+                <Button onClick={() => buttonReport()} >Report</Button>
+
             </DivFooter>
-            <DivImages className="images">
-              {selectedImages &&
-                selectedImages.map((image) => {
-                  return (
-                    <div key={image} className="image">
-                      <img src={image} height="150" alt="upload" />
-                      <DeleteIcon className="botondelete" onClick={() => deleteHandler(image)}/>
-                    </div>
-                  );
-                })}
-            </DivImages>
         </Form>
+        <DivCarrusel>
+          {(selectedFilesArray.length)?<Carousel cols={3} rows={1} gap={10} loop >
+            {selectedFilesArray &&
+                selectedFilesArray.map((file) => {
+                  return (
+                    <Carousel.Item>
+                      <img width="100%" src={URL.createObjectURL(file)} alt="upload"/>
+                      <DeleteIcon onClick={() => deleteFile(file)}/>
+                    </Carousel.Item>
+                  );
+            })}
+          </Carousel>
+          :null}
+        </DivCarrusel>
+
+        <div className="error">
+            {componentError}
+        </div>
+
+        <div className="error">
+            {componentErrorLocation}
+        </div>
+
     </ReportsBox>
   )
 }
+

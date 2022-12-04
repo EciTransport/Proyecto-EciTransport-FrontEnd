@@ -1,45 +1,38 @@
-import React from "react";
-import GlobalStyle from './styles/GlobalStyle';
+import {React, useEffect, useState} from "react";
 import {ContactPage} from './components/Pages/Contact';
 import {HomePage} from './components/Pages/Home';
 import {MapPage} from './components/Pages/Map';
 import {NotificationPage} from './components/Pages/Notification';
 import {UserPage} from './components/Pages/User';
-import {
-  BrowserRouter as Router,
-  Routes, Route, Link
-} from "react-router-dom";
-
-import { routes } from './components/Utils/routes';
-import { User } from "./components/Generals/Home/styles";
-import { Login } from "./components/Generals/Login";
+import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Login } from "./components/Pages/Login";
+import GlobalStyle from "./styles/GlobalStyle";
 
 function App() {
 
-  const padding = {
-    padding: 5
-  }
+  const [stomp, setStomp] = useState('')
 
   return (
     <Router>
-    
-    <Routes>
 
-      <Route exact path='/home' element={<HomePage/>} />
+      <Routes>
 
-      <Route exact path='/map' element={<MapPage/>} />
+        <Route exact path='/home' element={<HomePage stomp={stomp} setStomp={setStomp}/> } /> 
 
-      <Route exact path='/notification' element={<NotificationPage/>} />
+        <Route exact path='/map' element={<MapPage stomp={stomp} setStomp={setStomp} />} />
 
-      <Route exact path='/contacts' element={<ContactPage/>} />
+        <Route exact path='/notification' element={<NotificationPage stomp={stomp} setStomp={setStomp} />} />
 
-      <Route exact path='/profile' element={<UserPage/>} />
+        <Route exact path='/contacts' element={<ContactPage stomp={stomp} setStomp={setStomp} />} />
 
-      <Route exact path='/' element={<Login/>} />
+        <Route exact path='/profile' element={<UserPage stomp={stomp} setStomp={setStomp} />} />
 
-    </Routes>
-    
+        <Route exact path='/' element={<Login/>} />
+
+      </Routes>
+
   </Router>
+
   );
 }
 

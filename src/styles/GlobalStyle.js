@@ -10,6 +10,7 @@ export default createGlobalStyle `
 * {
     margin: 0;
 }
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -17,16 +18,18 @@ body {
        sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
+    background: white !important;
+}
   
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 .App {
     display: flex;
     height: 100vh;
     max-width: 1250px;
     margin: 0 auto;
 }
-`;
+`
