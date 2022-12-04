@@ -5,17 +5,13 @@ import { CommentCard } from './CommentCard';
 import { Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Error } from './Error';
+import { useSelector } from "react-redux";
 
-const CommentBox = ({data, user}) => {
+const CommentBox = ({data, user, stomp}) => {
 
   const [description, setDescription] = useState('');
-  const [comments, setComments] = useState([]);
   const [error, setError] = useState(false);
-
-  useEffect(() => {
-    fetch('http://localhost:8080/v1/comments/idReport/' + data.idString)
-    .then(response => response.json())
-    .then((data) => setComments(data)) } , [] );
+  const dataComments = useSelector((state) => state.comments.value);
 
   function createComment() {
     if (description == "" || description == null) {
@@ -35,33 +31,49 @@ const CommentBox = ({data, user}) => {
       "hour": new Date(),
       "comment": description
     };
-
-    fetch('http://localhost:8080/v1/comments/' , {
-      method: 'POST',
-      body: JSON.stringify(dataComment),
-      headers:{
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(response => response.json())
-    .then(value => setComments((previusComments) => previusComments.concat(value)))
-    .catch(error => console.error('Error:', error));
     if (data.author.id != user.id) {
+      console.log("Crear Notificacion");
       createNotification();
+    } else {
+      console.log("No Crear Notificacion");
     }
+    doComment(dataComment)
+    .then((comment) => {
+      console.log("El comentario es:", comment);
+      stomp.send('/app/addComment', {}, JSON.stringify(comment));
+    })
+    .catch((error) => {
+      console.log("Error encontrado:", error);
+    });
     cleanInput();
+  }
+
+  function doComment(data) {
+    return new Promise((resolve, reject) => {
+      fetch('http://localhost:8080/v1/comments/' , {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers:{
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          reject(
+            "No hemos podido recuperar ese json. El código de respuesta del servidor es: " + response.status
+          );
+        })
+      .then((json) => resolve(json))
+      .catch((err) => reject(err));
+    });
   }
 
   function cleanInput() {
     setDescription(null);
     const input = document.getElementById("commentar");
     input.value = "";
-  }
- 
-  function deleteElement(id) {
-    fetch('http://localhost:8080/v1/comments/delete/' + id, {method: 'DELETE'});
-    const newListComments = comments.filter(c => c.idString != id);
-    setComments(newListComments);
   }
 
   function createNotification() {
@@ -83,14 +95,42 @@ const CommentBox = ({data, user}) => {
         "description": user.nombre + ' Comento tu reporte.'
       }
 
-    fetch('http://localhost:8080/v1/notification', {
-      method: 'POST',
-      body: JSON.stringify(dataNotification),
-      headers:{
-        'Content-Type': 'application/json'
-      }
+    doNotification(dataNotification)
+    .then((notification) => {
+      console.log("La notificacion es:", notification);
+      stomp.send('/app/addNotification', {}, JSON.stringify(notification))
     })
-    .catch(error => console.error('Error:', error));
+    .catch((error) => {
+      console.log("Error encontrado:", error);
+    });
+  }
+
+  function doNotification(data) {
+    return new Promise((resolve, reject) => {
+      fetch('http://localhost:8080/v1/notification', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers:{
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          reject(
+            "No hemos podido recuperar ese json. El código de respuesta del servidor es: " + response.status
+          );
+        })
+      .then((json) => resolve(json))
+      .catch((err) => reject(err));
+    });
+  }
+
+  function deleteElement(id) {
+    fetch('http://localhost:8080/v1/comments/delete/' + id, {method: 'DELETE'});
+    const newList = dataComments.filter(c => c.idString != id);
+    stomp.send('/app/delComment', {}, JSON.stringify(newList));
   }
 
   let componentError;
@@ -129,13 +169,13 @@ const CommentBox = ({data, user}) => {
 
         <LoadComment>
             {
-                comments.map((comment, index) => {
-                comment.hour = new Date(comment.hour).toLocaleString('en-us');
-                return <div className="returnComment" key={index}>
-                  <CommentCard key={comment.hour} data={comment}/>
-                  <DeleteIcon className="moreIconComment" onClick={() => deleteElement(comment.idString)}/>
-                </div>
-                }) 
+                (dataComments)?dataComments.filter(c => c.idReport == data.idString)
+                .map((comment, index) => {
+                  return <div className="returnComment" key={index}>
+                    <CommentCard key={comment.hour} data={comment}/>
+                    <DeleteIcon className="moreIconComment" onClick={() => deleteElement(comment.idString)}/>
+                  </div>
+                }):null
             }
         </LoadComment>
 

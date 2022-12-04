@@ -3,13 +3,16 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-
+import { useSelector, useDispatch } from "react-redux";
+import { getNotifications } from "../../redux/notifications";
 import './Notification.css';
-const Notificacion = ({data, notifications,setNofitications}) => {
+
+const Notificacion = ({data, notifications, stomp}) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
+  const dispatch = useDispatch();
+  
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -21,7 +24,7 @@ const Notificacion = ({data, notifications,setNofitications}) => {
   const deleteElement = (event) => {
     fetch('http://localhost:8080/v1/notification/delete/' + data.idString , {method: 'DELETE'});
     const newListNotifications = notifications.filter(n => n.idString != data.idString);
-    setNofitications(newListNotifications);
+    stomp.send('/app/delNotification', {}, JSON.stringify(newListNotifications));
     handleClose(event);
   }
 
@@ -30,7 +33,7 @@ const Notificacion = ({data, notifications,setNofitications}) => {
       <div className="dataNotification">
         <img className="imageNotification" src={data.userCreator.imageProfile}/>
         <h1 className="user" >{data.userCreator.nombre}</h1>
-        <span className="spam">{data.hour}</span>
+        <span className="spam">{new Date(data.hour).toLocaleString('en-us')}</span>
       </div>
       <div className="description">
           <h2>{data.description}</h2>

@@ -31,7 +31,6 @@ const Login = () => {
   return (
     <div className="login">
       <PageLayout >
-        
           <AuthenticatedTemplate>
             <div className="data">
               <h1 className="texto titleData">Bienvenido a EciTransport</h1>

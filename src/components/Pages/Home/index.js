@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getData } from "../../redux/sessionUser";
 import { getDataReports } from "../../redux/reports";
 
-const HomePage = () => {
+const HomePage = ({stomp, setStomp}) => {
 
   const { accounts } = useMsal();
   const name = accounts[0] && accounts[0].name;
@@ -31,15 +31,16 @@ const HomePage = () => {
       .then(response => response.json())
       .then((dataReport) => dispatch(getDataReports(dataReport)))}
     } , [])
+  
 
   return (
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute="Home" />
+        <SideBar pathRoute="Home" stomp={stomp} setStomp={setStomp}/>
 
         {/* Home */}
-        <HomeScreen reports={dataReports} dataUser={data}/>
+        <HomeScreen reports={dataReports} dataUser={data} stomp={stomp} setStomp={setStomp}/>
 
         {/* Widget */}
         <Widget reports={dataReports} user={data} />

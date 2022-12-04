@@ -4,7 +4,7 @@ import { ReportBox } from '../../Generals/Home/ReportBox';
 import { Report } from '../../Generals/Home/Report';
 import { Container } from '@mui/material';
 
-const HomeScreen = ({reports, dataUser}) => {
+const HomeScreen = ({reports, dataUser, stomp, setStomp}) => {
 
   return (
     <ContainerHome>
@@ -15,13 +15,13 @@ const HomeScreen = ({reports, dataUser}) => {
       </HeaderHome>
 
       {/* Report */}
-      <ReportBox /> 
+      <ReportBox stomp={stomp} setStomp={setStomp}/> 
 
       {/* Posts */}
       <Container>
         {
             (reports)?reports.map((data, index) => {
-            return <Report key={index} data={data} user={dataUser} />
+            return <Report key={index} data={data} user={dataUser} stomp={stomp} setStomp={setStomp} />
             }):null
         }
       </Container>

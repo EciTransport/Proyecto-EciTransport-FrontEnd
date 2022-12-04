@@ -10,6 +10,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import dataReducer from "./components/redux/sessionUser";
 import dataReports from "./components/redux/reports";
+import dataNotification from "./components/redux/notifications";
+import dataComments from "./components/redux/comments";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const msalInstance = new PublicClientApplication(msalConfig);
@@ -18,8 +20,12 @@ const store = configureStore({
     reducer: {
       theStore: dataReducer,
       reports: dataReports,
+      notifications: dataNotification,
+      comments:dataComments,
     },
   });
+
+
 
 root.render(
   <React.StrictMode>

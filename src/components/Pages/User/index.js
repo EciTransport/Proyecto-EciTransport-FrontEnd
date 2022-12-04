@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { getData } from "../../redux/sessionUser";
 
-const UserPage = () => {
+const UserPage = ({stomp, setStomp}) => {
 
   const { accounts } = useMsal();
   const name = accounts[0] && accounts[0].name;
@@ -26,9 +26,9 @@ const UserPage = () => {
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute="User"/>
+        <SideBar pathRoute="User"  stomp={stomp} setStomp={setStomp} />
 
-        <ProfileScreen dataUser={data} emailUser={emailUser}/>
+        <ProfileScreen dataUser={data} emailUser={emailUser} stomp={stomp}/>
         
         {/* Global Styles */}
         <GlobalStyle />

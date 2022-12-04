@@ -19,8 +19,10 @@ import { MapReport } from './MapReport';
 import { useSelector, useDispatch } from "react-redux";
 import { getData } from "../../redux/sessionUser";
 import { getDataReports, setDataReports } from "../../redux/reports";
-export function ReportBox() {
+import SockJS from 'sockjs-client';
+import {Stomp} from "@stomp/stompjs";
 
+export function ReportBox({modal, closeModal, stomp, setStomp}) {
   const { accounts } = useMsal();
   const name = accounts[0] && accounts[0].name;
   const [selectedFilesArray, setSelectedFilesArray] = useState([]);
@@ -39,6 +41,7 @@ export function ReportBox() {
   const [ubicacion, setUbicacion] = useState('');
   const [sentido, setSentido] = useState('');
   //Modal
+  const handleClose = () => setOpen(false);
   const handleOpen = () => {
     if (lat == null || lng == null) {
       setErrorLocation(true);
@@ -48,9 +51,6 @@ export function ReportBox() {
       setOpen(true);
     }
   }
-
-  const handleClose = () => setOpen(false);
-
   const style = {
     position: 'absolute',
     top: '50%',
@@ -65,20 +65,6 @@ export function ReportBox() {
     'border-radius': '0',
     p: 0,
   };
-
-  useEffect(() => {
-    if (!user) {
-      fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
-      .then(response => response.json())
-      .then((data) => dispatch(getData(data.value)));
-    }  }, [])
-
-  useEffect(() => {
-    if (!dataReports) {
-      fetch('http://localhost:8080/v1/reports/')
-      .then(response => response.json())
-      .then((dataReport) => dispatch(getDataReports(dataReport)))}
-    } , [])
   
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -118,16 +104,38 @@ export function ReportBox() {
       "idUserLikes": []
     };
 
-    fetch('http://localhost:8080/v1/reports/', {
+    doPost(data)
+    .then((report) => {
+      console.log("El reporte es:", report);
+      const input = document.getElementById("descriptionReport");
+      input.value = "";
+      if (modal) closeModal();
+      stomp.send('/app/addReport', {}, JSON.stringify(report)); 
+    })
+    .catch((error) => {
+      console.log("Error encontrado:", error);
+    });
+  }
+
+  function doPost(data) {
+    return new Promise((resolve, reject) => {
+      fetch('http://localhost:8080/v1/reports/', {
       method: 'POST',
       body: JSON.stringify(data),
       headers:{
         'Content-Type': 'application/json'
       }
-    })
-    .catch(error => console.error('Error:', error))
-    .then((dataReport) => dispatch(setDataReports(dataReport)));
-    //dispatch(setDataReports(data));
+      }).then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          reject(
+            "No hemos podido recuperar ese json. El código de respuesta del servidor es: " + response.status
+          );
+        })
+        .then((json) => resolve(json))
+        .catch((err) => reject(err));
+    });
   }
 
   function subirImagenes() {
@@ -176,7 +184,7 @@ export function ReportBox() {
             </Div>
             <Div>
               <div className="columns">
-                  <input onChange={event => setDescription(event.target.value)} required text="text" placeholder="¿What happened?"/>
+                  <input id="descriptionReport" onChange={event => setDescription(event.target.value)} required text="text" placeholder="¿What happened?"/>
               </div>
             </Div>
             <DivFooter>
@@ -199,6 +207,7 @@ export function ReportBox() {
 
                 </DivBox>
                 <Button onClick={() => buttonReport()} >Report</Button>
+
             </DivFooter>
         </Form>
         <DivCarrusel>

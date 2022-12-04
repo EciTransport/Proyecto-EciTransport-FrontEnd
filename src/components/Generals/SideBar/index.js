@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Contenedor, Titulo, FOOTER, DivModal} from './styles'
 //Icons
 import CarCrashIcon from '@mui/icons-material/CarCrash';
@@ -23,6 +23,15 @@ import CloseIcon from '@mui/icons-material/Close';
 //Redux
 import { useSelector, useDispatch } from "react-redux";
 import { getData } from "../../redux/sessionUser";
+//STOMP
+import SockJS from 'sockjs-client';
+import {Stomp} from "@stomp/stompjs";
+//Notification
+import { setNotifications, getNotifications } from "../../redux/notifications";
+//Comments
+import { getCommens, setCommens } from "../../redux/comments";
+//Reports
+import { getDataReports, setDataReports, updateDataReports} from "../../redux/reports";
 
 const style = {
   position: 'absolute',
@@ -38,7 +47,7 @@ const style = {
   p: 4,
 };
 
-const SideBar = ({pathRoute}) => {
+const SideBar = ({pathRoute, stomp, setStomp}) => {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -48,6 +57,9 @@ const SideBar = ({pathRoute}) => {
   const name = accounts[0] && accounts[0].name;
   const dispatch = useDispatch();
   const data = useSelector((state) => state.theStore.value);
+  const dataNotifications = useSelector((state) => state.notifications.value);
+  const dataComments = useSelector((state) => state.comments.value);
+  const dataReports = useSelector((state) => state.reports.value);
 
   useEffect(() => {
     if (!data) {
@@ -56,7 +68,31 @@ const SideBar = ({pathRoute}) => {
       .then(response => response.json())
       .then((data) => dispatch(getData(data.value)));
     }
-  })
+  }, [])
+
+  useEffect(() => {
+    if (!dataNotifications) {
+      fetch('http://localhost:8080/v1/notification/All')
+      .then(response => response.json())
+      .then((notifications) => dispatch(getNotifications(notifications)));
+    }  
+  }, [])
+
+  useEffect(() => {
+    if (!dataComments) {
+      fetch('http://localhost:8080/v1/comments/All')
+      .then(response => response.json())
+      .then((comments) => dispatch(getCommens(comments)));
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!dataReports) {
+      fetch('http://localhost:8080/v1/reports/')
+      .then(response => response.json())
+      .then((dataReport) => dispatch(getDataReports(dataReport)))
+    }
+  } , [])
 
   const handleLogout = (logoutType) => {
       if (logoutType === "popup") {
@@ -66,9 +102,82 @@ const SideBar = ({pathRoute}) => {
           });
       }
   }
-  
+
+  function inicarStomp() {
+    if (!stomp) {
+      console.log("Iniciar STOMP")
+      stompStart();
+    } else {
+      console.log("Ya Inicio STOMP")
+    }
+  }
+
+  function stompStart() {
+    var stompClient = null;
+    console.info("Connecting to WS...");
+    var socket = new SockJS('http://localhost:8080/stompendpoint');
+    stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+      console.log('Connected: ' + frame);
+
+      stompClient.subscribe('/topic/addNotification', (eventbody) => {
+        const notification = JSON.parse(eventbody.body);
+        console.log("Notification Create", notification);
+        if (dataNotifications) {
+          console.log("Notificationes es True");
+          dispatch(setNotifications(notification));
+        } else {
+          console.log("No se puede agregar Notificacion");
+        }
+      });
+
+      stompClient.subscribe('/topic/delNotification', (eventbody) => {
+        let notificacions = JSON.parse(eventbody.body);
+        console.log("New Array", notificacions)
+        dispatch(getNotifications(notificacions));
+      });
+
+      stompClient.subscribe('/topic/addComment', (eventbody) => {
+        const comment = JSON.parse(eventbody.body);
+        console.log("Comment Create", comment);
+        if (dataComments) {
+          console.log("Comentarios es True (Add)");
+          dispatch(setCommens(comment));
+        } else {
+          console.log("No pudo agregar comment");
+        }
+      });
+
+      stompClient.subscribe('/topic/delComment', (eventbody) => {
+        let comments = JSON.parse(eventbody.body);
+        console.log("New Array", comments)
+        dispatch(getCommens(comments));
+      });
+
+      stompClient.subscribe('/topic/addReport', (eventbody) => {
+        const report = JSON.parse(eventbody.body);
+        console.log("Report Create", report);
+        if (dataReports) {
+          console.log("Reports es True (Add)");
+          dispatch(setDataReports(report));
+        } else {
+          console.log("No pudo agregar reporte");
+        }
+      });
+
+      stompClient.subscribe('/topic/delReport', (eventbody) => {
+        let reports = JSON.parse(eventbody.body);
+        console.log("New Array", reports)
+        dispatch(getDataReports(reports));
+      });
+
+    });
+    setStomp(stompClient);
+  }
+
   return (
-    <Contenedor>
+    <Contenedor onLoad={inicarStomp}>
       {/* Icono Plataforma */}
       
       <Titulo>
@@ -83,13 +192,12 @@ const SideBar = ({pathRoute}) => {
       <IconOptions pathRoute={pathRoute} Text="Contacts" Icon={ContactsIcon} path={routes.contacts.path}/>
       <IconOptions pathRoute={pathRoute} Text="User" Icon={AccountCircleIcon} path={routes.profile.path}/>
 
-
       <Button onClick={handleOpen} variant="outlined" fullWidth>Report</Button>
 
       <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box sx={style}>
             <DivModal>
-              <ReportBox/>
+              <ReportBox modal={true} closeModal={handleClose} stomp={stomp} setStomp={setStomp}/>
               <CloseIcon className="icon_close" onClick={handleClose}/>
             </DivModal> 
         </Box>

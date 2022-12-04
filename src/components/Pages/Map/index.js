@@ -6,7 +6,7 @@ import { MapView } from './MapView';
 import { useSelector, useDispatch } from "react-redux";
 import { getDataReports } from "../../redux/reports";
 
-const MapPage = () => {
+const MapPage = ({stomp, setStomp}) => {
 
   const dispatch = useDispatch();
   const dataReports = useSelector((state) => state.reports.value);
@@ -22,7 +22,7 @@ const MapPage = () => {
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute="Map"/>
+        <SideBar pathRoute="Map" stomp={stomp} setStomp={setStomp} />
 
         {/* Map */}
         <MapView reports={dataReports}/>

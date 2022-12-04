@@ -1,5 +1,8 @@
 import styled from 'styled-components'
 
+export const ContainerPrueba = styled.div`
+padding: 0;
+`
 export const ContainerWidget = styled.div`
 flex: 0.3;
 overflow-y: scroll;

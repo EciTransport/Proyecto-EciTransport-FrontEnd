@@ -10,20 +10,22 @@ import GlobalStyle from "./styles/GlobalStyle";
 
 function App() {
 
+  const [stomp, setStomp] = useState('')
+
   return (
     <Router>
-    
+
       <Routes>
 
-        <Route exact path='/home' element={<HomePage/> } />
+        <Route exact path='/home' element={<HomePage stomp={stomp} setStomp={setStomp}/> } /> 
 
-        <Route exact path='/map' element={<MapPage/>} />
+        <Route exact path='/map' element={<MapPage stomp={stomp} setStomp={setStomp} />} />
 
-        <Route exact path='/notification' element={<NotificationPage/>} />
+        <Route exact path='/notification' element={<NotificationPage stomp={stomp} setStomp={setStomp} />} />
 
-        <Route exact path='/contacts' element={<ContactPage/>} />
+        <Route exact path='/contacts' element={<ContactPage stomp={stomp} setStomp={setStomp} />} />
 
-        <Route exact path='/profile' element={<UserPage/>} />
+        <Route exact path='/profile' element={<UserPage stomp={stomp} setStomp={setStomp} />} />
 
         <Route exact path='/' element={<Login/>} />
 

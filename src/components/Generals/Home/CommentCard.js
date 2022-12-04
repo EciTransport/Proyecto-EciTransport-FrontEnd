@@ -12,7 +12,7 @@ const CommentCard = ({data}) => {
                   <div>
                       {data.user.nombre}
                       <CheckCircleIcon className="post_icon"/> 
-                      <span> {data.hour}</span>  
+                      <span>{new Date(data.hour).toLocaleString('en-us')}</span>  
                   </div>
                   <span >
                       {data.user.email}

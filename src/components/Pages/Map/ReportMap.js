@@ -16,6 +16,7 @@ function LocationMarker({position,data,locationRepeat}){
           </div>
           <h1 className="author">{data.author.nombre} </h1>
           <h1 className="descriptionMap">{data.description}</h1>
+          <spam className="hora">{new Date(data.hourReport).toLocaleString('en-us')}</spam>
           { (locationRepeat > 1)?<h1 className="descriptionMap">{locationRepeat} Reportes en esta Ubicacion</h1>:null}
         </div>
       </Popup>

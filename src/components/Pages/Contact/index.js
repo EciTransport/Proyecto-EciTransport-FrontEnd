@@ -3,13 +3,13 @@ import GlobalStyle from '../../../styles/GlobalStyle';
 import {SideBar} from '../../Generals/SideBar';
 import { LoadContacts } from './LoadContacts';
 
-const ContactPage = () => {
+const ContactPage = ({stomp, setStomp}) => {
 
   return (
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute="Contacts"/>
+        <SideBar pathRoute="Contacts" stomp={stomp} setStomp={setStomp}/>
 
         {/* Home */}
         <LoadContacts title="Contacts" />

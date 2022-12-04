@@ -5,7 +5,7 @@ import { ReportUser } from './ReportUser';
 import { useSelector, useDispatch } from "react-redux";
 import { getDataReports } from "../../redux/reports";
 
-const ProfileScreen = ({dataUser, emailUser}) => {
+const ProfileScreen = ({dataUser, emailUser, stomp}) => {
 
   const dispatch = useDispatch();
   const dataReports = useSelector((state) => state.reports.value);
@@ -48,7 +48,7 @@ const ProfileScreen = ({dataUser, emailUser}) => {
                         <h2 className="report">Report History</h2>
                         {
                             (dataReports)?dataReports.filter(r => r.author.email == emailUser).map((data, index) => {
-                                return <ReportUser key={index} data={data} dataUser={dataUser}/>
+                                return <ReportUser key={index} data={data} dataUser={dataUser} stomp={stomp}/>
                                 }):null
                         }
                     </ContainerReport>

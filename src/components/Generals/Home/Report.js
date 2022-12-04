@@ -24,7 +24,7 @@ const styleNew = {
     p: 4,
 };
 
-const Report = ({data, user, footerReportOff}) => {
+const Report = ({data, user, footerReportOff, stomp, setStomp}) => {
     //Like
     const [like, setLike] = useState(false);
     const [arrayLikes, setArrayLikes] = useState([]);    
@@ -138,7 +138,7 @@ const Report = ({data, user, footerReportOff}) => {
                     <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                         <Box sx={styleNew}>
                             <DivModal>
-                                <CommentBox key={data.idString} data={data} user={user}/>
+                                <CommentBox key={data.idString} data={data} user={user} stomp={stomp}/>
                                 <CloseIcon className="icon_close" onClick={handleClose}/>
                             </DivModal> 
                         </Box>

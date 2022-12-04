@@ -2,28 +2,21 @@ import {React, useEffect, useState} from 'react';
 import {Container, Notifications} from './styles';
 import { Notificacion } from './Notificacion';
 
-const LoadNotification = ({emailUser}) => {
-
-  const [notifications, setNofitications] = useState([]);
-
-  useEffect( () => {
-    fetch('http://localhost:8080/v1/notification/' + emailUser)
-    .then(response => response.json())
-    .then(data => setNofitications(data)) } , [] );
+const LoadNotification = ({emailUser, notifications, stomp}) => {
 
   return (
     <Container>
         <div className="header">
             <h1>Notifications</h1>
-            <span className="contacts-count" >{notifications.length} Notifications</span>
+            <span className="contacts-count" >{(notifications)?notifications.filter(r => r.userReceiver.email == emailUser).length:null} Notifications</span>
         </div>
         <br></br>
         <Notifications>
           {
-            notifications.length > 0 && notifications.map((data, index) => {
-              data.hour = new Date(data.hour).toLocaleString('en-us');
-              return <Notificacion key={index} data={data} notifications={notifications} setNofitications={setNofitications}/>
-              }) 
+            (notifications)?notifications.filter(r => r.userReceiver.email == emailUser)
+            .map((data, index) => {
+              return <Notificacion key={index} data={data} notifications={notifications} stomp={stomp}/>
+              }):null
           }
           <br></br>
         </Notifications>
