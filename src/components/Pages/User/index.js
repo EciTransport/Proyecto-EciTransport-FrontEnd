@@ -1,20 +1,34 @@
 import React from 'react'
 import GlobalStyle from '../../../styles/GlobalStyle';
-import {FuncionalityInConstruction} from '../../Generals/FuncionalityInConstruction';
 import {SideBar} from '../../Generals/SideBar';
-import {Widgets} from '../../Generals//Widgets';
+import { ProfileScreen } from './ProfileScreen';
+import { useMsal } from "@azure/msal-react";
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { getData } from "../../redux/sessionUser";
 
-import { HeaderProfile } from './ProfileHeader';
-import { routes } from '../../Utils/routes';
+const UserPage = ({stomp, setStomp}) => {
 
-const UserPage = () => {
+  const { accounts } = useMsal();
+  const name = accounts[0] && accounts[0].name;
+  const emailUser = name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com';
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.theStore.value);
+
+  useEffect(() => {
+    if (!data) {
+      fetch('https://demo-1670185917097.azurewebsites.net/v1/user/email/' + emailUser)
+      .then(response => response.json())
+      .then((data) => dispatch(getData(data.value)));
+    }  }, [])
+  
   return (
     <div className="App">
       
         {/* SideBar */}
-        <SideBar pathRoute={routes.profile.path}/>
+        <SideBar pathRoute="User"  stomp={stomp} setStomp={setStomp} />
 
-        <HeaderProfile />
+        <ProfileScreen dataUser={data} emailUser={emailUser} stomp={stomp}/>
         
         {/* Global Styles */}
         <GlobalStyle />

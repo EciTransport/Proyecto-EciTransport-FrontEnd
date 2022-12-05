@@ -44,7 +44,19 @@ min-width: 255px;
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%);
-    width: 500;
+    width: 500px;
+}
+
+`
+
+export const DivModal = styled.div`
+display: flex;
+flex-direction: column;
+flex-wrap: nowrap;
+.icon_close {
+    margin-left: 80%;
+    position: absolute;
+    color: var(--Icon-App-Color) !important;
 }
 `
 
@@ -71,4 +83,48 @@ ${props => props.Active && css`
     color: var(--Icon-App-Color);
     background-color: var(--Hover);
 `}
+`
+
+export const FOOTER = styled.footer`
+position: fixed;
+bottom: 1.5em !important;
+font-family: "Roboto","Helvetica","Arial",sans-serif !important;
+
+.account {
+    background-color: var(--Icons-Colors) !important;
+    border: none !important;
+    color: white !important;
+    text-transform: inherit !important;
+    height: 46px !important;
+    padding: 0 30px !important;
+    border-radius: 9999px !important;
+    border-right: 1px solid #ddd !important;
+    flex: 0.2 !important;
+    min-width: 255px !important;
+    display: flex;
+    justify-content: space-evenly !important;
+}
+.account:hover {
+    background-color: var(--Icon-App-Color) !important;
+    transform: color 100ms ease-out !important;
+}
+
+.photo {
+    border-radius: 100%;
+    height: 2.5em;
+    width: 2.5em;
+    background: #192734;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 100%;
+    background: black;
+}
+.name {
+    font-weight: 700;
+}
+
 `
