@@ -1,8 +1,8 @@
 import {Container, Header, Map} from './styles';
-import {React,useState,useEffect} from 'react'
-import {MapContainer, TileLayer, useMapEvents, Marker,Popup} from 'react-leaflet'
-import 'leaflet/dist/leaflet.css'
-import './map.css'
+import {React,useState,useEffect} from 'react';
+import {MapContainer, TileLayer} from 'react-leaflet';
+import './map.css';
+import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
 import { ReportMap } from './ReportMap';
