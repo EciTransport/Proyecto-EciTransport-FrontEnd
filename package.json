@@ -30,7 +30,6 @@
     "react-firestore": "^1.0.1",
     "react-images-uploading": "^3.1.7",
     "react-leaflet": "^4.2.0",
-    "react-material-ui-carousel": "^2.3.11",
     "react-redux": "^8.0.5",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.4.2",
