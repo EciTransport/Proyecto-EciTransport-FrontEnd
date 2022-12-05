@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { PublicClientApplication } from "@azure/msal-browser";
@@ -12,8 +11,9 @@ import dataReducer from "./components/redux/sessionUser";
 import dataReports from "./components/redux/reports";
 import dataNotification from "./components/redux/notifications";
 import dataComments from "./components/redux/comments";
+import { render } from 'react-dom';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const rootElement = document.getElementById('root');
 const msalInstance = new PublicClientApplication(msalConfig);
 
 const store = configureStore({
@@ -25,17 +25,17 @@ const store = configureStore({
     },
   });
 
-
-
-root.render(
+render(
   <React.StrictMode>
         <MsalProvider instance={msalInstance}>
             <Provider store={store}>
                 <App />
             </Provider>
         </MsalProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
+  rootElement
 );
+
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

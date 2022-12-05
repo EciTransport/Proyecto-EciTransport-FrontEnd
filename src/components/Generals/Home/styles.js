@@ -1,4 +1,3 @@
-import { style } from '@mui/system'
 import styled, {css} from 'styled-components'
 
 export const Container = styled.div`
