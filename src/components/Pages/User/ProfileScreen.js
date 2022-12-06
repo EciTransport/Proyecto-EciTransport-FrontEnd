@@ -29,7 +29,7 @@ const ProfileScreen = ({dataUser, emailUser, stomp}) => {
                     <div className="profileCover">
                         <img
                             className="profileCoverImg"
-                            src="http://landing.escuelaing.edu.co/wp-content/uploads/2017/04/maestrias_v2.jpg"
+                            src="https://landing.escuelaing.edu.co/wp-content/uploads/2017/04/maestrias_v2.jpg"
                         />
                         <img
                             className="profileUserImg"
