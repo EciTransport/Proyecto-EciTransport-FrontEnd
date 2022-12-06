@@ -2,7 +2,7 @@ export const msalConfig = {
     auth: {
       clientId: "2ae0b435-c388-4c55-ab59-5c007b67d0c1",
       authority: "https://login.microsoftonline.com/a787267c-0ab8-4ad0-8190-d91f813b330e", // This is a URL (e.g. https://login.microsoftonline.com/{your tenant ID})
-      redirectUri: "",
+      redirectUri: "https://blue-tree-0d1008d0f.2.azurestaticapps.net",
       loginRedirect: "https://blue-tree-0d1008d0f.2.azurestaticapps.net/home",
     },
     cache: {

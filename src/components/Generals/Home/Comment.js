@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from 'react';
+import {React, useState} from 'react';
 import {ReportsBox, Div, Form, User, PostDescriptionComment, LoadComment, CommentReport} from './styles';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { CommentCard } from './CommentCard';

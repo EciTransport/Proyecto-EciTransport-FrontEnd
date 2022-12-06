@@ -5,11 +5,10 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {Report}  from '../../Generals/Home/Report';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const ReportUser = ({data, dataUser, stomp}) => {
 
-    const dispatch = useDispatch();
     const dataReports = useSelector((state) => state.reports.value);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -26,7 +25,7 @@ const ReportUser = ({data, dataUser, stomp}) => {
       fetch('https://demo-1670185917097.azurewebsites.net/v1/reports/delete/' + data.idString, {method: 'DELETE'});
       const newListReports = dataReports.filter(n => n.idString != data.idString);
       stomp.send('/app/delReport', {}, JSON.stringify(newListReports));
-      handleClose(event);
+      handleClose();
     }
 
   return (

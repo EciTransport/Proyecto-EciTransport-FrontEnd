@@ -3,16 +3,13 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useSelector, useDispatch } from "react-redux";
-import { getNotifications } from "../../redux/notifications";
 import './Notification.css';
 
 const Notificacion = ({data, notifications, stomp}) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const dispatch = useDispatch();
-  
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -25,7 +22,7 @@ const Notificacion = ({data, notifications, stomp}) => {
     fetch('https://demo-1670185917097.azurewebsites.net/v1/notification/delete/' + data.idString , {method: 'DELETE'});
     const newListNotifications = notifications.filter(n => n.idString != data.idString);
     stomp.send('/app/delNotification', {}, JSON.stringify(newListNotifications));
-    handleClose(event);
+    handleClose();
   }
 
   return (
