@@ -13,7 +13,7 @@ const MapPage = ({stomp, setStomp}) => {
 
   useEffect(() => {
     if (!dataReports) {
-      fetch('http://localhost:8080/v1/reports/')
+      fetch('https://demo-1670392611779.azurewebsites.net/v1/reports/')
       .then(response => response.json())
       .then((dataReport) => dispatch(getDataReports(dataReport)))}
     } , [])

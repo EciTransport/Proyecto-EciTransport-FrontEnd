@@ -35,7 +35,7 @@ const ReportUser = ({data, dataUser, stomp}) => {
 
     function doDeleteReport() {
       return new Promise((resolve, reject) => {
-        fetch('http://localhost:8080/v1/reports/delete/' + data.idString, {method: 'DELETE'})
+        fetch('https://demo-1670392611779.azurewebsites.net/v1/reports/delete/' + data.idString, {method: 'DELETE'})
         .then((response) => {
             if (response.ok) {
               return;

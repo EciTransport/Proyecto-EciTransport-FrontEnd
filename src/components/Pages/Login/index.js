@@ -19,11 +19,11 @@ const Login = () => {
 
   function redirect() {
     navigate(routes.home.path);
-    fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
+    fetch('https://demo-1670392611779.azurewebsites.net/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
     .then(response => response.json())
     .then((data) => dispatch(getData(data.value)))
 
-    fetch('http://localhost:8080/v1/reports/')
+    fetch('https://demo-1670392611779.azurewebsites.net/v1/reports/')
     .then(response => response.json())
     .then((data) => dispatch(getDataReports(data)))
   }

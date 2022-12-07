@@ -34,7 +34,7 @@ const CommentBox = ({data, user, stomp}) => {
     };
     if (data.author.id != user.id) {
       console.log("Crear Notificacion");
-      //createNotification();
+      createNotification();
     } else {
       console.log("No Crear Notificacion");
     }
@@ -56,7 +56,7 @@ const CommentBox = ({data, user, stomp}) => {
 
   function doComment(data) {
     return new Promise((resolve, reject) => {
-      fetch('http://localhost:8080/v1/comments/' , {
+      fetch('https://demo-1670392611779.azurewebsites.net/v1/comments/' , {
         method: 'POST',
         body: JSON.stringify(data),
         headers:{
@@ -113,7 +113,7 @@ const CommentBox = ({data, user, stomp}) => {
 
   function doNotification(data) {
     return new Promise((resolve, reject) => {
-      fetch('http://localhost:8080/v1/notification', {
+      fetch('https://demo-1670392611779.azurewebsites.net/v1/notification', {
         method: 'POST',
         body: JSON.stringify(data),
         headers:{
@@ -146,7 +146,7 @@ const CommentBox = ({data, user, stomp}) => {
 
   function doDeleteReport(id) {
     return new Promise((resolve, reject) => {
-      fetch('http://localhost:8080/v1/comments/delete/' + id, {method: 'DELETE'})
+      fetch('https://demo-1670392611779.azurewebsites.net/v1/comments/delete/' + id, {method: 'DELETE'})
       .then((response) => {
           if (response.ok) {
             return;

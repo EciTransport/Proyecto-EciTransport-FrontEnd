@@ -17,7 +17,7 @@ const UserPage = ({stomp, setStomp}) => {
 
   useEffect(() => {
     if (!data) {
-      fetch('http://localhost:8080/v1/user/email/' + emailUser)
+      fetch('https://demo-1670392611779.azurewebsites.net/v1/user/email/' + emailUser)
       .then(response => response.json())
       .then((data) => dispatch(getData(data.value)));
     }  }, [])

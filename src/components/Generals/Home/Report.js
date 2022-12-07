@@ -58,7 +58,7 @@ const Report = ({data, user, footerReportOff, stomp, setStomp}) => {
 
     function doDelLike() {
         return new Promise((resolve, reject) => {
-            fetch('http://localhost:8080/v1/reports/likeDel/' + data.idString + '/' + user.id, {method: 'PUT'})
+            fetch('https://demo-1670392611779.azurewebsites.net/v1/reports/likeDel/' + data.idString + '/' + user.id, {method: 'PUT'})
             .then((response) => {
               if (response.ok) {
                 return response.json();
@@ -89,7 +89,7 @@ const Report = ({data, user, footerReportOff, stomp, setStomp}) => {
 
     function doAddLike() {
         return new Promise((resolve, reject) => {
-        fetch('http://localhost:8080/v1/reports/likeAdd/' + data.idString + '/' + user.id, {method: 'PUT'})
+        fetch('https://demo-1670392611779.azurewebsites.net/v1/reports/likeAdd/' + data.idString + '/' + user.id, {method: 'PUT'})
             .then((response) => {
               if (response.ok) {
                 return response.json();
@@ -135,7 +135,7 @@ const Report = ({data, user, footerReportOff, stomp, setStomp}) => {
 
     function doNotification(data) {
         return new Promise((resolve, reject) => {
-          fetch('http://localhost:8080/v1/notification', {
+          fetch('https://demo-1670392611779.azurewebsites.net/v1/notification', {
             method: 'POST',
             body: JSON.stringify(data),
             headers:{

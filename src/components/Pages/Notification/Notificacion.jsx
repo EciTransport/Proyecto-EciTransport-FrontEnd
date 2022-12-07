@@ -33,7 +33,7 @@ const Notificacion = ({data, notifications, stomp}) => {
 
   function doDeleteNotification() {
     return new Promise((resolve, reject) => {
-      fetch('http://localhost:8080/v1/notification/delete/' + data.idString , {method: 'DELETE'})
+      fetch('https://demo-1670392611779.azurewebsites.net/v1/notification/delete/' + data.idString , {method: 'DELETE'})
       .then((response) => {
           if (response.ok) {
             return;
