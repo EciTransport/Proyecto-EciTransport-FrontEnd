@@ -9,6 +9,7 @@ import Modal from '@mui/material/Modal';
 import { Button } from '@mui/material';
 import {CommentBox} from './Comment';
 import CloseIcon from '@mui/icons-material/Close';
+import { useSelector } from "react-redux";
 
 const styleNew = {
     position: 'absolute',
@@ -33,6 +34,9 @@ const Report = ({data, user, footerReportOff, stomp, setStomp}) => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    //Stomp
+    const dataNotifications = useSelector((state) => state.notifications.value);
+
     useEffect(() => {
         if (data.idUserLikes.indexOf(user.id) == 0) {
             setLike(true);
@@ -54,7 +58,7 @@ const Report = ({data, user, footerReportOff, stomp, setStomp}) => {
 
     function doDelLike() {
         return new Promise((resolve, reject) => {
-            fetch('https://demo-1670185917097.azurewebsites.net/v1/reports/likeDel/' + data.idString + '/' + user.id, {method: 'PUT'})
+            fetch('http://localhost:8080/v1/reports/likeDel/' + data.idString + '/' + user.id, {method: 'PUT'})
             .then((response) => {
               if (response.ok) {
                 return response.json();
@@ -85,7 +89,7 @@ const Report = ({data, user, footerReportOff, stomp, setStomp}) => {
 
     function doAddLike() {
         return new Promise((resolve, reject) => {
-        fetch('https://demo-1670185917097.azurewebsites.net/v1/reports/likeAdd/' + data.idString + '/' + user.id, {method: 'PUT'})
+        fetch('http://localhost:8080/v1/reports/likeAdd/' + data.idString + '/' + user.id, {method: 'PUT'})
             .then((response) => {
               if (response.ok) {
                 return response.json();
@@ -121,7 +125,7 @@ const Report = ({data, user, footerReportOff, stomp, setStomp}) => {
         doNotification(dataNotification)
         .then((notification) => {
           console.log("La notificacion es:", notification);
-          stomp.send('/app/addNotification', {}, JSON.stringify(notification))
+          stomp.send('/app/addNotification', {})
         })
         .catch((error) => {
           console.log("Error encontrado:", error);
@@ -131,7 +135,7 @@ const Report = ({data, user, footerReportOff, stomp, setStomp}) => {
 
     function doNotification(data) {
         return new Promise((resolve, reject) => {
-          fetch('https://demo-1670185917097.azurewebsites.net/v1/notification', {
+          fetch('http://localhost:8080/v1/notification', {
             method: 'POST',
             body: JSON.stringify(data),
             headers:{

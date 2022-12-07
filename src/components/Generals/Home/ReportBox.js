@@ -110,7 +110,7 @@ export function ReportBox({modal, closeModal, stomp, setStomp}) {
       const input = document.getElementById("descriptionReport");
       input.value = "";
       if (modal) closeModal();
-      stomp.send('/app/addReport', {}, JSON.stringify(report)); 
+      stomp.send('/app/addReport', {}); 
     })
     .catch((error) => {
       console.log("Error encontrado:", error);
@@ -119,7 +119,7 @@ export function ReportBox({modal, closeModal, stomp, setStomp}) {
 
   function doPost(data) {
     return new Promise((resolve, reject) => {
-      fetch('https://demo-1670185917097.azurewebsites.net/v1/reports/', {
+      fetch('http://localhost:8080/v1/reports/', {
       method: 'POST',
       body: JSON.stringify(data),
       headers:{

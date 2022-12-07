@@ -64,7 +64,7 @@ const SideBar = ({pathRoute, stomp, setStomp}) => {
   useEffect(() => {
     if (!data) {
       console.log("nullo");
-      fetch('https://demo-1670185917097.azurewebsites.net/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
+      fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
       .then(response => response.json())
       .then((data) => dispatch(getData(data.value)));
     }
@@ -72,7 +72,7 @@ const SideBar = ({pathRoute, stomp, setStomp}) => {
 
   useEffect(() => {
     if (!dataNotifications) {
-      fetch('https://demo-1670185917097.azurewebsites.net/v1/notification/All')
+      fetch('http://localhost:8080/v1/notification/All')
       .then(response => response.json())
       .then((notifications) => dispatch(getNotifications(notifications)));
     }  
@@ -80,7 +80,7 @@ const SideBar = ({pathRoute, stomp, setStomp}) => {
 
   useEffect(() => {
     if (!dataComments) {
-      fetch('https://demo-1670185917097.azurewebsites.net/v1/comments/All')
+      fetch('http://localhost:8080/v1/comments/All')
       .then(response => response.json())
       .then((comments) => dispatch(getCommens(comments)));
     }
@@ -88,7 +88,7 @@ const SideBar = ({pathRoute, stomp, setStomp}) => {
 
   useEffect(() => {
     if (!dataReports) {
-      fetch('https://demo-1670185917097.azurewebsites.net/v1/reports/')
+      fetch('http://localhost:8080/v1/reports/')
       .then(response => response.json())
       .then((dataReport) => dispatch(getDataReports(dataReport)))
     }
@@ -115,55 +115,17 @@ const SideBar = ({pathRoute, stomp, setStomp}) => {
   function stompStart() {
     var stompClient = null;
     console.info("Connecting to WS...");
-    var socket = new SockJS('https://demo-1670185917097.azurewebsites.net/stompendpoint');
+    var socket = new SockJS('http://localhost:8080/stompendpoint');
     stompClient = Stomp.over(socket);
 
     stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);
 
-      stompClient.subscribe('/topic/addNotification', (eventbody) => {
-        const notification = JSON.parse(eventbody.body);
-        console.log("Notification Create", notification);
-        if (dataNotifications) {
-          console.log("Notificationes es True");
-          dispatch(setNotifications(notification));
-        } else {
-          console.log("No se puede agregar Notificacion");
-        }
-      });
-
-      stompClient.subscribe('/topic/delNotification', (eventbody) => {
-        let notificacions = JSON.parse(eventbody.body);
-        console.log("New Array", notificacions)
-        dispatch(getNotifications(notificacions));
-      });
-
-      stompClient.subscribe('/topic/addComment', (eventbody) => {
-        const comment = JSON.parse(eventbody.body);
-        console.log("Comment Create", comment);
-        if (dataComments) {
-          console.log("Comentarios es True (Add)");
-          dispatch(setCommens(comment));
-        } else {
-          console.log("No pudo agregar comment");
-        }
-      });
-
-      stompClient.subscribe('/topic/delComment', (eventbody) => {
-        let comments = JSON.parse(eventbody.body);
-        console.log("New Array", comments)
-        dispatch(getCommens(comments));
-      });
-
+      //REPORTS
       stompClient.subscribe('/topic/addReport', (eventbody) => {
-        const report = JSON.parse(eventbody.body);
-        console.log("Report Create", report);
-        if (dataReports) {
-          console.log("Reports es True (Add)");
-          dispatch(setDataReports(report));
-        } else {
-          console.log("No pudo agregar reporte");
-        }
+        let reports = JSON.parse(eventbody.body);
+        console.log("New Array", reports)
+        dispatch(getDataReports(reports));
       });
 
       stompClient.subscribe('/topic/delReport', (eventbody) => {
@@ -172,6 +134,33 @@ const SideBar = ({pathRoute, stomp, setStomp}) => {
         dispatch(getDataReports(reports));
       });
 
+      //NOTIFICATIONS
+      stompClient.subscribe('/topic/addNotification', (eventbody) => {
+        let notificacions = JSON.parse(eventbody.body);
+        console.log("New Array", notificacions)
+        dispatch(getNotifications(notificacions));
+      });
+
+      stompClient.subscribe('/topic/delNotification', (eventbody) => {
+        let notificacions = JSON.parse(eventbody.body);
+        console.log("New Array", notificacions)
+        dispatch(getNotifications(notificacions));
+      });
+
+      //COMMENTS
+      stompClient.subscribe('/topic/addComment', (eventbody) => {
+        let comments = JSON.parse(eventbody.body);
+        console.log("New Array", comments)
+        dispatch(getCommens(comments));
+      });
+
+      stompClient.subscribe('/topic/delComment', (eventbody) => {
+        let comments = JSON.parse(eventbody.body);
+        console.log("New Array", comments)
+        dispatch(getCommens(comments));
+      });
+
+      //EXTRA
       stompClient.subscribe('/topic/updateReport', (eventbody) => {
         let reports = JSON.parse(eventbody.body);
         console.log("Reports Actualizados", reports)

@@ -22,10 +22,31 @@ const ReportUser = ({data, dataUser, stomp}) => {
     };
 
     const deleteElement = (event) => {
-      fetch('https://demo-1670185917097.azurewebsites.net/v1/reports/delete/' + data.idString, {method: 'DELETE'});
-      const newListReports = dataReports.filter(n => n.idString != data.idString);
-      stomp.send('/app/delReport', {}, JSON.stringify(newListReports));
-      handleClose();
+      doDeleteReport()
+      .then(() => {
+        console.log("Eliminar Reporte");
+        stomp.send('/app/delReport', {});
+        handleClose();
+      })
+      .catch((error) => {
+        console.log("Error encontrado:", error);
+      });
+    }
+
+    function doDeleteReport() {
+      return new Promise((resolve, reject) => {
+        fetch('http://localhost:8080/v1/reports/delete/' + data.idString, {method: 'DELETE'})
+        .then((response) => {
+            if (response.ok) {
+              return;
+            }
+            reject(
+              "No hemos podido recuperar ese json. El código de respuesta del servidor es: " + response.status
+            );
+          })
+          .then((json) => resolve(json))
+          .catch((err) => reject(err));
+      });
     }
 
   return (

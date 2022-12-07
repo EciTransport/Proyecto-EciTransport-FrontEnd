@@ -19,7 +19,7 @@ const HomePage = ({stomp, setStomp}) => {
 
   useEffect(() => {
     if (!data) {
-      fetch('https://demo-1670185917097.azurewebsites.net/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
+      fetch('http://localhost:8080/v1/user/email/' + name.toLowerCase() + '@carlosorduz01outlook.onmicrosoft.com')
       .then(response => response.json())
       .then((data) => dispatch(getData(data.value)));
     }  }, [])
@@ -27,7 +27,7 @@ const HomePage = ({stomp, setStomp}) => {
   useEffect(() => {
     console.log("Longitud " + dataReports.length + " " + dataReports)
     if (!dataReports) {
-      fetch('https://demo-1670185917097.azurewebsites.net/v1/reports/')
+      fetch('http://localhost:8080/v1/reports/')
       .then(response => response.json())
       .then((dataReport) => dispatch(getDataReports(dataReport)))}
     } , [])

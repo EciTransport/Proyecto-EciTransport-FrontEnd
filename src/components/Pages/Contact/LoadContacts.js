@@ -10,7 +10,7 @@ const LoadContacts = () => {
   const [message, setMessage] = useState('');
 
   useEffect( () => {
-    fetch('https://demo-1670185917097.azurewebsites.net/v1/contacts/consultContacts/' + message)
+    fetch('http://localhost:8080/v1/contacts/consultContacts/' + message)
     .then(response => response.json())
     .then(data => setContacts(data)) } , [] );
 

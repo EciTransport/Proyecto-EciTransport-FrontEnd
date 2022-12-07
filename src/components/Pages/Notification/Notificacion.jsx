@@ -19,10 +19,32 @@ const Notificacion = ({data, notifications, stomp}) => {
   };
 
   const deleteElement = (event) => {
-    fetch('https://demo-1670185917097.azurewebsites.net/v1/notification/delete/' + data.idString , {method: 'DELETE'});
-    const newListNotifications = notifications.filter(n => n.idString != data.idString);
-    stomp.send('/app/delNotification', {}, JSON.stringify(newListNotifications));
-    handleClose();
+    doDeleteNotification()
+      .then(() => {
+        console.log("Eliminar Notificacion");
+        stomp.send('/app/delNotification', {});
+        handleClose();
+      })
+      .catch((error) => {
+        console.log("Error encontrado:", error);
+      });
+  }
+
+
+  function doDeleteNotification() {
+    return new Promise((resolve, reject) => {
+      fetch('http://localhost:8080/v1/notification/delete/' + data.idString , {method: 'DELETE'})
+      .then((response) => {
+          if (response.ok) {
+            return;
+          }
+          reject(
+            "No hemos podido recuperar ese json. El código de respuesta del servidor es: " + response.status
+          );
+        })
+        .then((json) => resolve(json))
+        .catch((err) => reject(err));
+    });
   }
 
   return (

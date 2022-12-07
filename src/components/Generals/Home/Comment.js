@@ -12,6 +12,7 @@ const CommentBox = ({data, user, stomp}) => {
   const [description, setDescription] = useState('');
   const [error, setError] = useState(false);
   const dataComments = useSelector((state) => state.comments.value);
+  const dataNotifications = useSelector((state) => state.notifications.value);
 
   function createComment() {
     if (description == "" || description == null) {
@@ -33,14 +34,19 @@ const CommentBox = ({data, user, stomp}) => {
     };
     if (data.author.id != user.id) {
       console.log("Crear Notificacion");
-      createNotification();
+      //createNotification();
     } else {
       console.log("No Crear Notificacion");
     }
     doComment(dataComment)
     .then((comment) => {
       console.log("El comentario es:", comment);
-      stomp.send('/app/addComment', {}, JSON.stringify(comment));
+      console.log("Lon1", dataComments);
+      var newListComments = [...dataComments];
+      newListComments.push(comment);
+      console.log("Lon2", newListComments);
+      console.log(stomp);
+      stomp.send('/app/addComment', {});
     })
     .catch((error) => {
       console.log("Error encontrado:", error);
@@ -50,7 +56,7 @@ const CommentBox = ({data, user, stomp}) => {
 
   function doComment(data) {
     return new Promise((resolve, reject) => {
-      fetch('https://demo-1670185917097.azurewebsites.net/v1/comments/' , {
+      fetch('http://localhost:8080/v1/comments/' , {
         method: 'POST',
         body: JSON.stringify(data),
         headers:{
@@ -98,7 +104,7 @@ const CommentBox = ({data, user, stomp}) => {
     doNotification(dataNotification)
     .then((notification) => {
       console.log("La notificacion es:", notification);
-      stomp.send('/app/addNotification', {}, JSON.stringify(notification))
+      stomp.send('/app/addNotification', {})
     })
     .catch((error) => {
       console.log("Error encontrado:", error);
@@ -107,7 +113,7 @@ const CommentBox = ({data, user, stomp}) => {
 
   function doNotification(data) {
     return new Promise((resolve, reject) => {
-      fetch('https://demo-1670185917097.azurewebsites.net/v1/notification', {
+      fetch('http://localhost:8080/v1/notification', {
         method: 'POST',
         body: JSON.stringify(data),
         headers:{
@@ -128,9 +134,30 @@ const CommentBox = ({data, user, stomp}) => {
   }
 
   function deleteElement(id) {
-    fetch('https://demo-1670185917097.azurewebsites.net/v1/comments/delete/' + id, {method: 'DELETE'});
-    const newList = dataComments.filter(c => c.idString != id);
-    stomp.send('/app/delComment', {}, JSON.stringify(newList));
+    doDeleteReport(id)
+      .then(() => {
+        console.log("Eliminar Comentario");
+        stomp.send('/app/delComment', {});
+      })
+      .catch((error) => {
+        console.log("Error encontrado:", error);
+      });
+  }
+
+  function doDeleteReport(id) {
+    return new Promise((resolve, reject) => {
+      fetch('http://localhost:8080/v1/comments/delete/' + id, {method: 'DELETE'})
+      .then((response) => {
+          if (response.ok) {
+            return;
+          }
+          reject(
+            "No hemos podido recuperar ese json. El código de respuesta del servidor es: " + response.status
+          );
+        })
+        .then((json) => resolve(json))
+        .catch((err) => reject(err));
+    });
   }
 
   let componentError;
