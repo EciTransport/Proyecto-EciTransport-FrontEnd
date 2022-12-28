@@ -1,70 +1,16 @@
-# Getting Started with Create React App
+# ECITransport
+# Integrantes
+* Carlos Orduz
+* Yesid Mora
+* Laura Alvarado
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# :bulb: Video del demo ECITransport [Demo](https://www.youtube.com/watch?v=xhnizmNPevw)
 
-## Available Scripts
+# Resumen
+Durante la realización del proyecto se trabajará una red social para la comunidad de la Escuela Colombiana de Ingeniería Julio Garavito, con el fin de reportar los diferentes accidentes que sucedan dentro de la ciudad de Bogotá. Esto permitirá que los estudiantes sepan el grado de congestión de tráfico en una fecha y hora específica. 
+# Descripción
+## Antecedentes
+Actualmente este tipo de problemas se vienen comunicando a través de una cuenta en Instagram, tratando de reportar los diferentes accidentes que hay en las vías. Sin embargo, muchos estudiantes no cuentan con este medio de comunicación o no están interactuando con la red social. También, al ser sólo el administrador de la cuenta que mantiene informada a la comunidad no logran mantenerse informados del estado de la autopista en tiempo real.
+## Problema que se resuelve
+Debido a que los estudiantes de la Escuela Colombiana de Ingeniería Julio Garavito transitan en la autopista norte para llegar a la universidad se ven afectados por los incidentes que suceden en esta. Pues, por cada incidente hay pérdida de tiempo por el trancón que se realiza, lo que ocasiona llegadas tarde a la universidad o a sus hogares. Sin embargo, no hay un medio que mantenga a los estudiantes actualizados en tiempo real del estado de la autopista norte, por eso, se decidió crear una red social para esta comunidad donde los estudiantes, puedan ir informando los incidentes de la autopista norte, con el fin de que otros estudiantes, realicen su viaje de manera precavida y cumplir con las llegadas en la universidad en horas estimadas. También, contarán con un acceso directo para comunicarse con ambulancias, policías entre otras entidades necesarias para los accidentes.
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
